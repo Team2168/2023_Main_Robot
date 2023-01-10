@@ -30,9 +30,15 @@ From `git bash`:
 
 * REV Robotics: for the SPARK MAX
   Follow the Java instructions here: https://docs.revrobotics.com/sparkmax/software-resources/spark-max-api-information#java-api
-
-
+  
 For more information see here: https://docs.wpilib.org/en/stable/docs/software/vscode-overview/3rd-party-libraries.html
+  
+### Install imaging tools:
+
+  * REV Hardware Client: https://www.revrobotics.com/software/
+    * After installing run an update - yeah even if you just installed it.
+  * Follow the instructions here: https://docs.wpilib.org/en/stable/docs/zero-to-robot/step-2/frc-game-tools.html
+    This will include stuff like the RIO Imaging tool (to load firmware onto the roboRIO) and the DriverStation application.
 
 
 ## Common Tasks in VS Code
