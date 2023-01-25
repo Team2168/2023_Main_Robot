@@ -24,7 +24,7 @@ public class Hand extends SubsystemBase {
   private TalonFXHelper intakeLeftMotor;
   private TalonFXHelper intakeRightMotor;
   private DoubleSolenoid intakePneumatic;
-  private Hand instance = null;
+  private static Hand instance = null;
   private SupplyCurrentLimitConfiguration limitConfig;
   private final boolean ENABLE_CURRENT_LIMIT = true;
   private final double CURRENT_LIMIT = 25;
@@ -76,6 +76,13 @@ public class Hand extends SubsystemBase {
     intakeRightMotor.configClosedLoopStatusFrameRates();
     intakeLeftMotor.configClosedLoopStatusFrameRates();
 
+  }
+
+  public static Hand getInstance(){
+    if(instance == null){
+      instance = new Hand();
+    }
+    return instance;
   }
 
   public void setClamp() {
