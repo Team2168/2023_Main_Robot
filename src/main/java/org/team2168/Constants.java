@@ -13,6 +13,10 @@ package org.team2168;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final class CANDevices {
+    public static final int TURRET_MOTOR; // TODO: ADD VALUE
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
