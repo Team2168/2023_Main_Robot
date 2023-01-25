@@ -13,6 +13,13 @@ package org.team2168;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class CANDevices {
+    public static final int DRIVETRAIN_LEFT_MOTOR_1 = 0; // uses placeholder value
+    public static final int DRIVETRAIN_LEFT_MOTOR_2 = 1; // uses placeholder value
+    public static final int DRIVETRAIN_RIGHT_MOTOR_1 = 2; // uses placeholder value
+    public static final int DRIVETRAIN_RIGHT_MOTOR_2 = 3; // uses placeholder value
+    public static final int PIGEON_IMU = 4; // uses placeholder value
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
