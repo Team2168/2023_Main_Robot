@@ -33,9 +33,9 @@ public final class Constants {
   }
 
   public static final class MotorSpeeds {
-    public static final double FORWARD_INTAKE_VELOCITY = 300.0;
+    public static final double FORWARD_INTAKE_VELOCITY = 100.0;
     public static final double STOP_SPEED = 0.0;
-    public static final double REVERSE_INTAKE_VELOCITY = -300.0;
+    public static final double REVERSE_INTAKE_VELOCITY = -100.0;
   }
 
   public static final class DIO {

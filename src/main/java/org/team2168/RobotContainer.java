@@ -55,8 +55,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.rightBumper().onTrue(new OpenAndRunIntake(hand));
-    m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
+    m_driverController.a().whileTrue(new OpenAndRunIntake(hand));
+    // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
   /**
