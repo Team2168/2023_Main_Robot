@@ -7,18 +7,24 @@ package org.team2168.commands.HandCommands;
 import org.team2168.Constants;
 import org.team2168.subsystems.Hand;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class OpenAndRunIntake extends ParallelCommandGroup {
- 
-  public OpenAndRunIntake(Hand hand) {
+public class ReverseIntake extends ParallelCommandGroup {
+  /** Creates a new ReverseIntake. */
+  public ReverseIntake(Hand hand) {
     
-    addCommands(
-      new OpenIntake(hand),
-      new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY)
-    );
+    addCommands(new RunIntake(hand, Constants.MotorSpeeds.REVERSE_INTAKE_VELOCITY), new OpenIntake(hand));
+  }
+/** the speed value is clamped between -1000.0 and 0.0, be sure it doesn't cross any of these values.
+ * 
+ * @param hand
+ * @param speedValue
+ */
+  public ReverseIntake(Hand hand, double speedValue){
+    addCommands(new RunIntake(hand, MathUtil.clamp(speedValue, -1000.0, 0.0)));
   }
 }
