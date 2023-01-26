@@ -5,7 +5,7 @@
 package org.team2168.commands.HandCommands;
 
 import org.team2168.Constants;
-import org.team2168.subsystems.Hand;
+import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClampAndStopIntake extends ParallelCommandGroup {
   /** Creates a new ClampAndStopIntake. */
-  public ClampAndStopIntake(Hand hand) {
+  public ClampAndStopIntake(HandWheels hand) {
     
     addCommands(new ClampIntake(hand), new RunIntake(hand, Constants.MotorSpeeds.STOP_SPEED));
   }

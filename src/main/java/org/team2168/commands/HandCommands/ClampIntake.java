@@ -4,13 +4,13 @@
 
 package org.team2168.commands.HandCommands;
 
-import org.team2168.subsystems.Hand;
+import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class ClampIntake extends CommandBase {
-  private Hand hand;
-  public ClampIntake(Hand hand) {
+  private HandWheels hand;
+  public ClampIntake(HandWheels hand) {
     this.hand = hand;
   }
 

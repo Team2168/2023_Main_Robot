@@ -15,16 +15,18 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Hand extends SubsystemBase {
+public class HandWheels extends SubsystemBase {
 
   private TalonFXHelper intakeLeftMotor;
   private TalonFXHelper intakeRightMotor;
   private DoubleSolenoid intakePneumatic;
-  private static Hand instance = null;
+  private DigitalInput input;
+  private static HandWheels instance = null;
   private SupplyCurrentLimitConfiguration limitConfig;
   private final boolean ENABLE_CURRENT_LIMIT = true;
   private final double CURRENT_LIMIT = 25;
@@ -38,15 +40,16 @@ public class Hand extends SubsystemBase {
   private TalonFXInvertType leftMotorInvert = TalonFXInvertType.Clockwise;
   private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; //CounterClockwise if change is needed
   private final int PID_SLOT_X = 0;
-  private final double GEAR_RATIO = 1;
+  private final double GEAR_RATIO = 1; //placeholder
   private final double ARBITRARY_FEED_FORWARD = 0.0025; //prevent motors from stalling if collecting game pieces
 
-  public Hand() {
+  public HandWheels() {
 
     intakeLeftMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_LEFT_MOTOR);
     intakeRightMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_RIGHT_MOTOR);
     intakePneumatic = new DoubleSolenoid(Constants.PneumaticsModules.MODULE_TYPE,
         Constants.PneumaticsModules.INTAKE_CLAMP, Constants.PneumaticsModules.INTAKE_OPEN);
+    input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
     intakeRightMotor.configFactoryDefault();
     intakeLeftMotor.configFactoryDefault();
@@ -78,9 +81,9 @@ public class Hand extends SubsystemBase {
 
   }
 
-  public static Hand getInstance(){
+  public static HandWheels getInstance(){
     if(instance == null){
-      instance = new Hand();
+      instance = new HandWheels();
     }
     return instance;
   }
@@ -123,6 +126,10 @@ public class Hand extends SubsystemBase {
 
   public boolean isIntakePneumaticOff(){
     return intakePneumatic.get() == Value.kOff;
+  }
+
+  public boolean isGamePieceInHand(){
+    return !input.get();
   }
 
   @Override

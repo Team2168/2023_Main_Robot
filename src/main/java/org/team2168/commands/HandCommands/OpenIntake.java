@@ -4,16 +4,16 @@
 
 package org.team2168.commands.HandCommands;
 
-import org.team2168.subsystems.Hand;
+import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class OpenIntake extends CommandBase {
 
- private Hand hand;
+ private HandWheels hand;
  
-  public OpenIntake(Hand hand) {
+  public OpenIntake(HandWheels hand) {
     this.hand = hand;
     addRequirements(hand);
   }

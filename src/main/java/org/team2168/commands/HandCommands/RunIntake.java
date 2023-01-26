@@ -4,14 +4,14 @@
 
 package org.team2168.commands.HandCommands;
 
-import org.team2168.subsystems.Hand;
+import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunIntake extends CommandBase {
- private Hand hand;
+ private HandWheels hand;
  private double speedValue;
-  public RunIntake(Hand hand, double speedValue) {
+  public RunIntake(HandWheels hand, double speedValue) {
     this.hand = hand;
     this.speedValue = speedValue;
   }

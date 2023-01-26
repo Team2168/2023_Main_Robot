@@ -37,4 +37,8 @@ public final class Constants {
     public static final double STOP_SPEED = 0.0;
     public static final double REVERSE_INTAKE_VELOCITY = -300.0;
   }
+
+  public static final class DIO {
+  public static final int HAND_CHANNEL = 1;
+  }
 }
