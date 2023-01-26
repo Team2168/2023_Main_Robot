@@ -31,4 +31,9 @@ public final class Constants {
   
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
+
+  public static final class MotorSpeeds {
+    public static final double INTAKE_VELOCITY = 300.0;
+    public static final double STOP_SPEED = 0.0;
+  }
 }
