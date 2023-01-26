@@ -7,6 +7,8 @@ package org.team2168;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.HandCommands.ClampAndStopIntake;
+import org.team2168.commands.HandCommands.OpenAndRunIntake;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Hand;
 
@@ -52,6 +54,9 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    m_driverController.rightBumper().onTrue(new OpenAndRunIntake(hand));
+    m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
   /**
