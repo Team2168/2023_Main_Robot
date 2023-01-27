@@ -20,6 +20,11 @@ public final class Constants {
     public static final int DRIVETRAIN_RIGHT_MOTOR_2 = 3; // uses placeholder value
     public static final int PIGEON_IMU = 4; // uses placeholder value
   }
+
+  public static class Drivetrain {
+    public final static int kPigeonUnitsPerRotation = 8192;
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
