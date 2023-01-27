@@ -12,6 +12,7 @@ public class ClampIntake extends CommandBase {
   private HandWheels hand;
   public ClampIntake(HandWheels hand) {
     this.hand = hand;
+    addRequirements(hand);
   }
 
   // Called when the command is initially scheduled.
