@@ -14,7 +14,6 @@ public class RunIntake extends CommandBase {
   public RunIntake(HandWheels hand, double speedValue) {
     this.hand = hand;
     this.speedValue = speedValue;
-    addRequirements(hand);
   }
 
   // Called when the command is initially scheduled.
