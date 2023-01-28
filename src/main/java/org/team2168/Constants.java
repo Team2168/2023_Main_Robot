@@ -23,6 +23,7 @@ public final class Constants {
 
   public static class Drivetrain {
     public final static int kPigeonUnitsPerRotation = 8192;
+    public static final double MAX_VOLTAGE = 10.0;
   }
 
   public static class OperatorConstants {

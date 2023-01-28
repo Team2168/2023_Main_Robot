@@ -18,7 +18,11 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFXConfiguration;
 import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Drivetrain extends SubsystemBase {
@@ -104,7 +108,7 @@ public class Drivetrain extends SubsystemBase {
   setMotorsBrake();
 
   pidgey.setReducedStatusFramePeriods();
-  odometry = new DifferentialDriveOdometry(pidgey.getRotation2d());
+  odometry = new DifferentialDriveOdometry(pidgey.getRotation2d(), 0.0, 0.0);
   
   /* Set Neutral Mode */
   leftMotor1.setNeutralMode(NeutralMode.Brake);
@@ -199,5 +203,285 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    Rotation2d rot;
+
+    rot = pidgey.getRotation2d();
+    odometry.update(rot, getLeftEncoderDistance(), getRightEncoderDistance());
   }
+
+  public void teleopconfigs() {
+    rightMotor1.configAllSettings(rightConfig);
+    rightMotor1.configAllSettings(rightConfig);
+    leftMotor1.configAllSettings(leftConfig);
+    leftMotor2.configAllSettings(leftConfig);
+  }
+
+  /**
+   * Gets the odometry pose
+   *
+   * @return Pose2d odometry pose
+   */
+  public Pose2d getPose() {
+    return odometry.getPoseMeters();
+  }
+
+  /**
+   * @param vel set the cruise velocity (in/sec)
+   */
+  public void setCruiseVelocity(double vel) {
+    rightMotor1.configMotionCruiseVelocity((int) (inchesPerSecToTicksPer100ms(vel))); //distance units per 100 ms
+  }
+
+  /**
+   * Gets gyro heading
+   *
+   * @return gyro heading from -180.0 to 180.0 degrees. Positive counterclockwise
+   */
+  public double getHeading() {
+    return pidgey.getRotation2d().getDegrees();
+  }
+
+  /**
+   * Gets gyro pitch
+   *
+   * @return gyro pitch degrees
+   */
+  public double getPitch() {
+    return pidgey.getPitch();
+  }
+
+  /**
+   * Gets gyro turn rate
+   *
+   * @return rate in degrees per second
+   */
+  public double getTurnRate() {
+    return -pidgey.getRate();
+  }
+
+  /**
+   * Get average encoder distance
+   *
+   * @return gets distance in meters
+   */
+  public double getAverageEncoderDistance() {
+    return (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
+  }
+
+  public double getAverageEncoderDistanceIn() {
+    return Units.metersToInches((getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0);
+  }
+
+  /**
+     * Gets wheel speeds in meters per second
+     *
+     * @return DifferentialDriveWheelSpeeds object
+     */
+    public DifferentialDriveWheelSpeeds getWheelSpeeds() {
+      return new DifferentialDriveWheelSpeeds(getLeftEncoderRate(), getRightEncoderRate());
+  }
+
+  /**
+     * Gets left encoder distance in raw sensor units
+     *
+     * @return distance in sensor ticks
+     */
+    public double getLeftEncoderDistanceRaw() {
+      return leftMotor1.getSelectedSensorPosition();
+  }
+
+  /**
+   * Gets left encoder distance
+   *
+   * @return encoder distance in meters
+   */
+  public double getLeftEncoderDistance() {
+    return ticksToMeters(getLeftEncoderDistanceRaw());
+  }
+
+  public double getLeftEncoderDistanceIn() {
+    return Units.metersToInches(ticksToMeters(getLeftEncoderDistanceRaw()));
+  }
+
+  /**
+   * Gets right encoder distance in raw sensor ticks
+   *
+   * @return distance in sensor ticks
+   */
+  public double getRightEncoderDistanceRaw() {
+    return rightMotor1.getSelectedSensorPosition();
+  }
+
+  /**
+   * Gets right encoder distance
+   *
+   * @return encoder distance in meters
+   */
+  public double getRightEncoderDistance() {
+    return ticksToMeters(getRightEncoderDistanceRaw());
+  }
+
+  public double getRightEncoderDistanceIn() {
+    return Units.metersToInches(getRightEncoderDistance());
+  }
+
+  /**
+   * Zeroes gyro heading
+   */
+  public void zeroHeading() {
+    pidgey.reset();
+    pidgey.setYaw(0, TIMEOUT);
+    pidgey.setAccumZAngle(0, TIMEOUT);
+  }
+
+  /**
+   * Resets encoders on motors
+   */
+  public void resetEncoders() {
+    leftMotor1.getSensorCollection().setIntegratedSensorPosition(0, TIMEOUT);
+    rightMotor1.getSensorCollection().setIntegratedSensorPosition(0, TIMEOUT);
+
+    leftMotor1.setSelectedSensorPosition(0.0);
+    rightMotor1.setSelectedSensorPosition(0.0);
+}
+
+  /**
+   * Resets odometry to specified pose
+   *
+   * @param pose            pose to set odometry
+   * @param preserveHeading do we preserve the gyro heading?
+   */
+
+  public void resetOdometry(Pose2d pose, boolean preserveHeading) {
+    Rotation2d rot;
+
+    rot = pidgey.getRotation2d();
+
+    resetEncoders();
+        if (!preserveHeading)
+            zeroHeading();
+    odometry.resetPosition(rot, 0.0, 0.0, pose);
+  }
+
+  /**
+     * Reset odometry to specified pose, while resetting the gyro.
+     *
+     * @param pose pose to set odometry
+     */
+    public void resetOdometry(Pose2d pose) {
+      this.resetOdometry(pose, false);
+  }
+
+  /**
+   * Gets Left encoder velocity
+   *
+   * @return velocity in sensor ticks
+   */
+  public double getLeftEncoderRateRaw() {
+    return leftMotor1.getSelectedSensorVelocity();
+  }
+
+  /**
+   * Gets Right encoder velocity
+   *
+   * @return velocity in sensor ticks
+   */
+  public double getRightEncoderRateRaw() {
+    return rightMotor1.getSelectedSensorVelocity();
+  }
+
+  /**
+   * Gets left encoder velocity
+   *
+   * @return encoder velocity in meters/second
+   */
+  public double getLeftEncoderRate() {
+    return ticksToMeters(getLeftEncoderRateRaw()) * 10.0;
+  }
+
+  /**
+   * Gets right encoder velocity
+   *
+   * @return encoder velocity in meters/second
+   */
+  public double getRightEncoderRate() {
+    return ticksToMeters(getRightEncoderRateRaw()) * 10.0;
+  }
+
+  private double inchesToTicks(double setpoint) {
+    return (setpoint * TICKS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
+  }
+
+  private double inchesPerSecToTicksPer100ms(double setpoint) {
+    return inchesToTicks(setpoint) / 10.0;
+  }
+
+  private double ticksToInches(double setpoint) {
+    return (setpoint * WHEEL_CIRCUMFERENCE) / (TICKS_PER_REV * GEAR_RATIO);
+  }
+
+  private double ticksToMeters(double ticks) {
+    // the cheezy poofs have been colluding to get inside of our codebase
+    return ticksToInches(ticks) * 0.0254;
+  }
+
+  /**
+   * Converts a setpoint in degrees to IMU 'encoder ticks'
+   *
+   * @param setpoint
+   * @return
+   */
+  private double degreesToTicks(double setpoint) {
+    // return (setpoint / DEGREES_PER_REV) * PIGEON_UNITS_PER_ROTATION / 2.0;
+    return setpoint * 10.0;
+  }
+
+  public void tankDrive(double leftSpeed, double rightSpeed) {
+    // drive.tankDrive(leftSpeed, rightSpeed);
+    leftMotor1.set(leftSpeed);
+    leftMotor2.set(leftSpeed);
+    rightMotor1.set(rightSpeed);
+    rightMotor2.set(rightSpeed);
+  }
+
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
+    //TODO: Change to use voltage compensation built into the motor controllers?
+    // double batteryVoltage = RobotController.getBatteryVoltage();
+    tankDrive(leftVolts / Constants.Drivetrain.MAX_VOLTAGE, rightVolts / Constants.Drivetrain.MAX_VOLTAGE);
+  }
+
+  public void arcadeDrive(double xSpeed, double zRotation) {
+    tankDrive(xSpeed + zRotation, xSpeed - zRotation);
+  }
+  
+  /**
+   * Change all motors to their default mix of brake/coast modes.
+   * Should be used for normal match play.
+   */
+  public void setMotorsBrake() {
+    leftMotor1.setNeutralMode(NeutralMode.Brake);
+    leftMotor2.setNeutralMode(NeutralMode.Coast);
+    rightMotor1.setNeutralMode(NeutralMode.Brake);
+    rightMotor2.setNeutralMode(NeutralMode.Coast);
+  }
+
+  public void setMotorsBrakeAutos() {
+    leftMotor1.setNeutralMode(NeutralMode.Brake);
+    leftMotor2.setNeutralMode(NeutralMode.Brake);
+    rightMotor1.setNeutralMode(NeutralMode.Brake);
+    rightMotor2.setNeutralMode(NeutralMode.Brake);
+  }
+
+  /**
+   * Change all the drivetrain motor controllers to coast mode.
+   * Useful for allowing robot to be manually pushed around the field.
+   */
+  public void setMotorsCoast() {
+    leftMotor1.setNeutralMode(NeutralMode.Coast);
+    leftMotor2.setNeutralMode(NeutralMode.Coast);
+    rightMotor1.setNeutralMode(NeutralMode.Coast);
+    rightMotor2.setNeutralMode(NeutralMode.Coast);
+  }
+
+
 }
