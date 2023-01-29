@@ -8,6 +8,7 @@ import org.team2168.Constants;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -18,7 +19,8 @@ public class OpenAndRunIntake extends ParallelCommandGroup {
     
     addCommands(
       new OpenIntake(hand),
-      new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY)
+    new ScheduleCommand(new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY))
+
     );
   }
 
