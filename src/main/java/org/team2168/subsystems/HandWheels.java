@@ -24,7 +24,6 @@ public class HandWheels extends SubsystemBase {
 
   private TalonFXHelper intakeLeftMotor;
   private TalonFXHelper intakeRightMotor;
-  private DoubleSolenoid intakePneumatic;
   private DigitalInput input;
   private static HandWheels instance = null;
   private SupplyCurrentLimitConfiguration limitConfig;
@@ -47,8 +46,6 @@ public class HandWheels extends SubsystemBase {
 
     intakeLeftMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_LEFT_MOTOR);
     intakeRightMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_RIGHT_MOTOR);
-    intakePneumatic = new DoubleSolenoid(Constants.PneumaticsModules.MODULE_TYPE,
-        Constants.PneumaticsModules.INTAKE_CLAMP, Constants.PneumaticsModules.INTAKE_OPEN);
     input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
     intakeRightMotor.configFactoryDefault();
@@ -88,14 +85,6 @@ public class HandWheels extends SubsystemBase {
     return instance;
   }
 
-  public void setClamp() {
-    intakePneumatic.set(Value.kReverse);
-  }
-
-  public void setOpen() {
-    intakePneumatic.set(Value.kForward);
-  }
-
   public void setPercentOutput(double percentOutput){
     intakeLeftMotor.set(ControlMode.PercentOutput, percentOutput);
   }
@@ -111,22 +100,11 @@ public class HandWheels extends SubsystemBase {
   public double ticksPerHundredMsToRPM(double ticks) {
     return (ticks * 600) / (2048 / GEAR_RATIO);
   }
-
+ 
   public double getVelocity(){
     return ticksPerHundredMsToRPM(intakeLeftMotor.getSelectedSensorVelocity());
   }
 
-  public boolean isIntakeClamped(){
-    return intakePneumatic.get() == Value.kReverse;
-  }
-
-  public boolean isIntakeOpen(){
-    return intakePneumatic.get() == Value.kForward;
-  }
-
-  public boolean isIntakePneumaticOff(){
-    return intakePneumatic.get() == Value.kOff;
-  }
 
   public boolean isGamePieceInHand(){
     return !input.get();

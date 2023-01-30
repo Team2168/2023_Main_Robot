@@ -10,6 +10,7 @@ import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.HandCommands.ClampAndStopIntake;
 import org.team2168.commands.HandCommands.OpenAndRunIntake;
 import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,6 +27,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final HandWheels hand = HandWheels.getInstance();
+  private final HandPneumatic handPneumatic = HandPneumatic.getInstance();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -55,7 +57,7 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.a().whileTrue(new OpenAndRunIntake(hand));
+    m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 

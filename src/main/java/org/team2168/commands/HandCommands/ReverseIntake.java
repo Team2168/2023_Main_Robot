@@ -5,6 +5,7 @@
 package org.team2168.commands.HandCommands;
 
 import org.team2168.Constants;
+import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.math.MathUtil;
@@ -15,9 +16,9 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ReverseIntake extends ParallelCommandGroup {
   /** Creates a new ReverseIntake. */
-  public ReverseIntake(HandWheels hand) {
+  public ReverseIntake(HandWheels hand, HandPneumatic handPneumatic) {
     
-    addCommands(new RunIntake(hand, Constants.MotorSpeeds.REVERSE_INTAKE_VELOCITY), new OpenIntake(hand));
+    addCommands(new RunIntake(hand, Constants.MotorSpeeds.REVERSE_INTAKE_VELOCITY), new OpenIntake(handPneumatic));
   }
 /** the speed value is clamped between -1000.0 and 0.0, be sure it doesn't cross any of these values.
  * 

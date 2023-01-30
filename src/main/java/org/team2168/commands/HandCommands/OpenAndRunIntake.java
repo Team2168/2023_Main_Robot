@@ -5,6 +5,7 @@
 package org.team2168.commands.HandCommands;
 
 import org.team2168.Constants;
+import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -15,11 +16,11 @@ import edu.wpi.first.wpilibj2.command.ScheduleCommand;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class OpenAndRunIntake extends ParallelCommandGroup {
  
-  public OpenAndRunIntake(HandWheels hand) {
+  public OpenAndRunIntake(HandWheels hand, HandPneumatic handPneumatic) {
     
     addCommands(
-      new OpenIntake(hand),
-    new ScheduleCommand(new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY))
+      new OpenIntake(handPneumatic),
+  new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY)
 
     );
   }
