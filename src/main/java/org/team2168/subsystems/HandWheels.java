@@ -28,16 +28,16 @@ public class HandWheels extends SubsystemBase {
   private final double CURRENT_LIMIT = 25;
   private final double THRESHOLD_LIMIT = 30;
   private final double THRESHOLD_TIME = 0.2;
-  private final double KP = 1.0;
-  private final double KI = 0.0;
-  private final double KD = 0.0;
-  private final double KF = 0.0025;
+  private final double KP = 1.0; //placeholder 
+  private final double KI = 0.0; //placeholder
+  private final double KD = 0.0; //placeholder
+  private final double KF = 0.0025; //prevent motors from stalling if collecting game pieces
   private final double NEUTRAL_DEADBAND = 0.001;
   private TalonFXInvertType leftMotorInvert = TalonFXInvertType.Clockwise;
   private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; //CounterClockwise if change is needed
   private final int PID_SLOT_X = 0;
   private final double GEAR_RATIO = 1; //placeholder
-  private final double ARBITRARY_FEED_FORWARD = 0.0025; //prevent motors from stalling if collecting game pieces
+  
 
   public HandWheels() {
 
