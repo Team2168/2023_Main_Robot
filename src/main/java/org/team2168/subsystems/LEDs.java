@@ -49,13 +49,13 @@ public class LEDs extends SubsystemBase {
   public void purpleOnOff(boolean isOn){
     redOnOff(true);
     blueOnOff(true);
-    blueOnOff(false);
+    greenOnOff(false);
   }
 
   public void allOff(){
     redOnOff(false);
     blueOnOff(false);
-    blueOnOff(false);
+    greenOnOff(false);
   }
 
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
