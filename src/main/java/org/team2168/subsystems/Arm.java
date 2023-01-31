@@ -16,6 +16,7 @@ public class Arm extends SubsystemBase {
   private TalonFXHelper front_motor;
   private TalonFXHelper back_motor;
 
+  // Current limit configuration
   private static final boolean ENABLE_CURRENT_LIMIT = true;
   private static final double CONTINUOUS_CURRENT_LIMIT = 20; // amps TODO: update limit
   private static final double TRIGGER_THRESHOLD_LIMIT = 30; // amp TODO: update limit
@@ -37,11 +38,27 @@ public class Arm extends SubsystemBase {
       instance = new Arm();
     return instance;  
   }    
+
+  // Gains
+  private static final double kP;
+  private static final double kI;
+  private static final double kD;
+  private static final double kF;
+
+  static{
+    kP = 0.0;
+    kI = 0.0;
+    kD = 0.0;
+    kF = 0.0;
+  }
   
 
   private Arm() {
     front_motor = new TalonFXHelper(Constants.ARM_FRONT_MOTOR);
     back_motor = new TalonFXHelper(Constants.ARM_BACK_MOTOR);
+
+    front_motor.configFactoryDefault();
+    front_motor.configNeutralDeadband(NEUTRAL_DEADBAND);
   }
 
   @Override
