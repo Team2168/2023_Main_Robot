@@ -20,7 +20,7 @@ public final class Constants {
   }
 
   public static class Pneumatics {
-    public static final int RED_LED = 6;
+    public static final int RED_LED = 6; //these values are placeholders, and they need to be replaced.
     public static final int BLUE_LED = 7;
     public static final int GREEN_LED = 8;
 
