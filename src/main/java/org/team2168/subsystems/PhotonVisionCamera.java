@@ -8,11 +8,12 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.photonvision.PhotonCamera;
 
-public class PhotonVision extends SubsystemBase {
+public class PhotonVisionCamera extends SubsystemBase {
   /** Creates a new PhotonVision. */
 
-  private static PhotonVision instance;
+  private static PhotonVisionCamera instance;
   private static NetworkTable networkTable;
   private static NetworkTableEntry latencyMillis;
   private static NetworkTableEntry targetPitch;
@@ -22,13 +23,13 @@ public class PhotonVision extends SubsystemBase {
   private static NetworkTableEntry targetSkew;
   private static NetworkTableEntry targetPose;
 
-  public PhotonVision() {
+  public PhotonVisionCamera() {
     networkTable = NetworkTableInstance.getDefault().getTable("photonvision");
   }
 
-  public static PhotonVision getInstance() {
+  public static PhotonVisionCamera getInstance() {
     if (instance == null) {
-      instance = new PhotonVision();
+      instance = new PhotonVisionCamera();
     }
     return instance;
   }
