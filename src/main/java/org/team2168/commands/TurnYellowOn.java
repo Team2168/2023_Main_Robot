@@ -14,9 +14,9 @@ public class TurnYellowOn extends CommandBase {
   private LEDs leds;
   private boolean isOn;
 
-  public TurnYellowOn(LEDs k_leds, boolean k_isOn) {
-    k_leds = leds;
-    k_isOn = isOn;
+  public TurnYellowOn(LEDs leds, boolean isOn) {
+    leds = this.leds;
+    isOn = this.isOn;
 
     addRequirements(leds);
   }

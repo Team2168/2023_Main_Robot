@@ -13,9 +13,9 @@ public class TurnGreenOn extends CommandBase {
   private boolean isOn;
 
   /** Creates a new TurnGreenOn. */
-  public TurnGreenOn(LEDs k_leds, boolean k_isOn) {
-    k_leds = leds;
-    k_isOn = isOn;
+  public TurnGreenOn(LEDs leds, boolean isOn) {
+    leds = this.leds;
+    isOn = this.isOn;
 
     addRequirements(leds);
 
@@ -30,6 +30,8 @@ public class TurnGreenOn extends CommandBase {
   @Override
   public void execute() {
     leds.greenOnOff(isOn);
+    leds.redOnOff(false);
+    leds.blueOnOff(false);
   }
 
   // Called once the command ends or is interrupted.

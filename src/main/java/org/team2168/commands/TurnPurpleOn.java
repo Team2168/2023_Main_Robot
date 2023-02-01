@@ -14,9 +14,9 @@ public class TurnPurpleOn extends CommandBase {
   private LEDs leds;
   private boolean isOn;
 
-  public TurnPurpleOn(LEDs k_leds, boolean k_isOn) {
-    k_leds = leds;
-    k_isOn = isOn;
+  public TurnPurpleOn(LEDs leds, boolean isOn) {
+    leds = this.leds;
+    isOn = this.isOn;
 
     addRequirements(leds);
   }

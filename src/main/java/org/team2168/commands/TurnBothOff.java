@@ -14,9 +14,9 @@ public class TurnBothOff extends CommandBase {
   private LEDs leds;
   private boolean isOn;
 
-  public TurnBothOff(LEDs k_leds, boolean k_isOn) {
-    k_leds = leds;
-    k_isOn = isOn;
+  public TurnBothOff(LEDs leds, boolean isOn) {
+    leds = this.leds;
+    isOn = this.isOn;
 
     addRequirements(leds);
   }

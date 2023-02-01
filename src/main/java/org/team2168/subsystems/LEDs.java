@@ -21,12 +21,13 @@ public class LEDs extends SubsystemBase {
 
   /** Creates a constructor */
   public LEDs() {
-    redLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.RED_LED); //these are placeholders
-    blueLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.BLUE_LED);                  
+    redLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.RED_LED); //these are placeholders (see constants)
+    blueLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.BLUE_LED); //these are placeholders                 
     greenLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.GREEN_LED); //these are placeholders
   }
 
   //these commands turn on and off the different colored LEDs (if its true, the light will be on, if its false, the light will be off)
+  //for yellow and purple, it combines the redOnOff, greenOnOff, and blueOnOff methods to create new colors (this may be phased out)
 
   public void redOnOff(boolean isOn){
     redLED.set(isOn);

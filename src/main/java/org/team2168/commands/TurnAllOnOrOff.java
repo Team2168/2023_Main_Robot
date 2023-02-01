@@ -7,18 +7,21 @@ package org.team2168.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
 
-public class TurnRedOn extends CommandBase {
-  /** Creates a new TurnRedOn. */
+public class TurnAllOnOrOff extends CommandBase {
+  /** Creates a new TurnAllOnOrOff. */
 
-  private LEDs leds;
-  private boolean isOn;
+  LEDs leds;
+  boolean greenIsOn;
+  boolean redIsOn;
+  boolean blueIsOn;
 
-  public TurnRedOn(LEDs leds, boolean isOn) {
+  public TurnAllOnOrOff(LEDs leds, boolean greenIsOn, boolean redIsOn, boolean blueIsOn) {
     leds = this.leds;
-    isOn = this.isOn;
+    greenIsOn = this.greenIsOn;
+    redIsOn = this.redIsOn;
+    blueIsOn = this.blueIsOn;
 
     addRequirements(leds);
-
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -29,9 +32,10 @@ public class TurnRedOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.redOnOff(isOn);
-    leds.greenOnOff(false);
-    leds.blueOnOff(false);
+    leds.greenOnOff(greenIsOn);
+    leds.redOnOff(redIsOn);
+    leds.blueOnOff(blueIsOn); 
+    //if some of these were to be combined together it would create purple and yellow (this would make all the other commands unneeded)
   }
 
   // Called once the command ends or is interrupted.
