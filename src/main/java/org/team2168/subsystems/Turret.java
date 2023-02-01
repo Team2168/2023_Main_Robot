@@ -5,6 +5,11 @@
 package org.team2168.subsystems;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.system.LinearSystem;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -41,10 +46,19 @@ public class Turret extends SubsystemBase {
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(52200.0);
   private static final double TOTAL_ROTATION_DEGREES = Math.abs(MIN_ROTATION_DEGREES) + Math.abs(MAX_ROTATION_DEGREES);
 
+  private static FlywheelSim turretSim;
+  private static TalonFXSimCollection turretMotorSim;
+
     /** Creates a new Turret. */
   public Turret() {
     turretMotor = new TalonFXHelper(Constants.CANDevices.TURRET_MOTOR);
   
+    turretSim = new FlywheelSim
+    (LinearSystemId.identifyVelocitySystem(MAX_ROTATION_DEGREES, GEAR_RATIO), // Add silly lil gains at somepoint please
+    DCMotor.getFalcon500(1), 
+    GEAR_RATIO);
+
+    turretMotorSim = turretMotor.getSimCollection();
  }
 
  public static Turret getInstance() {
@@ -83,8 +97,29 @@ public class Turret extends SubsystemBase {
     turretMotor.set(ControlMode.PercentOutput, speed);
   }
 
+  public double getEncoderPosition() {
+    return turretMotor.getSelectedSensorPosition();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void simulationPeriodic() {
+    // Affect motor outputs by main system battery voltage dip 
+    turretMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+    // Pass motor output voltage to physics sim
+    turretSim.setInput(turretMotorSim.getMotorOutputLeadVoltage());
+    turretSim.update(Constants.LOOP_TIMESTEP_S);
+
+    // Update motor sensor states based on physics model
+    double sim_velocity_ticks_per_100ms = turretSim.getAngularVelocityRPM() * ONE_HUNDRED_MS_PER_MINUTE;
+    turretMotorSim.setIntegratedSensorVelocity((int) sim_velocity_ticks_per_100ms);
+    turretMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() +
+      Constants.LOOP_TIMESTEP_S * sim_velocity_ticks_per_100ms));
+
   }
 }

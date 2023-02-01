@@ -20,4 +20,5 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+public static final double LOOP_TIMESTEP_S = 0.02;
 }
