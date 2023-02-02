@@ -14,7 +14,10 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class HandWheels extends SubsystemBase {
@@ -37,6 +40,9 @@ public class HandWheels extends SubsystemBase {
   private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; //CounterClockwise if change is needed
   private final int PID_SLOT_X = 0;
   private final double GEAR_RATIO = 1; //placeholder
+  private SingleJointedArmSim armSim = new SingleJointedArmSim(DCMotor.getFalcon500(2), 
+  GEAR_RATIO, 1, 0.35, Units.degreesToRadians(20), 
+  Units.degreesToRadians(120), Units.lbsToKilograms(30), true);
   
 
   public HandWheels() {
@@ -110,5 +116,9 @@ public class HandWheels extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  public void simulationPeriodic(){
+    armSim.setInput(10);
   }
 }
