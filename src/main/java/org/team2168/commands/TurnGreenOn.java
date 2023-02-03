@@ -10,12 +10,16 @@ import org.team2168.subsystems.LEDs;;
 public class TurnGreenOn extends CommandBase {
 
   private LEDs leds;
-  private boolean isOn;
+  private boolean redIsOn;
+  private boolean blueIsOn;
+  private boolean greenIsOn;
 
   /** Creates a new TurnGreenOn. */
-  public TurnGreenOn(LEDs leds, boolean isOn) {
+  public TurnGreenOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
     leds = this.leds;
-    isOn = this.isOn;
+    redIsOn = this.redIsOn;
+    blueIsOn = this.blueIsOn;
+    greenIsOn = this.greenIsOn;
 
     addRequirements(leds);
 
@@ -29,9 +33,7 @@ public class TurnGreenOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.greenOnOff(isOn);
-    leds.redOnOff(false);
-    leds.blueOnOff(false);
+    leds.setLED(false, false, true);
   }
 
   // Called once the command ends or is interrupted.

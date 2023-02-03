@@ -11,11 +11,16 @@ public class TurnRedOn extends CommandBase {
   /** Creates a new TurnRedOn. */
 
   private LEDs leds;
-  private boolean isOn;
+  private boolean redIsOn;
+  private boolean blueIsOn;
+  private boolean greenIsOn;
 
-  public TurnRedOn(LEDs leds, boolean isOn) {
+  public TurnRedOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
     leds = this.leds;
-    isOn = this.isOn;
+    redIsOn = this.redIsOn;
+    blueIsOn = this.blueIsOn;
+    greenIsOn = this.greenIsOn;
+
 
     addRequirements(leds);
 
@@ -29,9 +34,7 @@ public class TurnRedOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.redOnOff(isOn);
-    leds.greenOnOff(false);
-    leds.blueOnOff(false);
+    leds.setLED(true, false, false);
   }
 
   // Called once the command ends or is interrupted.

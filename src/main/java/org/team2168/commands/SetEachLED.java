@@ -7,7 +7,7 @@ package org.team2168.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
 
-public class TurnAllOnOrOff extends CommandBase {
+public class SetEachLED extends CommandBase {
   /** Creates a new TurnAllOnOrOff. */
 
   LEDs leds;
@@ -15,7 +15,7 @@ public class TurnAllOnOrOff extends CommandBase {
   boolean redIsOn;
   boolean blueIsOn;
 
-  public TurnAllOnOrOff(LEDs leds, boolean greenIsOn, boolean redIsOn, boolean blueIsOn) {
+  public SetEachLED(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
     leds = this.leds;
     greenIsOn = this.greenIsOn;
     redIsOn = this.redIsOn;
@@ -32,9 +32,7 @@ public class TurnAllOnOrOff extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.greenOnOff(greenIsOn);
-    leds.redOnOff(redIsOn);
-    leds.blueOnOff(blueIsOn); 
+    leds.setLED(redIsOn, blueIsOn, greenIsOn);
     //if some of these were to be combined together it would create purple and yellow (this would make all the other commands unneeded)
   }
 
