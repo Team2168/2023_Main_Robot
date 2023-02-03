@@ -62,6 +62,7 @@ public class Limelight extends SubsystemBase {
     private CamMode(int camValue) {
       this.camValue = camValue;
     }
+  }
 
     // pipeline
     private NetworkTableEntry pipeline;
@@ -84,32 +85,42 @@ public class Limelight extends SubsystemBase {
         this.pipelineValue = pipelineValue;
       }
     }
-  }
-  //camera stream
+  
+
+  // camera stream
   private NetworkTableEntry stream;
+
   public enum Stream {
     STANDARD(0),
     PIP_MAIN(1),
     PIP_SECONDARY(2);
 
     public final int streamValue;
-    private Stream(int streamValue){
+
+    private Stream(int streamValue) {
       this.streamValue = streamValue;
     }
-//snapshot
-private NetworkTableEntry snapshot;
+  }
 
-public enum Snapshot {
-  RESET_SNAPSHOT_MODE(0),
-  TAKE_ONE(1);
+    // snapshot
+    private NetworkTableEntry snapshot;
+
+    public enum Snapshot {
+      RESET_SNAPSHOT_MODE(0),
+      TAKE_ONE(1);
+
+      public final int snapshotValue;
+
+      private Snapshot(int snapshotValue) {
+        this.snapshotValue = snapshotValue;
+      }
+    }
+
+    //crop values
+    private NetworkTableEntry crop;
+    private double[] cropValues = new double[4];
+
   
-  public final int snapshotValue;
-  private Snapshot(int snapshotValue){
-    this.snapshotValue = snapshotValue;
-  }
-}
-
-  }
 
   public Limelight() {
     networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -124,7 +135,13 @@ public enum Snapshot {
     thor = networkTable.getEntry("thor");
     tvert = networkTable.getEntry("tvert");
     getPipe = networkTable.getEntry("getpipe");
-  }
+    ledMode = networkTable.getEntry("ledMode");
+    camMode = networkTable.getEntry("camMode");
+    pipeline = networkTable.getEntry("pipeline");
+    stream = networkTable.getEntry("stream");
+    snapshot = networkTable.getEntry("snapshot");
+
+   }
 
   public static Limelight getInstance() {
     if (instance == null) {
