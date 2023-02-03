@@ -140,6 +140,7 @@ public class Limelight extends SubsystemBase {
     pipeline = networkTable.getEntry("pipeline");
     stream = networkTable.getEntry("stream");
     snapshot = networkTable.getEntry("snapshot");
+    crop = networkTable.getEntry("crop");
 
    }
 
