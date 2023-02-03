@@ -53,7 +53,7 @@ public class LEDs extends SubsystemBase {
     greenOnOff(false);
   }
 
-  public void allOff(boolean redOn, boolean blueOn, boolean greenOn){
+  public void setLED(boolean redOn, boolean blueOn, boolean greenOn){
     redOnOff(redOn);
     blueOnOff(blueOn);
     greenOnOff(greenOn);
