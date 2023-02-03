@@ -27,8 +27,8 @@ public class Limelight extends SubsystemBase {
   private int x = 2;
   // apritag entries
   private NetworkTableEntry botPose;
-  private NetworkTableEntry bitPoseWPIBlue;
-  private NetworkTableEntry bosPoseWPIRed;
+  private NetworkTableEntry botPoseWPIBlue;
+  private NetworkTableEntry botPoseWPIRed;
   private NetworkTableEntry cameraPoseTargetSpace;
   private NetworkTableEntry targetPoseCameraSpace;
   private NetworkTableEntry targetPoseRobotSpace;
@@ -141,6 +141,14 @@ public class Limelight extends SubsystemBase {
     stream = networkTable.getEntry("stream");
     snapshot = networkTable.getEntry("snapshot");
     crop = networkTable.getEntry("crop");
+    botPose = networkTable.getEntry("botpose");
+    botPoseWPIRed = networkTable.getEntry("botpose_wpired");
+    botPoseWPIBlue = networkTable.getEntry("botpose_wpiblue");
+    cameraPoseTargetSpace = networkTable.getEntry("camerapose_targetspace");
+    targetPoseCameraSpace = networkTable.getEntry("targetpose_cameraspace");
+    targetPoseRobotSpace = networkTable.getEntry("targetpose_robotspace");
+    botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
+    tid = networkTable.getEntry("tid");
 
    }
 
