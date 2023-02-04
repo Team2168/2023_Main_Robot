@@ -60,7 +60,7 @@ public class Drivetrain extends SubsystemBase {
   public static final double PIGEON_UNITS_PER_ROTATION = 8192.0;
   public static final double DEGREES_PER_REV = 360.0;
   public static final double PIGEON_UNITS_PER_DEGREE = PIGEON_UNITS_PER_ROTATION / 360;
-  public static final double WHEEL_BASE = 24.0; // distance between wheels (width) in inches
+  public static final double WHEEL_BASE = 23.0; // distance between wheels (width) in inches
   public static final int TIMEOUT = 30;  // 30ms
 
     private double setPointPosition_sensorUnits;
