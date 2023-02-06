@@ -16,10 +16,10 @@ public class SetEachLED extends CommandBase {
   boolean blueIsOn;
 
   public SetEachLED(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
-    leds = this.leds;
-    greenIsOn = this.greenIsOn;
-    redIsOn = this.redIsOn;
-    blueIsOn = this.blueIsOn;
+    this.leds = leds;
+    this.greenIsOn = greenIsOn;
+    this.redIsOn = redIsOn;
+    this.blueIsOn = blueIsOn;
 
     addRequirements(leds);
     // Use addRequirements() here to declare subsystem dependencies.

@@ -16,10 +16,10 @@ public class TurnGreenOn extends CommandBase {
 
   /** Creates a new TurnGreenOn. */
   public TurnGreenOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
-    leds = this.leds;
-    redIsOn = this.redIsOn;
-    blueIsOn = this.blueIsOn;
-    greenIsOn = this.greenIsOn;
+    this.leds = leds;
+    this.redIsOn = redIsOn;
+    this.blueIsOn = blueIsOn;
+    this.greenIsOn = greenIsOn;
 
     addRequirements(leds);
 

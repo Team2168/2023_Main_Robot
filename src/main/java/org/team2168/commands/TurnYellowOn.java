@@ -17,10 +17,10 @@ public class TurnYellowOn extends CommandBase {
   private boolean greenIsOn;
 
   public TurnYellowOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
-    leds = this.leds;
-    redIsOn = this.redIsOn;
-    blueIsOn = this.blueIsOn;
-    greenIsOn = this.greenIsOn;
+    this.leds = leds;
+    this.redIsOn = redIsOn;
+    this.blueIsOn = blueIsOn;
+    this.greenIsOn = greenIsOn;
 
     addRequirements(leds);
   }
