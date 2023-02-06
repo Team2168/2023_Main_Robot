@@ -159,6 +159,10 @@ public class Limelight extends SubsystemBase {
     return instance;
   }
 
+  public boolean hasTarget(){
+    return tv.getDouble(0.0) == 1.0;
+  }
+
   public double getOffsetX() {
     return tx.getDouble(0.0);
   }
@@ -166,6 +170,11 @@ public class Limelight extends SubsystemBase {
   public double getOffsetY() {
     return ty.getDouble(0.0);
   }
+
+  
+
+
+
 
   @Override
   public void periodic() {

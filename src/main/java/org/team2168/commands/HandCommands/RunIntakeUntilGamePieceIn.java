@@ -4,15 +4,16 @@
 
 package org.team2168.commands.HandCommands;
 
+import org.team2168.Constants;
 import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class ClosedIntakeFromDigitalInput extends CommandBase {
+public class RunIntakeUntilGamePieceIn extends CommandBase {
 private HandWheels hand;
 private HandPneumatic handPneumatic;
-  public ClosedIntakeFromDigitalInput(HandWheels hand, HandPneumatic handPneumatic) {
+  public RunIntakeUntilGamePieceIn(HandWheels hand, HandPneumatic handPneumatic) {
     this.hand = hand;
     this.handPneumatic = handPneumatic;
   }
@@ -24,13 +25,15 @@ private HandPneumatic handPneumatic;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  new OpenAndRunIntake(hand, handPneumatic);
+  new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY);
+  new OpenIntake(handPneumatic);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    new ClampAndStopIntake(hand, handPneumatic);
+    new RunIntake(hand, Constants.MotorSpeeds.STOP_SPEED);
+    new ClampIntake(handPneumatic);
   }
 
   // Returns true when the command should end.
