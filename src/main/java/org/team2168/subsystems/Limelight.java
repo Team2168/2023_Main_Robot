@@ -14,6 +14,7 @@ public class Limelight extends SubsystemBase {
   private NetworkTable networkTable;
   // standard entries
 
+  private boolean isLimelightEnabled;
   private NetworkTableEntry tv;
   private NetworkTableEntry tx;
   private NetworkTableEntry ty;
@@ -122,31 +123,8 @@ public class Limelight extends SubsystemBase {
 
   public Limelight() {
     networkTable = NetworkTableInstance.getDefault().getTable("limelight");
-    tv = networkTable.getEntry("tv");
-    tx = networkTable.getEntry("tx");
-    ty = networkTable.getEntry("ty");
-    ta = networkTable.getEntry("ta");
-    tl = networkTable.getEntry("tl");
-    tc = networkTable.getEntry("tc");
-    tshort = networkTable.getEntry("tshort");
-    tlong = networkTable.getEntry("tlong");
-    thor = networkTable.getEntry("thor");
-    tvert = networkTable.getEntry("tvert");
-    getPipe = networkTable.getEntry("getpipe");
-    ledMode = networkTable.getEntry("ledMode");
-    camMode = networkTable.getEntry("camMode");
-    pipeline = networkTable.getEntry("pipeline");
-    stream = networkTable.getEntry("stream");
-    snapshot = networkTable.getEntry("snapshot");
-    crop = networkTable.getEntry("crop");
-    botPose = networkTable.getEntry("botpose");
-    botPoseWPIRed = networkTable.getEntry("botpose_wpired");
-    botPoseWPIBlue = networkTable.getEntry("botpose_wpiblue");
-    cameraPoseTargetSpace = networkTable.getEntry("camerapose_targetspace");
-    targetPoseCameraSpace = networkTable.getEntry("targetpose_cameraspace");
-    targetPoseRobotSpace = networkTable.getEntry("targetpose_robotspace");
-    botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
-    tid = networkTable.getEntry("tid");
+    init();
+    isLimelightEnabled = false;
 
   }
 
@@ -172,22 +150,78 @@ public class Limelight extends SubsystemBase {
   public void enableBaseCameraSettings() {
     camMode.setNumber(0);
     ledMode.setNumber(0);
+    isLimelightEnabled = true;
   }
 
-  public void setStreamMode(int streamValue){
+  public void setStreamMode(int streamValue) {
     stream.setNumber(streamValue);
   }
 
-  public void enableVision(boolean turnOn){
+  public void enableVision(boolean turnOn) {
 
   }
 
-  public void setPipeline(int pipelineValue){
+  public void setCamMode(int camValue) {
+    camMode.setNumber(camValue);
+  }
+
+  public void setLedMode(int ledValue) {
+    ledMode.setNumber(ledValue);
+  }
+
+  public void setPipeline(int pipelineValue) {
     pipeline.setNumber(pipelineValue);
+  }
+
+  public void pauseLimelight() {
+    setCamMode(1);
+    setLedMode(1);
+    setPipeline(0);
+    isLimelightEnabled = false;
+  }
+
+  public boolean isLimelightEnabled(){
+    return isLimelightEnabled;
+  }
+
+  private void init() {
+    tv = networkTable.getEntry("tv");
+    tx = networkTable.getEntry("tx");
+    ty = networkTable.getEntry("ty");
+    ta = networkTable.getEntry("ta");
+    tl = networkTable.getEntry("tl");
+    tc = networkTable.getEntry("tc");
+    tshort = networkTable.getEntry("tshort");
+    tlong = networkTable.getEntry("tlong");
+    thor = networkTable.getEntry("thor");
+    tvert = networkTable.getEntry("tvert");
+    getPipe = networkTable.getEntry("getpipe");
+    ledMode = networkTable.getEntry("ledMode");
+    camMode = networkTable.getEntry("camMode");
+    pipeline = networkTable.getEntry("pipeline");
+    stream = networkTable.getEntry("stream");
+    snapshot = networkTable.getEntry("snapshot");
+    crop = networkTable.getEntry("crop");
+    botPose = networkTable.getEntry("botpose");
+    botPoseWPIRed = networkTable.getEntry("botpose_wpired");
+    botPoseWPIBlue = networkTable.getEntry("botpose_wpiblue");
+    cameraPoseTargetSpace = networkTable.getEntry("camerapose_targetspace");
+    targetPoseCameraSpace = networkTable.getEntry("targetpose_cameraspace");
+    targetPoseRobotSpace = networkTable.getEntry("targetpose_robotspace");
+    botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
+    tid = networkTable.getEntry("tid");
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    // This method will be called once per scheduler run\
+    
+    if(!isLimelightEnabled){
+      pauseLimelight();
+    } else {
+
+      enableBaseCameraSettings();
+    }
+
   }
 }
