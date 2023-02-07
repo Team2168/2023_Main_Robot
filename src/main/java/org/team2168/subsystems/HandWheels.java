@@ -40,9 +40,6 @@ public class HandWheels extends SubsystemBase {
   private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; //CounterClockwise if change is needed
   private final int PID_SLOT_X = 0;
   private final double GEAR_RATIO = 1; //placeholder
-  private SingleJointedArmSim armSim = new SingleJointedArmSim(DCMotor.getFalcon500(2), 
-  GEAR_RATIO, 1, 0.35, Units.degreesToRadians(20), 
-  Units.degreesToRadians(120), Units.lbsToKilograms(30), true);
   
 
   public HandWheels() {
@@ -118,7 +115,5 @@ public class HandWheels extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  public void simulationPeriodic(){
-    armSim.setInput(10);
-  }
+  
 }
