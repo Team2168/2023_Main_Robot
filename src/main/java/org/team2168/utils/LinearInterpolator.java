@@ -10,7 +10,8 @@ public class LinearInterpolator {
 	double[][] values;
 
 	/**
-	 * Create a new interpolator.
+	 * Create a new interpolator.An interpolator puts limits on a joystick's range. This is done to avoid the joystick having misinputs or
+	 * to also prevent the inputs from being too large. 
 	 * 
 	 * @param values
 	 *            an ascending (sorted) array of coordinate pairs

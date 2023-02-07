@@ -9,6 +9,9 @@ import org.team2168.utils.LinearInterpolator;
 kept the same. */
 
 public class OI {
+
+    //the three objects being created are the driver, opeartor, and test joysticks which have different doubles and get commands
+
     public final F310 driverJoystick = new F310(Joysticks.DRIVER_JOYSTICK);
     public final F310 operatorJoystick = new F310(Joysticks.OPERATOR_JOYSTICK);
     public final F310 testJoystick = new F310(Joysticks.PID_TEST_JOYSTICK);
@@ -19,6 +22,10 @@ public class OI {
     private LinearInterpolator gunStyleYInterpolator;
     private LinearInterpolator testJoystickXInterpolator;
     private static OI instance = null;
+
+    /**
+     *  A double list used for the driver joystick to interpolate
+     */
     
     
     private double[][] driverJoystickInterpolation = {
@@ -28,12 +35,19 @@ public class OI {
         {+1.00, +1.00}  
     };
 
+    /**
+     * A double list used by the wheel of the gun style controller for interpolation (presumbly)
+     */
+
     private double[][] gunStyleXInterpolation = {
         {-1.00, -0.70},  //scale down turning to max 70%
         {-0.05,  0.00},  //set neutral deadband to 5%
         {+0.05,  0.00},
         {+1.00, +0.70}  
     };
+    /**
+     * A double list used by the trigger of the gun style controller for interpolation (presumbly)
+     */
 
     private double[][] gunStyleYInterpolation = {
 		{-1.00, -1.00}, //can limit speed by changing second number
@@ -41,6 +55,9 @@ public class OI {
 		{+0.15,  0.00},
 		{+1.00, +1.00}
 	};
+    /**
+     * A double list used for the operator joystick to interpolate
+     */
 
     private double[][] operatorJoystickInterpolation = {
         {-1.00, -1.00},
@@ -48,6 +65,9 @@ public class OI {
         {+0.05,  0.00},
         {+1.00, +1.00}  
     };
+    /**
+     * A double list used for the test joystick to interpolate 
+     */
 
     private double[][] testJoystickInterpolation = {
         {-1.00, -0.50},
