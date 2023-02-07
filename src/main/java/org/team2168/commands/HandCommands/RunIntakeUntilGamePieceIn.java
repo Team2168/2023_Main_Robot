@@ -25,15 +25,15 @@ private HandPneumatic handPneumatic;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-  new RunIntake(hand, Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY);
-  new OpenIntake(handPneumatic);
+    hand.setVelocity(Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY);
+    handPneumatic.setOpen();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    new RunIntake(hand, Constants.MotorSpeeds.STOP_SPEED);
-    new ClampIntake(handPneumatic);
+    hand.setVelocity(Constants.MotorSpeeds.STOP_SPEED);
+    handPneumatic.setClamp();
   }
 
   // Returns true when the command should end.
