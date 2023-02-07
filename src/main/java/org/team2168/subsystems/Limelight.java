@@ -174,6 +174,14 @@ public class Limelight extends SubsystemBase {
     ledMode.setNumber(0);
   }
 
+  public void setStreamMode(int streamValue){
+    stream.setNumber(streamValue);
+  }
+
+  public void enableVision(boolean turnOn){
+
+  }
+
   public void setPipeline(int pipelineValue){
     pipeline.setNumber(pipelineValue);
   }
