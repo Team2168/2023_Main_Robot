@@ -41,4 +41,8 @@ public final class Constants {
   public static final class DIO {
   public static final int HAND_CHANNEL = 1;
   }
+
+  public static final class FieldMetrics {
+    public static final double MARKER_SIZE_MM = 152.4;
+  }
 }

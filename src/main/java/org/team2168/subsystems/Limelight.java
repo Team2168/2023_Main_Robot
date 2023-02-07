@@ -13,6 +13,7 @@ public class Limelight extends SubsystemBase {
   private static Limelight instance = null;
   private NetworkTable networkTable;
   // standard entries
+
   private NetworkTableEntry tv;
   private NetworkTableEntry tx;
   private NetworkTableEntry ty;
@@ -64,28 +65,27 @@ public class Limelight extends SubsystemBase {
     }
   }
 
-    // pipeline
-    private NetworkTableEntry pipeline;
+  // pipeline
+  private NetworkTableEntry pipeline;
 
-    public enum Pipeline {
-      PIPELINE_ZERO(0),
-      PIPELINE_ONE(1),
-      PIPELINE_TWO(2),
-      PIPELINE_THREE(3),
-      PIPELINE_FOUR(4),
-      PIPELINE_FIVE(5),
-      PIPELINE_SIX(6),
-      PIPELINE_SEVEN(7),
-      PIPELINE_EIGHT(8),
-      PIPELINE_NINE(9);
+  public enum Pipeline {
+    PIPELINE_ZERO(0),
+    PIPELINE_ONE(1),
+    PIPELINE_TWO(2),
+    PIPELINE_THREE(3),
+    PIPELINE_FOUR(4),
+    PIPELINE_FIVE(5),
+    PIPELINE_SIX(6),
+    PIPELINE_SEVEN(7),
+    PIPELINE_EIGHT(8),
+    PIPELINE_NINE(9);
 
-      public final int pipelineValue;
+    public final int pipelineValue;
 
-      private Pipeline(int pipelineValue) {
-        this.pipelineValue = pipelineValue;
-      }
+    private Pipeline(int pipelineValue) {
+      this.pipelineValue = pipelineValue;
     }
-  
+  }
 
   // camera stream
   private NetworkTableEntry stream;
@@ -102,25 +102,23 @@ public class Limelight extends SubsystemBase {
     }
   }
 
-    // snapshot
-    private NetworkTableEntry snapshot;
+  // snapshot
+  private NetworkTableEntry snapshot;
 
-    public enum Snapshot {
-      RESET_SNAPSHOT_MODE(0),
-      TAKE_ONE(1);
+  public enum Snapshot {
+    RESET_SNAPSHOT_MODE(0),
+    TAKE_ONE(1);
 
-      public final int snapshotValue;
+    public final int snapshotValue;
 
-      private Snapshot(int snapshotValue) {
-        this.snapshotValue = snapshotValue;
-      }
+    private Snapshot(int snapshotValue) {
+      this.snapshotValue = snapshotValue;
     }
+  }
 
-    //crop values
-    private NetworkTableEntry crop;
-    private double[] cropValues = new double[4];
-
-  
+  // crop values
+  private NetworkTableEntry crop;
+  private double[] cropValues = new double[4];
 
   public Limelight() {
     networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -150,7 +148,7 @@ public class Limelight extends SubsystemBase {
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
 
-   }
+  }
 
   public static Limelight getInstance() {
     if (instance == null) {
@@ -159,7 +157,7 @@ public class Limelight extends SubsystemBase {
     return instance;
   }
 
-  public boolean hasTarget(){
+  public boolean hasTarget() {
     return tv.getDouble(0.0) == 1.0;
   }
 
@@ -171,10 +169,14 @@ public class Limelight extends SubsystemBase {
     return ty.getDouble(0.0);
   }
 
-  
+  public void enableBaseCameraSettings() {
+    camMode.setNumber(0);
+    ledMode.setNumber(0);
+  }
 
-
-
+  public void setPipeline(int pipelineValue){
+    pipeline.setNumber(pipelineValue);
+  }
 
   @Override
   public void periodic() {
