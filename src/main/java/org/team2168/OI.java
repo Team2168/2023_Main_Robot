@@ -24,7 +24,8 @@ public class OI {
     private static OI instance = null;
 
     /**
-     *  A double list used for the driver joystick to interpolate
+     *  A double list used for the driver joystick to interpolate (this means limits will be placed on the range of the joystick, 
+     * this is done to avoid natural displacements of the joystick from zero)
      */
     
     
@@ -36,7 +37,7 @@ public class OI {
     };
 
     /**
-     * A double list used by the wheel of the gun style controller for interpolation (presumbly)
+     * A double list used by the wheel of the gun style controller for interpolation 
      */
 
     private double[][] gunStyleXInterpolation = {
@@ -46,7 +47,7 @@ public class OI {
         {+1.00, +0.70}  
     };
     /**
-     * A double list used by the trigger of the gun style controller for interpolation (presumbly)
+     * A double list used by the trigger of the gun style controller for interpolation 
      */
 
     private double[][] gunStyleYInterpolation = {
