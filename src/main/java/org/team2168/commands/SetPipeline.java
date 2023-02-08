@@ -32,7 +32,10 @@ public class SetPipeline extends CommandBase {
     if(limelight.isConnectionEstablished()){
     limelight.setPipeline(pipeline);
     isPipelineSet = true;
-    }
+    } else {
+      throw new Error("connection not established");
+    } 
+    
   }
 
   // Called once the command ends or is interrupted.
