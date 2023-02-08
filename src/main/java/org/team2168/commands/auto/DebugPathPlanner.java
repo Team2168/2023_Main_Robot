@@ -4,7 +4,10 @@
 
 package org.team2168.commands.auto;
 
+import java.io.IOException;
+
 import org.team2168.subsystems.Drivetrain;
+import org.team2168.utils.PathUtil;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -19,11 +22,13 @@ public class DebugPathPlanner extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     this.pathname = pathname;
-  }
 
-  rCommand = new RamseteCommand(
-    
-  )
+    try {
+      var trajectory = PathUtil.getPathPlannerTrajectory(pathname);
+    } catch(IOException e) {
+      
+    }
+  }
 
   // Called when the command is initially scheduled.
   @Override
