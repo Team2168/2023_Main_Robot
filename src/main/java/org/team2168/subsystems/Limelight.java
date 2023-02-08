@@ -19,6 +19,8 @@ public class Limelight extends SubsystemBase {
   private NetworkTableEntry tx;
   private NetworkTableEntry ty;
   private NetworkTableEntry ta;
+  private NetworkTableEntry tcornxy;
+  private double[] contourEntries = new double[4];
   private NetworkTableEntry tl;
   private NetworkTableEntry tc;
   private NetworkTableEntry tshort;
@@ -125,7 +127,7 @@ public class Limelight extends SubsystemBase {
     networkTable = NetworkTableInstance.getDefault().getTable("limelight");
     init();
     isLimelightEnabled = false;
-    }
+  }
 
   public static Limelight getInstance() {
     if (instance == null) {
@@ -146,7 +148,7 @@ public class Limelight extends SubsystemBase {
     return ty.getDouble(0.0);
   }
 
-  public double getTargetArea(){
+  public double getTargetArea() {
     return ta.getDouble(0.0);
   }
 
@@ -216,11 +218,11 @@ public class Limelight extends SubsystemBase {
     return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
   }
 
-  public void getDistanceMeters(){
- 
+  public void getDistanceMeters() {
+
   }
 
-  public void getCropValues(){
+  public void getCropValues() {
     cropValues[0] = -1.0;
     cropValues[1] = 1.0;
     cropValues[2] = -1.0;
@@ -228,18 +230,33 @@ public class Limelight extends SubsystemBase {
     crop.setDoubleArray(cropValues);
   }
 
-  public boolean isConnectionEstablished(){
-    if(!(tx == null)){
+  public boolean isConnectionEstablished() {
+    if (!(tx == null)) {
       return true;
     } else {
       return false;
     }
+
   }
+
+  public double[] getRawContourCornerData() {
+    return tcornxy.getDoubleArray(contourEntries);
+  }
+
+  public double getAvgContourCornerData() {
+    double average;
+    getRawContourCornerData();
+    average = ((contourEntries[0] + contourEntries[1] + contourEntries[2] + contourEntries[3]) /
+        contourEntries.length);
+    return average;
+  }
+
   private void init() {
     tv = networkTable.getEntry("tv");
     tx = networkTable.getEntry("tx");
     ty = networkTable.getEntry("ty");
     ta = networkTable.getEntry("ta");
+    tcornxy = networkTable.getEntry("tcornxy");
     tl = networkTable.getEntry("tl");
     tc = networkTable.getEntry("tc");
     tshort = networkTable.getEntry("tshort");
@@ -262,8 +279,6 @@ public class Limelight extends SubsystemBase {
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
   }
-
-  
 
   @Override
   public void periodic() {
