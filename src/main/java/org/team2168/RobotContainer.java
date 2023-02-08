@@ -8,14 +8,19 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 
+import java.util.GregorianCalendar;
+
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.SetEachLED;
 import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.LEDs;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.team2168.utils.F310;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -23,13 +28,27 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final LEDs leds = new LEDs();
+
+  OI oi = OI.getInstance();
+
+  static RobotContainer instance = null;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  public static RobotContainer getInstance() {
+    if (instance == null){
+      instance = new RobotContainer();
+    }
+    return instance;
+  }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -50,6 +69,15 @@ public class RobotContainer {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    leds.setDefaultCommand(new SetEachLED(leds, false, false, false));
+
+    oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, false, false, true));
+    oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, false, false));
+    oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, true, true));
+    oi.testJoystick.ButtonY().onTrue(new SetEachLED(leds, true, false, true));
+
+
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.

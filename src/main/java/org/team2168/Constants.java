@@ -27,6 +27,14 @@ public final class Constants {
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
 
+  public static final class Joysticks {
+    public static final int DRIVER_JOYSTICK = 3; //these constants are placeholders. 
+    public static final int OPERATOR_JOYSTICK = 2;//these constants are placeholders. 
+    public static final int BUTTON_BOX_1 = 4;//these constants are placeholders. 
+    public static final int BUTTON_BOX_2 = 8;//these constants are placeholders. 
+    public static final int DRIVER_OPERATOR_E_BACKUP = 1;//these constants are placeholders. 
+    public static final int PID_TEST_JOYSTICK = 0;//these constants are placeholders. 
+}
 
 }
 
