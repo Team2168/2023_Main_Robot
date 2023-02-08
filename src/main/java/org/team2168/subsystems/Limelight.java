@@ -213,6 +213,10 @@ public class Limelight extends SubsystemBase {
     return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
   }
 
+  public void getDistanceMeters(){
+ 
+  }
+
   private void init() {
     tv = networkTable.getEntry("tv");
     tx = networkTable.getEntry("tx");
@@ -240,6 +244,8 @@ public class Limelight extends SubsystemBase {
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
   }
+
+  
 
   @Override
   public void periodic() {
