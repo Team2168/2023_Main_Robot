@@ -177,6 +177,10 @@ public class Limelight extends SubsystemBase {
     pipeline.setNumber(pipelineValue);
   }
 
+  public void takeSnapshot(int snapshotValue){
+    snapshot.setNumber(snapshotValue);
+  }
+
   public void pauseLimelight() {
     setCamMode(1);
     setLedMode(1);
