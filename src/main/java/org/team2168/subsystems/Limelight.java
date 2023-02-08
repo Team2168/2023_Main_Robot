@@ -125,8 +125,7 @@ public class Limelight extends SubsystemBase {
     networkTable = NetworkTableInstance.getDefault().getTable("limelight");
     init();
     isLimelightEnabled = false;
-
-  }
+    }
 
   public static Limelight getInstance() {
     if (instance == null) {
@@ -145,6 +144,10 @@ public class Limelight extends SubsystemBase {
 
   public double getOffsetY() {
     return ty.getDouble(0.0);
+  }
+
+  public double getTargetArea(){
+    return ta.getDouble(0.0);
   }
 
   public void enableBaseCameraSettings() {
@@ -215,6 +218,14 @@ public class Limelight extends SubsystemBase {
 
   public void getDistanceMeters(){
  
+  }
+
+  public void getCropValues(){
+    cropValues[0] = -1.0;
+    cropValues[1] = 1.0;
+    cropValues[2] = -1.0;
+    cropValues[3] = 1.0;
+    crop.setDoubleArray(cropValues);
   }
 
   private void init() {
