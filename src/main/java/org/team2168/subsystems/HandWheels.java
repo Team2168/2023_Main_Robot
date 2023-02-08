@@ -31,16 +31,15 @@ public class HandWheels extends SubsystemBase {
   private final double CURRENT_LIMIT = 25;
   private final double THRESHOLD_LIMIT = 30;
   private final double THRESHOLD_TIME = 0.2;
-  private final double KP = 1.0; //placeholder 
-  private final double KI = 0.0; //placeholder
-  private final double KD = 0.0; //placeholder
-  private final double KF = 0.0025; //prevent motors from stalling if collecting game pieces
+  private final double KP = 1.0; // placeholder
+  private final double KI = 0.0; // placeholder
+  private final double KD = 0.0; // placeholder
+  private final double KF = 0.0025; // prevent motors from stalling if collecting game pieces
   private final double NEUTRAL_DEADBAND = 0.001;
   private TalonFXInvertType leftMotorInvert = TalonFXInvertType.Clockwise;
-  private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; //CounterClockwise if change is needed
+  private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; // CounterClockwise if change is needed
   private final int PID_SLOT_X = 0;
-  private final double GEAR_RATIO = 1; //placeholder
-  
+  private final double GEAR_RATIO = 1; // placeholder
 
   public HandWheels() {
 
@@ -78,14 +77,14 @@ public class HandWheels extends SubsystemBase {
 
   }
 
-  public static HandWheels getInstance(){
-    if(instance == null){
+  public static HandWheels getInstance() {
+    if (instance == null) {
       instance = new HandWheels();
     }
     return instance;
   }
 
-  public void setPercentOutput(double percentOutput){
+  public void setPercentOutput(double percentOutput) {
     intakeLeftMotor.set(ControlMode.PercentOutput, percentOutput);
   }
 
@@ -100,13 +99,12 @@ public class HandWheels extends SubsystemBase {
   public double ticksPerHundredMsToRPM(double ticks) {
     return (ticks * 600) / (2048 / GEAR_RATIO);
   }
- 
-  public double getVelocity(){
+
+  public double getVelocity() {
     return ticksPerHundredMsToRPM(intakeLeftMotor.getSelectedSensorVelocity());
   }
 
-
-  public boolean isGamePieceInHand(){
+  public boolean isGamePieceInHand() {
     return !input.get();
   }
 
@@ -115,5 +113,4 @@ public class HandWheels extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  
 }
