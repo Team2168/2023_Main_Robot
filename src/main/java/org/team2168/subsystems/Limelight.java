@@ -14,32 +14,31 @@ public class Limelight extends SubsystemBase {
   private NetworkTable networkTable;
   // standard entries
 
-  private boolean isLimelightEnabled;
-  private NetworkTableEntry tv;
-  private NetworkTableEntry tx;
-  private NetworkTableEntry ty;
-  private NetworkTableEntry ta;
-  private NetworkTableEntry tcornxy;
-  private double[] contourEntries = new double[4];
-  private NetworkTableEntry tl;
-  private NetworkTableEntry tc;
-  private NetworkTableEntry tshort;
-  private NetworkTableEntry tlong;
-  private NetworkTableEntry thor;
-  private NetworkTableEntry tvert;
-  private NetworkTableEntry getPipe;
-  private int x = 2;
+  private static boolean isLimelightEnabled;
+  private static NetworkTableEntry tv;
+  private static NetworkTableEntry tx;
+  private static NetworkTableEntry ty;
+  private static NetworkTableEntry ta;
+  private static NetworkTableEntry tcornxy;
+  private static double[] contourEntries = new double[4];
+  private static NetworkTableEntry tl;
+  private static NetworkTableEntry tc;
+  private static NetworkTableEntry tshort;
+  private static NetworkTableEntry tlong;
+  private static NetworkTableEntry thor;
+  private static NetworkTableEntry tvert;
+  private static NetworkTableEntry getPipe;
   // apritag entries
-  private NetworkTableEntry botPose;
-  private NetworkTableEntry botPoseWPIBlue;
-  private NetworkTableEntry botPoseWPIRed;
-  private NetworkTableEntry cameraPoseTargetSpace;
-  private NetworkTableEntry targetPoseCameraSpace;
-  private NetworkTableEntry targetPoseRobotSpace;
-  private NetworkTableEntry botPoseTargetSpace;
-  private NetworkTableEntry tid;
+  private static NetworkTableEntry botPose;
+  private static NetworkTableEntry botPoseWPIBlue;
+  private static NetworkTableEntry botPoseWPIRed;
+  private static NetworkTableEntry cameraPoseTargetSpace;
+  private static NetworkTableEntry targetPoseCameraSpace;
+  private static NetworkTableEntry targetPoseRobotSpace;
+  private static NetworkTableEntry botPoseTargetSpace;
+  private static NetworkTableEntry tid;
   // ledmode enum
-  private NetworkTableEntry ledMode;
+  private static NetworkTableEntry ledMode;
 
   public enum LEDMode {
     CURRENTPIPELINE(0),
@@ -55,7 +54,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // cam mode
-  private NetworkTableEntry camMode;
+  private static NetworkTableEntry camMode;
 
   public enum CamMode {
     VISION_PROCESSOR(0),
@@ -69,7 +68,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // pipeline
-  private NetworkTableEntry pipeline;
+  private static NetworkTableEntry pipeline;
 
   public enum Pipeline {
     PIPELINE_ZERO(0),
@@ -91,7 +90,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // camera stream
-  private NetworkTableEntry stream;
+  private static NetworkTableEntry stream;
 
   public enum Stream {
     STANDARD(0),
@@ -106,7 +105,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // snapshot
-  private NetworkTableEntry snapshot;
+  private static NetworkTableEntry snapshot;
 
   public enum Snapshot {
     RESET_SNAPSHOT_MODE(0),
@@ -120,7 +119,7 @@ public class Limelight extends SubsystemBase {
   }
 
   // crop values
-  private NetworkTableEntry crop;
+  private static NetworkTableEntry crop;
   private double[] cropValues = new double[4];
 
   public Limelight() {
