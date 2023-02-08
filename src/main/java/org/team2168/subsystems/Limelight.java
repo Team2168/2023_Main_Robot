@@ -228,6 +228,13 @@ public class Limelight extends SubsystemBase {
     crop.setDoubleArray(cropValues);
   }
 
+  public boolean isConnectionEstablished(){
+    if(!(tx == null)){
+      return true;
+    } else {
+      return false;
+    }
+  }
   private void init() {
     tv = networkTable.getEntry("tv");
     tx = networkTable.getEntry("tx");
