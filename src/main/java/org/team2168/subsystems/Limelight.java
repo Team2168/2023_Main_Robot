@@ -180,20 +180,38 @@ public class Limelight extends SubsystemBase {
     isLimelightEnabled = false;
   }
 
-  public boolean isLimelightEnabled(){
+  public boolean isLimelightEnabled() {
     return isLimelightEnabled;
   }
 
-  public int getCurrentPipeline(){
-   return getPipe.getNumber(0.0).intValue();
+  public int getCurrentPipeline() {
+    return getPipe.getNumber(0.0).intValue();
   }
 
-  public double[] getBotPoseTranslation(){
+  public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
     return botPose.getDoubleArray(botPoseArray);
   }
 
+  public double[] getCameraViewTranslation() {
+    double[] cameraViewArray = new double[6];
+    return cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
+  }
 
+  public double[] getTargetPoseTranslation() {
+    double[] targetPoseArray = new double[6];
+    return targetPoseCameraSpace.getDoubleArray(targetPoseArray);
+  }
+
+  public double[] getTargetPoseInRobotSpace() {
+    double[] targetPoseRobotSpaceArray = new double[6];
+    return targetPoseRobotSpace.getDoubleArray(targetPoseRobotSpaceArray);
+  }
+
+  public double[] getBotPoseInTargetSpace() {
+    double[] botPoseTargetSpaceArray = new double[6];
+    return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
+  }
 
   private void init() {
     tv = networkTable.getEntry("tv");
@@ -226,8 +244,8 @@ public class Limelight extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run\
-    
-    if(!isLimelightEnabled){
+
+    if (!isLimelightEnabled) {
       pauseLimelight();
     } else {
 
