@@ -184,6 +184,17 @@ public class Limelight extends SubsystemBase {
     return isLimelightEnabled;
   }
 
+  public int getCurrentPipeline(){
+   return getPipe.getNumber(0.0).intValue();
+  }
+
+  public double[] getBotPoseTranslation(){
+    double[] botPoseArray = new double[6];
+    return botPose.getDoubleArray(botPoseArray);
+  }
+
+
+
   private void init() {
     tv = networkTable.getEntry("tv");
     tx = networkTable.getEntry("tx");
