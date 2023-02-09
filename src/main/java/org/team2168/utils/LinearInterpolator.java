@@ -10,10 +10,16 @@ public class LinearInterpolator {
 	double[][] values;
 
 	/**
-	 * Create a new interpolator.
+	 * Create a new interpolator. 
+	 * 
+	 * 			An interpolator puts limits on a joystick's range. This is done to avoid the joystick having misinputs or
+	 * to also prevent the inputs from being too large. In other words, it puts a deadband on the joystick.
+	 * 
+	 * 			This method is what sets the interpolator meanwhile the interpolate() method is what actually does the math and work.
 	 * 
 	 * @param values
-	 *            an ascending (sorted) array of coordinate pairs
+	 *            an ascending (sorted) array of coordinate pairs. The pair of coordinates is used to map the limits of the 
+	 * joystick's range.
 	 */
 	public LinearInterpolator(double[][] values) {
 		// TODO: sort the input list
