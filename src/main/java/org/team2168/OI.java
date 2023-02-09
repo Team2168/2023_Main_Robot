@@ -37,7 +37,7 @@ public class OI {
     };
 
     /**
-     * A double list used by the wheel of the gun style controller for interpolation 
+     * A double list used by the wheel of the gun style controller for interpolation
      */
 
     private double[][] gunStyleXInterpolation = {

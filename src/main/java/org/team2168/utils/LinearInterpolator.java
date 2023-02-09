@@ -12,8 +12,8 @@ public class LinearInterpolator {
 	/**
 	 * Create a new interpolator. 
 	 * 
-	 * 			An interpolator puts limits on the range of an object (i.e a sensor or joystick). This is done to avoid the object having a natural displacement from the neutral position (i.e 0).
-	 *  In other words, it puts a deadband on the object.
+	 * 			An interpolator puts limits on the range of an object (i.e a sensor or joystick). This is done to avoid the
+	 *  object having natural displacement from the neutral position (i.e 0). In other words, it puts a deadband on the joystick.
 	 * 
 	 * 			This method is what sets the interpolator meanwhile the interpolate() method is what actually does the math and work.
 	 * 
