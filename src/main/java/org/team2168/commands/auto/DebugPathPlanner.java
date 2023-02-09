@@ -25,17 +25,17 @@ public class DebugPathPlanner extends CommandBase {
     this.drivetrain = drivetrain;
     this.pathname = pathname;
 
-    try {
-      var trajectory = PathUtil.getPathPlannerTrajectory(pathname, true);
+    // try {
+    //   var trajectory = PathUtil.getPathPlannerTrajectory(pathname, true);
 
-      rCommand = new RamseteCommand(
-        trajectory,
-        drivetrain::getPose,
-        new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
-      )
-    } catch(IOException e) {
+    //   rCommand = new RamseteCommand(
+    //     trajectory,
+    //     drivetrain::getPose,
+    //     new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
+    //   )
+    // } catch(IOException e) {
       
-    }
+    // }
   }
 
   // Called when the command is initially scheduled.
