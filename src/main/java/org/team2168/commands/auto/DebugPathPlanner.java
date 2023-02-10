@@ -11,6 +11,7 @@ import org.team2168.subsystems.Drivetrain;
 import org.team2168.utils.PathUtil;
 
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
@@ -18,6 +19,12 @@ public class DebugPathPlanner extends CommandBase {
   /** Creates a new DebugPathPlanner. */
   Drivetrain drivetrain;
   RamseteCommand rCommand;
+  Pose2d initialPose;
+
+  double initialTimestep;
+  double accel;
+  double curvature;
+  double time;
   String pathname;
 
   public DebugPathPlanner(Drivetrain drivetrain, String pathname) {
