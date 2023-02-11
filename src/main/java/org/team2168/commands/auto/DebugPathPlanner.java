@@ -11,6 +11,7 @@ import org.team2168.subsystems.Drivetrain;
 import org.team2168.utils.PathUtil;
 
 import edu.wpi.first.math.controller.RamseteController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
@@ -32,17 +33,23 @@ public class DebugPathPlanner extends CommandBase {
     this.drivetrain = drivetrain;
     this.pathname = pathname;
 
-    // try {
-    //   var trajectory = PathUtil.getPathPlannerTrajectory(pathname, true);
+    try {
+      var trajectory = PathUtil.getPathPlannerTrajectory(pathname, true);
 
-    //   rCommand = new RamseteCommand(
-    //     trajectory,
-    //     drivetrain::getPose,
-    //     new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
-    //   )
-    // } catch(IOException e) {
+      rCommand = new RamseteCommand(
+        trajectory,
+        drivetrain::getPose,
+        new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
+        new SimpleMotorFeedforward(Constants.Drivetrain.ksVolts,
+         Constants.Drivetrain.kvVoltSecondsPerMeter, 
+         Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
+        Constants.Drivetrain.kDriveKinematics,
+        drivetrain::getWheelSpeeds,
+        
       
-    // }
+    } catch(IOException e) {
+      
+    }
   }
 
   // Called when the command is initially scheduled.
