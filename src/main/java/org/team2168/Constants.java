@@ -20,29 +20,6 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public final class CANDevices {
-    public static final int INTAKE_RIGHT_MOTOR = 8;
-    public static final int INTAKE_LEFT_MOTOR = 9;
-
-  }
-
-  public static final class PneumaticsModules {
-    public static final int INTAKE_CLAMP = 1;
-    public static final int INTAKE_OPEN = 2;
-  
-    public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
-  }
-
-  public static final class MotorSpeeds {
-    public static final double FORWARD_INTAKE_VELOCITY = 100.0; //placeholder in rpm to ticks per hundred ms
-    public static final double STOP_SPEED = 0.0;
-    public static final double REVERSE_INTAKE_VELOCITY = -100.0; //placeholder in rpm to ticks per hundred ms
-  }
-
-  public static final class DIO {
-  public static final int HAND_CHANNEL = 1;
-  }
-
   public static final class FieldMetrics {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);

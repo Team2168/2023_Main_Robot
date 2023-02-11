@@ -107,16 +107,16 @@ public class Limelight extends SubsystemBase {
   // snapshot
   private static NetworkTableEntry snapshot;
 
-  public enum Snapshot {
-    RESET_SNAPSHOT_MODE(0),
-    TAKE_ONE(1);
+  // public enum Snapshot {
+  //   RESET_SNAPSHOT_MODE(0),
+  //   TAKE_ONE(1);
 
-    public final int snapshotValue;
+  //   public final int snapshotValue;
 
-    private Snapshot(int snapshotValue) {
-      this.snapshotValue = snapshotValue;
-    }
-  }
+  //   private Snapshot(int snapshotValue) {
+  //     this.snapshotValue = snapshotValue;
+  //   }
+  // }
 
   // crop values
   private static NetworkTableEntry crop;
@@ -161,6 +161,7 @@ public class Limelight extends SubsystemBase {
     stream.setNumber(streamValue);
   }
 
+  //empty until notice.
   public void enableVision(boolean turnOn) {
 
   }
@@ -221,6 +222,7 @@ public class Limelight extends SubsystemBase {
     return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
   }
 
+  // empty until current appropiate robot data is avaliable to make this method work.
   public void getDistanceMeters() {
 
   }

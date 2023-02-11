@@ -13,6 +13,7 @@ public class SetPipeline extends CommandBase {
   private Limelight limelight;
   private int pipeline;
   private boolean isPipelineSet = false;
+
   public SetPipeline(Limelight limelight, int pipeline) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.limelight = limelight;
@@ -29,18 +30,14 @@ public class SetPipeline extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(limelight.isConnectionEstablished()){
     limelight.setPipeline(pipeline);
     isPipelineSet = true;
-    } else {
-      throw new Error("connection not established");
-    } 
-    
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override
