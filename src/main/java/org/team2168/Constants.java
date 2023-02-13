@@ -19,10 +19,4 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-
-  public static final class FieldMetrics {
-    public static final double MARKER_SIZE_MM = 152.4;
-    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
-    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
-  }
 }
