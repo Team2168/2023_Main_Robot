@@ -34,6 +34,7 @@ public class RobotContainer {
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
       private final F310 controller = new F310(0);
+      private final OI oi = OI.getInstance();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -61,6 +62,7 @@ public class RobotContainer {
 
     m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
+    
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
