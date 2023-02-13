@@ -25,5 +25,14 @@ public final class Constants {
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
   }
+
+  public static final class Joysticks {
+    public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
+    public static final int OPERATOR_JOYSTICK = 1;//these constants are placeholders. 
+    public static final int BUTTON_BOX_1 = 4;//these constants are placeholders. 
+    public static final int BUTTON_BOX_2 = 8;//these constants are placeholders. 
+    public static final int DRIVER_OPERATOR_E_BACKUP = 2;//these constants are placeholders. 
+    public static final int PID_TEST_JOYSTICK = 5;//these constants are placeholders. 
+}
 }
 
