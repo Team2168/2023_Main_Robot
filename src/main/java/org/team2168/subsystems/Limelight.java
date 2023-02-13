@@ -162,9 +162,9 @@ public class Limelight extends SubsystemBase {
   }
 
   //empty until notice.
-  public void enableVision(boolean turnOn) {
+  // public void enableVision(boolean turnOn) {
 
-  }
+  // }
 
   public void setCamMode(int camValue) {
     camMode.setNumber(camValue);
@@ -223,9 +223,9 @@ public class Limelight extends SubsystemBase {
   }
 
   // empty until current appropiate robot data is avaliable to make this method work.
-  public void getDistanceMeters() {
+  // public void getDistanceMeters() {
 
-  }
+  // }
 
   public void getCropValues() {
     cropValues[0] = -1.0;
