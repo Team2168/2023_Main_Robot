@@ -19,8 +19,10 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class HandWheels extends SubsystemBase {
+public class HandWheels extends SubsystemBase implements Loggable {
 
   private TalonFXHelper intakeLeftMotor;
   private TalonFXHelper intakeRightMotor;
@@ -100,10 +102,11 @@ public class HandWheels extends SubsystemBase {
     return (ticks * 600) / (2048 / GEAR_RATIO);
   }
 
+  @Log(name = "Intake Velocity: ", tabName = "IntakeTab", methodName = "getVelocity()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
   public double getVelocity() {
     return ticksPerHundredMsToRPM(intakeLeftMotor.getSelectedSensorVelocity());
   }
-
+  @Log(name = "isGamePieceInHand: ", tabName = "digitalInputHandTab", methodName = "isGamePieceInHand", width = 2, height = 2, rowIndex = 2, columnIndex = 1)
   public boolean isGamePieceInHand() {
     return !input.get();
   }

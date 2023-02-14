@@ -10,8 +10,10 @@ import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class HandPneumatic extends SubsystemBase {
+public class HandPneumatic extends SubsystemBase implements Loggable {
 
   private DoubleSolenoid intakePneumatic;
   private static HandPneumatic instance = null;
@@ -36,14 +38,17 @@ public class HandPneumatic extends SubsystemBase {
     intakePneumatic.set(Value.kForward);
   }
 
+  @Log(name = "IsIntakeClamped: ", tabName = "HandPneumatic", methodName = "isIntakeClamped", width = 2, height = 2, rowIndex = 2, columnIndex = 2)
   public boolean isIntakeClamped(){
     return intakePneumatic.get() == Value.kReverse;
   }
 
+  @Log(name = "IsIntakeOpen: ", tabName = "HandPneumatic", methodName = "isIntakeOpen", width = 2, height = 2, rowIndex = 1, columnIndex = 2)
   public boolean isIntakeOpen(){
     return intakePneumatic.get() == Value.kForward;
   }
 
+  
   public boolean isIntakePneumaticOff(){
     return intakePneumatic.get() == Value.kOff;
   }
