@@ -19,35 +19,37 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import edu.wpi.first.wpilibj2.command.RamseteCommand;
 
-public class DebugPathPlanner extends CommandBase {
-  /** Creates a new DebugPathPlanner. */
+public class DebugPathWeaver extends CommandBase {
+  /** Creates a new DebugPathWeaver. */
   Drivetrain drivetrain;
   RamseteCommand rCommand;
+  double initialTimestep;
   Pose2d initialPose;
 
-  double initialTimestep;
   double accel;
   double vel;
   double curvature;
   double time;
   String pathname;
-
-  StringBuilder out = new StringBuilder("time, expected velocity, actual velocity, expected_curvature, actualturningrate/n");
-  public DebugPathPlanner(Drivetrain drivetrain, String pathname) {
+  
+  StringBuilder out = new StringBuilder("time, expected velocity, actual velocity");
+  public DebugPathWeaver(Drivetrain drivetrain, String pathname) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drivetrain = drivetrain;
     this.pathname = pathname;
 
     try {
-      var trajectory = PathUtil.getPathPlannerTrajectory(pathname, true);
+      var trajectory = PathUtil.getPathWeaverTrajectory(pathname);
+      initialPose = trajectory.getInitialPose();
 
       rCommand = new RamseteCommand(
         trajectory,
         drivetrain::getPose,
         new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta),
-        new SimpleMotorFeedforward(Constants.Drivetrain.ksVolts,
-         Constants.Drivetrain.kvVoltSecondsPerMeter, 
-         Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
+        new SimpleMotorFeedforward(
+          Constants.Drivetrain.ksVolts,
+          Constants.Drivetrain.kvVoltSecondsPerMeter,
+          Constants.Drivetrain.kaVoltSecondsSquaredPerMeter),
         Constants.Drivetrain.kDriveKinematics,
         drivetrain::getWheelSpeeds,
         new PIDController(Constants.Drivetrain.kPDriveVel, 0, 0),
@@ -63,7 +65,6 @@ public class DebugPathPlanner extends CommandBase {
           drivetrain.tankDriveVolts(leftVolts, rightVolts);
         },
         drivetrain);
-      
     } catch(IOException e) {
       initialPose = new Pose2d();
     }
@@ -81,11 +82,12 @@ public class DebugPathPlanner extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final String ENTRY = "%f, %f, %f, %f, %f%n";
+    final String ENTRY = "%f,%f,%f%n";
     SmartDashboard.putNumber("commanded velocity", vel);
     SmartDashboard.putNumber("commanded acceleration", accel);
     SmartDashboard.putNumber("commanded curvature", curvature);
-    out.append(String.format(ENTRY, time, vel, (drivetrain.getLeftEncoderRate() + drivetrain.getRightEncoderRate())/2.0, drivetrain.getTurnRate(), curvature));
+    // print values used to plot commanded vs actual velocity
+    out.append(String.format(ENTRY, time, vel, (drivetrain.getLeftEncoderRate() + drivetrain.getRightEncoderRate())/2.0));
   }
 
   // Called once the command ends or is interrupted.
