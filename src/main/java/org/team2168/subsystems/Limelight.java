@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
@@ -136,15 +137,17 @@ public class Limelight extends SubsystemBase implements Loggable {
     return instance;
   }
 
-  
+  @Log(name = "Has Target", rowIndex = 1, columnIndex = 3)
   public boolean hasTarget() {
     return tv.getDouble(0.0) == 1.0;
   }
 
+  @Log(name = "Horizontal Angle: ", rowIndex = 2, columnIndex = 3)
   public double getOffsetX() {
     return tx.getDouble(0.0);
   }
-
+ 
+  @Log(name = "Vertical Angle", rowIndex = 3, columnIndex = 3)
   public double getOffsetY() {
     return ty.getDouble(0.0);
   }
@@ -195,15 +198,18 @@ public class Limelight extends SubsystemBase implements Loggable {
     return isLimelightEnabled;
   }
 
+  @Log(name = "Current Pipeline: ", rowIndex = 4, columnIndex = 3)
   public int getCurrentPipeline() {
     return getPipe.getNumber(0.0).intValue();
   }
 
+  @Log(name = "Bot Pose Translation: ", rowIndex = 1, columnIndex = 4)
   public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
     return botPose.getDoubleArray(botPoseArray);
   }
 
+  @Log(name = "Camera View Translation: ", rowIndex = 2, columnIndex = 4)
   public double[] getCameraViewTranslation() {
     double[] cameraViewArray = new double[6];
     return cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
@@ -229,6 +235,7 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   // }
 
+  @Log(name = "Crop Values (4)", rowIndex = 3, columnIndex = 4)
   public void getCropValues() {
     cropValues[0] = -1.0;
     cropValues[1] = 1.0;
@@ -237,6 +244,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     crop.setDoubleArray(cropValues);
   }
 
+  @Log(name = "Is Connection Established: ", rowIndex = 4, columnIndex = 4)
   public boolean isConnectionEstablished() {
     if (!(tx == null)) {
       return true;
@@ -250,6 +258,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     return tcornxy.getDoubleArray(contourEntries);
   }
 
+  @Log(name = "Average Contour Data: ", rowIndex = 5, columnIndex = 4)
   public double getAvgContourCornerData() {
     double average;
     getRawContourCornerData();
