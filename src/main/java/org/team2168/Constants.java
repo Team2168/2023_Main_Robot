@@ -13,6 +13,12 @@ package org.team2168;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final class Climber{
+    public static final int ELEVATOR_MOTOR_RIGHT = 3; //placeholder values
+    public static final int ELEVATOR_MOTOR_LEFT = 9; //placeholder values
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
