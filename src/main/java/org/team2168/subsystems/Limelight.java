@@ -8,8 +8,9 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
 
-public class Limelight extends SubsystemBase {
+public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
   // standard entries
@@ -135,6 +136,7 @@ public class Limelight extends SubsystemBase {
     return instance;
   }
 
+  
   public boolean hasTarget() {
     return tv.getDouble(0.0) == 1.0;
   }
