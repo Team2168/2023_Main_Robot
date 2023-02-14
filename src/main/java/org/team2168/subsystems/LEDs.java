@@ -8,6 +8,8 @@ import org.team2168.Constants.Pneumatics;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.annotations.Config;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class LEDs extends SubsystemBase {
 
@@ -53,6 +55,8 @@ public class LEDs extends SubsystemBase {
     greenOnOff(false);
   }
 
+
+  @Config
   public void setLED(boolean redOn, boolean blueOn, boolean greenOn){
     redOnOff(redOn);
     blueOnOff(blueOn);
@@ -61,14 +65,17 @@ public class LEDs extends SubsystemBase {
 
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
 
+  @Log
   public boolean getRedState(){
     return redLED.get();
   }
 
+  @Log
   public boolean getGreenState(){
     return greenLED.get();
   }
 
+  @Log
   public boolean getBlueState(){
     return blueLED.get();
   }
