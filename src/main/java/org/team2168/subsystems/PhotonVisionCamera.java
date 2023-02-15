@@ -8,9 +8,17 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.io.IOException;
+
+import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
 
 public class PhotonVisionCamera extends SubsystemBase {
+  private PhotonCamera photonCamera;
+  private PhotonPoseEstimator photonPoseEstimator;
   /** Creates a new PhotonVision. */
 
   private static PhotonVisionCamera instance;
@@ -25,6 +33,12 @@ public class PhotonVisionCamera extends SubsystemBase {
 
   public PhotonVisionCamera() {
     networkTable = NetworkTableInstance.getDefault().getTable("photonvision");
+
+    try {
+      AprilTagFieldLayout fieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+    } catch (IOException e) {
+      
+    }
   }
 
   public static PhotonVisionCamera getInstance() {

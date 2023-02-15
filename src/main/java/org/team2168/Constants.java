@@ -13,6 +13,9 @@ package org.team2168;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class VisionConstants {
+    // public static final String CAMERA_NAME // need to find from photonvision gui
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
