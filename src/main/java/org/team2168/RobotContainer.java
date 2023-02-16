@@ -7,8 +7,10 @@ package org.team2168;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.Turret.*;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Turret;
+import org.team2168.OI;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,6 +26,9 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Turret turret = new Turret();
+  
+
+  OI oi = OI.getInstance();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
@@ -51,7 +56,11 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 10.0));
+    
+
+  
   }
 
   /**

@@ -15,11 +15,13 @@ package org.team2168;
 public final class Constants {
 
   public static final class CANDevices {
-    public static final int TURRET_MOTOR; // TODO: ADD VALUE
+    public static final int TURRET_MOTOR = 1; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
   }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final double LOOP_TIMESTEP_S = 0.02;
 
   public static final class Joysticks {
     public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
