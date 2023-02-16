@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class Limelight extends SubsystemBase implements Loggable {
@@ -137,7 +138,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     return instance;
   }
 
-  @Log(name = "Has Target", rowIndex = 1, columnIndex = 3)
+  @Config(name = "hasTarget:")
   public boolean hasTarget() {
     return tv.getDouble(0.0) == 1.0;
   }
