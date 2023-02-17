@@ -7,6 +7,7 @@ package org.team2168.subsystems;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.IOException;
@@ -15,6 +16,8 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.team2168.Constants.VisionConstants;
 
 public class PhotonVisionCamera extends SubsystemBase {
   private PhotonCamera photonCamera;
@@ -32,12 +35,16 @@ public class PhotonVisionCamera extends SubsystemBase {
   private static NetworkTableEntry targetPose;
 
   public PhotonVisionCamera() {
+    // photonCamera = new PhotonCamera();
     networkTable = NetworkTableInstance.getDefault().getTable("photonvision");
 
     try {
       AprilTagFieldLayout fieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
+      // creates photonPoseEstimator
+      photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, photonCamera, VisionConstants.robotToCam);
+
     } catch (IOException e) {
-      
+      DriverStation.reportError("april tag filed layout failed to load", e.getStackTrace());
     }
   }
 
