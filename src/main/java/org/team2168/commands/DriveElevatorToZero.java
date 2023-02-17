@@ -8,15 +8,13 @@ import org.team2168.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveElevatorToPosition extends CommandBase {
+public class DriveElevatorToZero extends CommandBase {
   /** Creates a new DriveElevatorToPosition. */
 
   private Elevator elevator;
-  private static double cms;
 
-  public DriveElevatorToPosition(Elevator elevator, double cm) {
+  public DriveElevatorToZero(Elevator elevator) {
     this.elevator = elevator;
-    cms = cm;
 
     addRequirements(elevator);
   }
@@ -30,18 +28,21 @@ public class DriveElevatorToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.setPosition(cms);
+    elevator.setToZero();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.setPercentOutput(0.0);
+    if(!interrupted){
+      elevator.setPercentOutput(0.0);
+      elevator.setToZero();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

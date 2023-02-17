@@ -60,6 +60,12 @@ public class Elevator extends SubsystemBase {
     elevatorMotorLeft.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, 0.0);
   }
 
+
+  @Log()
+  public void setToZero(){
+    elevatorMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+  }
+
   public double getPosition(){
     return elevatorMotorLeft.get();
   }

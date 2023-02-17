@@ -6,14 +6,23 @@ package org.team2168;
 
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
+import org.team2168.commands.DriveElevator;
+import org.team2168.commands.DriveElevatorToPosition;
+import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.Constants.Climber;
+
+import edu.wpi.first.math.Drake;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
+
+import org.team2168.subsystems.Elevator;
+import org.team2168.utils.F310;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -24,10 +33,22 @@ import io.github.oblarg.oblog.annotations.Log;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Elevator elevator = new Elevator();
+
+  OI oi = OI.getInstance();
+
+  static RobotContainer instance = null;
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  public static RobotContainer getInstance() {
+    if (instance == null){
+          instance = new RobotContainer();
+      }
+      return instance;
+   }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -55,6 +76,13 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    
+    /* 
+    oi.testJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
+    oi.testJoystick.ButtonLeftBumper().onTrue(new DriveElevatorToZero(elevator));
+    oi.testJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
+    oi.testJoystick.ButtonUpDPad().onTrue(new DriveElevator(elevator, 26.6));*/
   }
 
   /**
