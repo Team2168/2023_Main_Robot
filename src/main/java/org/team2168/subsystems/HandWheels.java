@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class HandWheels extends SubsystemBase implements Loggable {
@@ -106,7 +107,7 @@ public class HandWheels extends SubsystemBase implements Loggable {
   public double getVelocity() {
     return ticksPerHundredMsToRPM(intakeLeftMotor.getSelectedSensorVelocity());
   }
-  @Log(name = "isGamePieceInHand: ", tabName = "digitalInputHandTab", methodName = "isGamePieceInHand", width = 2, height = 2, rowIndex = 2, columnIndex = 1)
+ @Config(name = "IsGamePieceInHand: ")
   public boolean isGamePieceInHand() {
     return !input.get();
   }
