@@ -39,18 +39,18 @@ public class Turret extends SubsystemBase {
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 100.0 / 60.0;
 
   // 2022 values, TODO: Update to new robots requirements.
-  private static final int MIN_ROTATION_TICKS = -73400; 
-  private static final int MAX_ROTATION_TICKS = 52200; 
+  private static final int MIN_ROTATION_TICKS = -122800; 
+  private static final int MAX_ROTATION_TICKS = 122800; 
 
-  private static final double MIN_ROTATION_DEGREES = ticksToDegrees(-73400.0);
-  private static final double MAX_ROTATION_DEGREES = ticksToDegrees(52200.0);
+  private static final double MIN_ROTATION_DEGREES = ticksToDegrees(-122800.0);
+  private static final double MAX_ROTATION_DEGREES = ticksToDegrees(122800.0);
   private static final double TOTAL_ROTATION_DEGREES = Math.abs(MIN_ROTATION_DEGREES) + Math.abs(MAX_ROTATION_DEGREES);
 
-  private static final double ACCELERATION = degreesPerSecondToTicksPer100ms(360.0 * 4.5);
-  private static final double CRUISE_VELOCITY = degreesPerSecondToTicksPer100ms(360.0 * 2.0);
+  private static final double ACCELERATION = degreesPerSecondToTicksPer100ms(360.0 * 22.5);
+  private static final double CRUISE_VELOCITY = degreesPerSecondToTicksPer100ms(360.0 * 10);
 
-  public static final double kV = 0.02;
-  public static final double kA = 0.002;
+  public static final double kV = 0.005;
+  public static final double kA = 0.0005;
 
   public static final int kPIDLoopIdx = 0;
   public static final int kTimeoutMs = 30;
@@ -66,7 +66,7 @@ public class Turret extends SubsystemBase {
   private static final Gains kGains; 
   
   static {
-      kGains = new Gains(0.014, 0.0, 0.0, 0.0, 550, 1.0);
+      kGains = new Gains(0.1, 0.0, 0.0, 0.0, 550, 1.0);
    }
 
 
@@ -161,6 +161,8 @@ public class Turret extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  
 
   @Override
   public void simulationPeriodic() {

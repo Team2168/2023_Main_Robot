@@ -57,7 +57,8 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     
-    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 10.0));
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
+    oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
     
 
   
