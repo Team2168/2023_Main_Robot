@@ -7,6 +7,7 @@ package org.team2168.subsystems;
 import org.team2168.Constants;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.MotorFeedbackSensor;
 import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
@@ -73,6 +74,7 @@ public class HandWheels extends SubsystemBase {
 
   public void set(double speed) {
     intakeLeftMotor.set(speed);
+    leftController.setReference(speed, ControlType.kDutyCycle);
   }
 
   @Log(name = "Intake Velocity: ", tabName = "IntakeTab", methodName = "getVelocity()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
