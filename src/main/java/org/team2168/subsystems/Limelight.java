@@ -159,7 +159,8 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   public void enableBaseCameraSettings() {
     camMode.setNumber(0);
-    ledMode.setNumber(0);
+    setLedMode(0);
+    setPipeline(1);
     isLimelightEnabled = true;
   }
 
@@ -167,10 +168,12 @@ public class Limelight extends SubsystemBase implements Loggable {
     stream.setNumber(streamValue);
   }
 
-  //empty until notice.
-  // public void enableVision(boolean turnOn) {
 
-  // }
+ 
+   public void enableVision(boolean turnOn) {
+
+    isLimelightEnabled = true;
+   }
 
   public void setCamMode(int camValue) {
     camMode.setNumber(camValue);
@@ -204,13 +207,13 @@ public class Limelight extends SubsystemBase implements Loggable {
     return getPipe.getNumber(0.0).intValue();
   }
 
-  @Log(name = "Bot Pose Translation: ", rowIndex = 1, columnIndex = 4)
+  
   public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
     return botPose.getDoubleArray(botPoseArray);
   }
 
-  @Log(name = "Camera View Translation: ", rowIndex = 2, columnIndex = 4)
+  
   public double[] getCameraViewTranslation() {
     double[] cameraViewArray = new double[6];
     return cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
@@ -236,7 +239,7 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   // }
 
-  @Log(name = "Crop Values (4)", rowIndex = 3, columnIndex = 4)
+ 
   public void getCropValues() {
     cropValues[0] = -1.0;
     cropValues[1] = 1.0;
