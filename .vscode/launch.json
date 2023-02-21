@@ -4,18 +4,31 @@
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
-
+    {
+      "type": "java",
+      "name": "Launch ArmKinematicsTwo",
+      "request": "launch",
+      "mainClass": "ArmKinematicsTwo",
+      "projectName": "2023_Main_Robot"
+    },
+    {
+      "type": "java",
+      "name": "Launch Random",
+      "request": "launch",
+      "mainClass": "org.team2168.utils.Random",
+      "projectName": "2023_Main_Robot"
+    },
     {
       "type": "wpilib",
       "name": "WPILib Desktop Debug",
       "request": "launch",
-      "desktop": true,
+      "desktop": true
     },
     {
       "type": "wpilib",
       "name": "WPILib roboRIO Debug",
       "request": "launch",
-      "desktop": false,
+      "desktop": false
     }
   ]
 }
