@@ -23,7 +23,7 @@ public class HandWheels extends SubsystemBase {
   private boolean leftInvert = false;
   private boolean rightInvert = true;
 
-  private SparkMaxPIDController leftController = intakeLeftMotor.getPIDController();
+  private SparkMaxPIDController leftController;
   private final double KP = 1.0;
   private final double KI = 0.0;
   private final double KD = 0.0;
@@ -34,6 +34,7 @@ public class HandWheels extends SubsystemBase {
     // 775 motors which are brushed
     intakeLeftMotor = new CANSparkMax(Constants.CANDevices.INTAKE_LEFT_MOTOR, MotorType.kBrushed);
     intakeRightMotor = new CANSparkMax(Constants.CANDevices.INTAKE_RIGHT_MOTOR, MotorType.kBrushed);
+    leftController = intakeLeftMotor.getPIDController();
     input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
     intakeLeftMotor.restoreFactoryDefaults();
