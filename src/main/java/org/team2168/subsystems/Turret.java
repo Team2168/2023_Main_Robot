@@ -11,6 +11,7 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.annotations.Log;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -65,6 +66,9 @@ public class Turret extends SubsystemBase {
 
   private static final Gains kGains; 
   
+  /**
+   * The Gains for the Turret
+   */
   static {
       kGains = new Gains(0.1, 0.0, 0.0, 0.0, 550, 1.0);
    }
@@ -139,20 +143,43 @@ public class Turret extends SubsystemBase {
     return degreesToEncoderTicks(degrees) / 10.0;
   }
 
+  /**
+   * 
+   * @param degrees
+   * Sets the rotation speed of the Turret using MotionMagic control mode
+   */
+
   public void setRotationDegrees(double degrees) {
     var demand = MathUtil.clamp(degrees, ticksToDegrees(MIN_ROTATION_TICKS), ticksToDegrees(MAX_ROTATION_TICKS));
     setpoint = degrees;
     turretMotor.set(ControlMode.MotionMagic, degreesToEncoderTicks(demand));
   }
 
+
+  /**
+   * 
+   * @param degrees
+   * Sets the rotation speed of the Turret using the Velocity control mode
+   */
   public void setVelocity(double degrees) {
     turretMotor.set(ControlMode.Velocity, degreesPerSecondToTicksPer100ms(degrees));
   }
 
+  /**
+   * 
+   * @param speed
+   * Sets the rotation speed of the Turret using the PercentOutput control mode
+   */
   public void setSpeed(double speed) {
     turretMotor.set(ControlMode.PercentOutput, speed);
   }
 
+
+  /**
+   * 
+   * @return Encoder Position
+   * Finds the position of the encoder on the Falcon500
+   */
   public double getEncoderPosition() {
     return turretMotor.getSelectedSensorPosition();
   }
@@ -162,7 +189,15 @@ public class Turret extends SubsystemBase {
     // This method will be called once per scheduler run
   }
 
-  
+  /**
+   * 
+   * @return Turret Angle
+   * Gets the angle the turret is facing using the Encoder position and some more extra calculations
+   */
+  @Log(name = "TurretPosition (deg)", rowIndex = 1, columnIndex = 1)
+  public double getTurretAngle() {
+    return (turretMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO);
+  }
 
   @Override
   public void simulationPeriodic() {
