@@ -5,79 +5,50 @@
 package org.team2168.subsystems;
 
 import org.team2168.Constants;
-import org.team2168.utils.TalonFXHelper;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.FeedbackDevice;
-import com.ctre.phoenix.motorcontrol.FollowerType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
-import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
-import edu.wpi.first.math.system.plant.DCMotor;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class HandWheels extends SubsystemBase implements Loggable {
-
-  private TalonFXHelper intakeLeftMotor;
-  private TalonFXHelper intakeRightMotor;
+public class HandWheels extends SubsystemBase {
+  private static HandWheels instance;
+  private CANSparkMax intakeLeftMotor;
+  private CANSparkMax intakeRightMotor;
   private DigitalInput input;
-  private static HandWheels instance = null;
-  private SupplyCurrentLimitConfiguration limitConfig;
-  private final boolean ENABLE_CURRENT_LIMIT = true;
-  private final double CURRENT_LIMIT = 25;
-  private final double THRESHOLD_LIMIT = 30;
-  private final double THRESHOLD_TIME = 0.2;
-  private final double KP = 1.0; // placeholder
-  private final double KI = 0.0; // placeholder
-  private final double KD = 0.0; // placeholder
-  private final double KF = 0.0025; // prevent motors from stalling if collecting game pieces
-  private final double NEUTRAL_DEADBAND = 0.001;
-  private TalonFXInvertType leftMotorInvert = TalonFXInvertType.Clockwise;
-  private TalonFXInvertType rightMotorInvert = TalonFXInvertType.OpposeMaster; // CounterClockwise if change is needed
-  private final int PID_SLOT_X = 0;
-  private final double GEAR_RATIO = 1; // placeholder
+  private boolean leftInvert = false;
+  private boolean rightInvert = true;
+
+  private SparkMaxPIDController leftController = intakeLeftMotor.getPIDController();
+  private final double KP = 1.0;
+  private final double KI = 0.0;
+  private final double KD = 0.0;
+  private final double KF = 0.0025;
+  private final int CURRENT_LIMIT = 10;
 
   public HandWheels() {
-
-    intakeLeftMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_LEFT_MOTOR);
-    intakeRightMotor = new TalonFXHelper(Constants.CANDevices.INTAKE_RIGHT_MOTOR);
+    // 775 motors which are brushed
+    intakeLeftMotor = new CANSparkMax(Constants.CANDevices.INTAKE_LEFT_MOTOR, MotorType.kBrushed);
+    intakeRightMotor = new CANSparkMax(Constants.CANDevices.INTAKE_RIGHT_MOTOR, MotorType.kBrushed);
     input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
-    intakeRightMotor.configFactoryDefault();
-    intakeLeftMotor.configFactoryDefault();
+    intakeLeftMotor.restoreFactoryDefaults();
+    intakeRightMotor.restoreFactoryDefaults();
 
-    limitConfig = new SupplyCurrentLimitConfiguration(ENABLE_CURRENT_LIMIT, CURRENT_LIMIT,
-        THRESHOLD_LIMIT, THRESHOLD_TIME);
+    intakeLeftMotor.setSmartCurrentLimit(CURRENT_LIMIT);
+    intakeRightMotor.setSmartCurrentLimit(CURRENT_LIMIT);
 
-    intakeRightMotor.configSupplyCurrentLimit(limitConfig);
-    intakeLeftMotor.configSupplyCurrentLimit(limitConfig);
+    intakeLeftMotor.setInverted(leftInvert);
+    intakeRightMotor.follow(intakeLeftMotor, rightInvert);
 
-    intakeRightMotor.setInverted(rightMotorInvert);
-    intakeLeftMotor.setInverted(leftMotorInvert);
-
-    intakeRightMotor.setNeutralMode(NeutralMode.Brake);
-    intakeLeftMotor.setNeutralMode(NeutralMode.Brake);
-
-    intakeRightMotor.follow(intakeLeftMotor, FollowerType.PercentOutput);
-
-    intakeLeftMotor.configSelectedFeedbackSensor(FeedbackDevice.IntegratedSensor);
-
-    intakeLeftMotor.config_kP(PID_SLOT_X, KP);
-    intakeLeftMotor.config_kI(PID_SLOT_X, KI);
-    intakeLeftMotor.config_kD(PID_SLOT_X, KD);
-    intakeLeftMotor.config_kF(PID_SLOT_X, KF);
-    intakeLeftMotor.configNeutralDeadband(NEUTRAL_DEADBAND);
-
-    intakeRightMotor.configClosedLoopStatusFrameRates();
-    intakeLeftMotor.configClosedLoopStatusFrameRates();
-
+    leftController.setP(KP);
+    leftController.setI(KI);
+    leftController.setD(KD);
+    leftController.setFF(KF);
   }
 
   public static HandWheels getInstance() {
@@ -87,27 +58,16 @@ public class HandWheels extends SubsystemBase implements Loggable {
     return instance;
   }
 
-  public void setPercentOutput(double percentOutput) {
-    intakeLeftMotor.set(ControlMode.PercentOutput, percentOutput);
-  }
-
-  public void setVelocity(double rpm) {
-    intakeLeftMotor.set(ControlMode.Velocity, rpmToTicksPerHundredMS(rpm));
-  }
-
-  public double rpmToTicksPerHundredMS(double rpm) {
-    return (rpm / 600) * (2048 * GEAR_RATIO);
-  }
-
-  public double ticksPerHundredMsToRPM(double ticks) {
-    return (ticks * 600) / (2048 / GEAR_RATIO);
+  public void set(double speed) {
+    intakeLeftMotor.set(speed);
   }
 
   @Log(name = "Intake Velocity: ", tabName = "IntakeTab", methodName = "getVelocity()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
-  public double getVelocity() {
-    return ticksPerHundredMsToRPM(intakeLeftMotor.getSelectedSensorVelocity());
+  public double getSpeed() {
+    return intakeLeftMotor.get(); // speed (-1.0 - 1.0) according to javadoc comment
   }
- @Config(name = "IsGamePieceInHand: ")
+
+  @Config(name = "IsGamePieceInHand: ")
   public boolean isGamePieceInHand() {
     return !input.get();
   }
@@ -116,5 +76,4 @@ public class HandWheels extends SubsystemBase implements Loggable {
   public void periodic() {
     // This method will be called once per scheduler run
   }
-
 }

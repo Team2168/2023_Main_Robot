@@ -4,13 +4,15 @@
 
 package org.team2168.commands.HandCommands;
 
+import org.team2168.Constants;
 import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class RunIntake extends CommandBase {
- private HandWheels hand;
- private double speedValue;
+  private HandWheels hand;
+  private double speedValue;
+
   public RunIntake(HandWheels hand, double speedValue) {
     this.hand = hand;
     this.speedValue = speedValue;
@@ -19,18 +21,19 @@ public class RunIntake extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hand.setVelocity(speedValue);
+    hand.set(speedValue);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hand.setVelocity(0.0);
+    hand.set(Constants.MotorSpeeds.STOP_SPEED);
   }
 
   // Returns true when the command should end.

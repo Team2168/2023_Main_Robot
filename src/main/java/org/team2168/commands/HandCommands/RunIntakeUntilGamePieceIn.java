@@ -25,14 +25,14 @@ private HandPneumatic handPneumatic;
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    hand.setVelocity(Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY);
+    hand.set(Constants.MotorSpeeds.FORWARD_INTAKE_VELOCITY);
     handPneumatic.setOpen();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    hand.setVelocity(Constants.MotorSpeeds.STOP_SPEED);
+    hand.set(Constants.MotorSpeeds.STOP_SPEED);
     handPneumatic.setClamp();
   }
 

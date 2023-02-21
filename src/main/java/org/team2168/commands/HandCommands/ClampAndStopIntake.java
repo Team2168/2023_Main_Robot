@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 public class ClampAndStopIntake extends ParallelCommandGroup {
   /** Creates a new ClampAndStopIntake. */
   public ClampAndStopIntake(HandWheels hand, HandPneumatic handPneumatic) {
-    
+
     addCommands(new ClampIntake(handPneumatic), new RunIntake(hand, Constants.MotorSpeeds.STOP_SPEED));
   }
 }

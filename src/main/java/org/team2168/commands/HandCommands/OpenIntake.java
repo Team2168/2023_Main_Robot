@@ -5,10 +5,8 @@
 package org.team2168.commands.HandCommands;
 
 import org.team2168.subsystems.HandPneumatic;
-import org.team2168.subsystems.HandWheels;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 
 public class OpenIntake extends CommandBase {
 

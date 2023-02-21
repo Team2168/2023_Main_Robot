@@ -31,6 +31,6 @@ public class ReverseIntake extends ParallelCommandGroup {
  * @param speedValue
  */
   public ReverseIntake(HandWheels hand, double speedValue){
-    addCommands(new RunIntake(hand, MathUtil.clamp(speedValue, -1000.0, 0.0)));
+    addCommands(new RunIntake(hand, MathUtil.clamp(speedValue, -1.0, 0.0)));
   }
 }
