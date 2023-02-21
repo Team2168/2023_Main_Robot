@@ -8,6 +8,8 @@ import org.team2168.Constants;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.SparkMaxPIDController;
+import com.revrobotics.CANSparkMax.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -28,7 +30,9 @@ public class HandWheels extends SubsystemBase {
   private final double KI = 0.0;
   private final double KD = 0.0;
   private final double KF = 0.0025;
-  private final int CURRENT_LIMIT = 10;
+  private final double I_ZONE = 0.0;
+  private final int CURRENT_LIMIT = 20;
+  private final int VOLTAGE_COMPENSATION = 10;
 
   public HandWheels() {
     // 775 motors which are brushed
@@ -43,6 +47,12 @@ public class HandWheels extends SubsystemBase {
     intakeLeftMotor.setSmartCurrentLimit(CURRENT_LIMIT);
     intakeRightMotor.setSmartCurrentLimit(CURRENT_LIMIT);
 
+    intakeLeftMotor.enableVoltageCompensation(VOLTAGE_COMPENSATION);
+    intakeRightMotor.enableVoltageCompensation(VOLTAGE_COMPENSATION);
+
+    intakeLeftMotor.setIdleMode(IdleMode.kBrake);
+    intakeRightMotor.setIdleMode(IdleMode.kBrake);
+
     intakeLeftMotor.setInverted(leftInvert);
     intakeRightMotor.follow(intakeLeftMotor, rightInvert);
 
@@ -50,6 +60,8 @@ public class HandWheels extends SubsystemBase {
     leftController.setI(KI);
     leftController.setD(KD);
     leftController.setFF(KF);
+    leftController.setIZone(I_ZONE);
+
   }
 
   public static HandWheels getInstance() {
