@@ -17,6 +17,7 @@ import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.team2168.Constants;
 import org.team2168.Constants.VisionConstants;
 
 public class PhotonVisionCamera extends SubsystemBase {
@@ -36,14 +37,17 @@ public class PhotonVisionCamera extends SubsystemBase {
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
-    networkTable = NetworkTableInstance.getDefault().getTable("photonvision");
+    photonCamera = new PhotonCamera(Constants.VisionConstants.CAMERA_NAME);
 
     try {
+      // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
       AprilTagFieldLayout fieldLayout = AprilTagFields.k2023ChargedUp.loadAprilTagLayoutField();
       // creates photonPoseEstimator
       photonPoseEstimator = new PhotonPoseEstimator(fieldLayout, PoseStrategy.MULTI_TAG_PNP, photonCamera, VisionConstants.robotToCam);
+      photonPoseEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
     } catch (IOException e) {
+      // If AprilTagFieldLayout failed to load. We can't estimate poses if we don't know where the tags are.
       DriverStation.reportError("april tag filed layout failed to load", e.getStackTrace());
     }
   }

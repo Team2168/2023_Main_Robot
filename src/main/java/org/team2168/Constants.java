@@ -17,6 +17,9 @@ import edu.wpi.first.math.geometry.Translation3d;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  public static class FieldConstants {
+  }
+
   public static class VisionConstants {
     public static final String CAMERA_NAME = "Arducam_OV9281_USB_Camera";
     public static final Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
