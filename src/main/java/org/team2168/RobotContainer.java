@@ -76,13 +76,11 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-
     
-    /* 
-    oi.testJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
-    oi.testJoystick.ButtonLeftBumper().onTrue(new DriveElevatorToZero(elevator));
-    oi.testJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
-    oi.testJoystick.ButtonUpDPad().onTrue(new DriveElevator(elevator, 26.6));*/
+    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
+    oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
+    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
+    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 26.6));
   }
 
   /**
