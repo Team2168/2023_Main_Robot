@@ -16,10 +16,10 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Arm extends SubsystemBase {
-  /** Creates a new Arm. */
-  private static TalonFXHelper armMotor;
-
+public class Wrist extends SubsystemBase {
+  /** Creates a new Wrist. */
+  private static TalonFXHelper wristMotor;
+  
   private static double setpoint = 0.0;
 
   // Current limit configuration
@@ -38,12 +38,12 @@ public class Arm extends SubsystemBase {
   private static final double TICKS_PER_100_MS = TICKS_PER_REV/ 10.0;
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
-  private static final double ARM_MIN_ROTATION_TICKS = -10000; 
-  private static final double ARM_MAX_ROTATION_TICKS = 10000; //TODO: update number  
+  private static final double WRIST_MIN_ROTATION_TICKS = 0.0;
+  private static final double WRIST_MAX_ROTATION_TICKS = 10000; //TODO: update number
 
-  private static final double ARM_MIN_ROTATION_DEGREES = ticksToDegrees(ARM_MIN_ROTATION_TICKS);
-  private static final double ARM_MAX_ROTATION_DEGREES = ticksToDegrees(ARM_MAX_ROTATION_TICKS);
-  private static final double ARM_TOTAL_DEGREES = Math.abs(ARM_MAX_ROTATION_DEGREES) + Math.abs(ARM_MIN_ROTATION_DEGREES);
+  private static final double WRIST_MIN_ROTATION_DEGREES = ticksToDegrees(WRIST_MIN_ROTATION_TICKS);
+  private static final double WRIST_MAX_ROTATION_DEGREES = ticksToDegrees(WRIST_MAX_ROTATION_TICKS);
+  private static final double WRIST_TOTAL_DEGREES = Math.abs(WRIST_MAX_ROTATION_DEGREES) + Math.abs(WRIST_MIN_ROTATION_DEGREES);
 
   private static final double kPeakOutput = 1.0;
   private static final int kPIDLoopIdx = 0;
@@ -54,11 +54,11 @@ public class Arm extends SubsystemBase {
   private static final double ACCELERATION_LIMIT = 0.0; //TODO: update value after testing
   private static final double CRUISE_VELOCITY_LIMIT = 0.0; //TODO: update value after testing
  
-  private static Arm instance = null;
+  private static Wrist instance = null;
 
-  public Arm getInstance() {
+  public Wrist getInstance() {
     if (instance == null)
-      instance = new Arm();
+      instance = new Wrist();
     return instance;  
   }    
 
@@ -75,38 +75,37 @@ public class Arm extends SubsystemBase {
     kF = 0.0;
   }
   
+  private Wrist() {
+    wristMotor = new TalonFXHelper(Constants.WRIST_MOTOR);
 
-  private Arm() {
-    armMotor = new TalonFXHelper(Constants.ARM_MOTOR);
-
-    //arm config
-    armMotor.configFactoryDefault();
-    armMotor.configNeutralDeadband(NEUTRAL_DEADBAND);
-    armMotor.setNeutralMode(NeutralMode.Brake);
-
-    armMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
-    armMotor.setSensorPhase(kSensorPhase);
-    armMotor.setInverted(kMotorInvert);
-
-    armMotor.configNominalOutputForward(0, kTimeoutMs);
-    armMotor.configNominalOutputReverse(0, kTimeoutMs);
-    armMotor.configPeakOutputForward(kPeakOutput, kTimeoutMs);
-    armMotor.configPeakOutputReverse(-kPeakOutput, kTimeoutMs);
-
-    armMotor.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
-    armMotor.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
-    armMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
-    armMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
-    armMotor.configMotionAcceleration(ACCELERATION_LIMIT);
-    armMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
-    armMotor.configAllowableClosedloopError(0, ACCELERATION_LIMIT, kTimeoutMs);
+    //wrist config
+    wristMotor.configFactoryDefault();
+    wristMotor.configNeutralDeadband(NEUTRAL_DEADBAND);
+    wristMotor.setNeutralMode(NeutralMode.Brake);
     
+    wristMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+    wristMotor.setSensorPhase(kSensorPhase);
+    wristMotor.setInverted(kMotorInvert);
+    
+    wristMotor.configNominalOutputForward(0, kTimeoutMs);
+    wristMotor.configNominalOutputReverse(0, kTimeoutMs);
+    wristMotor.configPeakOutputForward(kPeakOutput, kTimeoutMs);
+    wristMotor.configPeakOutputReverse(-kPeakOutput, kTimeoutMs);
+    
+    wristMotor.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+    wristMotor.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
+    wristMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
+    wristMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
+    wristMotor.configMotionAcceleration(ACCELERATION_LIMIT);
+    wristMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
+    wristMotor.configAllowableClosedloopError(0, ACCELERATION_LIMIT, kTimeoutMs);
+        
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(ENABLE_CURRENT_LIMIT, CONTINUOUS_CURRENT_LIMIT, 
       TRIGGER_THRESHOLD_LIMIT, TRIGGER_THRESHOLD_TIME);
+        
+    wristMotor.configSupplyCurrentLimit(talonCurrentLimit);
     
-    armMotor.configSupplyCurrentLimit(talonCurrentLimit);
-
-    armMotor.configClosedLoopStatusFrameRates();
+    wristMotor.configClosedLoopStatusFrameRates();
   }
 
   private static double ticksToDegrees(double ticks) {
@@ -125,10 +124,11 @@ public class Arm extends SubsystemBase {
     return degreesToTicks(degrees) / 10.0;
   }
 
-  public static void setArmRotationDegrees(double degrees) {
-    var demand = MathUtil.clamp(degrees, ARM_MIN_ROTATION_DEGREES, ARM_MAX_ROTATION_DEGREES);
+  
+  public static void setWristRotationDegrees(double degrees) {
+    var demand = MathUtil.clamp(degrees, WRIST_MIN_ROTATION_DEGREES, WRIST_MAX_ROTATION_DEGREES);
     setpoint = degrees;
-    armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
+    wristMotor.set(ControlMode.MotionMagic, degreesToTicks(degrees));
   }
 
   @Override
