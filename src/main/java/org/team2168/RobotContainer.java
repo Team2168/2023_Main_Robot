@@ -64,7 +64,7 @@ public class RobotContainer {
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
-    controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
+    // controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }

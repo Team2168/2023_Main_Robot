@@ -26,12 +26,7 @@ public class HandWheels extends SubsystemBase {
   private boolean leftInvert = false;
   private boolean rightInvert = true;
 
-  private SparkMaxPIDController leftController;
-  private final double KP = 1.0;
-  private final double KI = 0.0;
-  private final double KD = 0.0;
-  private final double KF = 0.0025;
-  private final double I_ZONE = 0.0;
+
   private final int CURRENT_LIMIT = 20;
   private final int VOLTAGE_COMPENSATION = 10;
 
@@ -39,7 +34,7 @@ public class HandWheels extends SubsystemBase {
     // 775 motors which are brushed
     intakeLeftMotor = new CANSparkMax(Constants.CANDevices.INTAKE_LEFT_MOTOR, MotorType.kBrushed);
     intakeRightMotor = new CANSparkMax(Constants.CANDevices.INTAKE_RIGHT_MOTOR, MotorType.kBrushed);
-    leftController = intakeLeftMotor.getPIDController();
+
     input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
     intakeLeftMotor.restoreFactoryDefaults();
@@ -57,12 +52,6 @@ public class HandWheels extends SubsystemBase {
     intakeLeftMotor.setInverted(leftInvert);
     intakeRightMotor.follow(intakeLeftMotor, rightInvert);
 
-    leftController.setP(KP);
-    leftController.setI(KI);
-    leftController.setD(KD);
-    leftController.setFF(KF);
-    leftController.setIZone(I_ZONE);
-
   }
 
   public static HandWheels getInstance() {
@@ -74,7 +63,7 @@ public class HandWheels extends SubsystemBase {
 
   public void set(double speed) {
     intakeLeftMotor.set(speed);
-    leftController.setReference(speed, ControlType.kDutyCycle);
+
   }
 
   @Log(name = "Intake Velocity: ", tabName = "IntakeTab", methodName = "getVelocity()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
