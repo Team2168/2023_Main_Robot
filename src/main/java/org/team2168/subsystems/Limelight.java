@@ -43,54 +43,54 @@ public class Limelight extends SubsystemBase implements Loggable {
   // ledmode enum
   private static NetworkTableEntry ledMode;
 
-  public enum LEDMode {
-    CURRENTPIPELINE(0),
-    FORCEOFF(1),
-    FORCEBLINK(2),
-    FORCEON(3);
+  // public enum LEDMode {
+  //   CURRENTPIPELINE(0),
+  //   FORCEOFF(1),
+  //   FORCEBLINK(2),
+  //   FORCEON(3);
 
-    public final int value;
+  //   public final int value;
 
-    private LEDMode(int value) {
-      this.value = value;
-    }
-  }
+  //   private LEDMode(int value) {
+  //     this.value = value;
+  //   }
+  // }
 
   // cam mode
   private static NetworkTableEntry camMode;
 
-  public enum CamMode {
-    VISION_PROCESSOR(0),
-    DRIVER_CAMERA(1);
+  // public enum CamMode {
+  //   VISION_PROCESSOR(0),
+  //   DRIVER_CAMERA(1);
 
-    public final int camValue;
+  //   public final int camValue;
 
-    private CamMode(int camValue) {
-      this.camValue = camValue;
-    }
-  }
+  //   private CamMode(int camValue) {
+  //     this.camValue = camValue;
+  //   }
+  // }
 
   // pipeline
   private static NetworkTableEntry pipeline;
 
-  public enum Pipeline {
-    PIPELINE_ZERO(0),
-    PIPELINE_ONE(1),
-    PIPELINE_TWO(2),
-    PIPELINE_THREE(3),
-    PIPELINE_FOUR(4),
-    PIPELINE_FIVE(5),
-    PIPELINE_SIX(6),
-    PIPELINE_SEVEN(7),
-    PIPELINE_EIGHT(8),
-    PIPELINE_NINE(9);
+  // public enum Pipeline {
+  //   PIPELINE_ZERO(0),
+  //   PIPELINE_ONE(1),
+  //   PIPELINE_TWO(2),
+  //   PIPELINE_THREE(3),
+  //   PIPELINE_FOUR(4),
+  //   PIPELINE_FIVE(5),
+  //   PIPELINE_SIX(6),
+  //   PIPELINE_SEVEN(7),
+  //   PIPELINE_EIGHT(8),
+  //   PIPELINE_NINE(9);
 
-    public final int pipelineValue;
+  //   public final int pipelineValue;
 
-    private Pipeline(int pipelineValue) {
-      this.pipelineValue = pipelineValue;
-    }
-  }
+  //   private Pipeline(int pipelineValue) {
+  //     this.pipelineValue = pipelineValue;
+  //   }
+  // }
 
   // camera stream
   private static NetworkTableEntry stream;
