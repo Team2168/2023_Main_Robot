@@ -130,6 +130,15 @@ public class Wrist extends SubsystemBase {
     wristMotor.set(ControlMode.MotionMagic, degreesToTicks(degrees));
   }
 
+  /*
+   * Sets the speed of the wrist
+   * 
+   * @param speed speed to set the wrist to (degrees/second)
+   */
+  public static void setWristSpeed(double speed) {
+    wristMotor.set(ControlMode.Velocity, degreesPerSecondToTicksPer100ms(speed));
+  }
+
     /*
    * @return the current error position (degrees)
    */

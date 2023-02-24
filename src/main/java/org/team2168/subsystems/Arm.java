@@ -130,10 +130,19 @@ public class Arm extends SubsystemBase {
    * 
    * @param degrees the desired destination (degrees)
    */
-  public static void setArmRotationDegrees(double degrees) {
+  public void setArmRotationDegrees(double degrees) {
     var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
     setpoint = degrees;
     armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
+  }
+
+  /*
+   * The speed to set the arm to
+   * 
+   * @param speed the speed to set the arm to (degrees/second)
+   */
+  public void setArmSpeed(double speed) {
+    armMotor.set(ControlMode.Velocity, speed);
   }
 
   /*
