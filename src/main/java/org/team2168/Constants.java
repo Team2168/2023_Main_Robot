@@ -4,6 +4,7 @@
 
 package org.team2168;
 
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
@@ -25,6 +26,11 @@ public final class Constants {
     public static final int GREEN_LED = 8;
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
+  }
+  public static final class FieldMetrics {
+    public static final double MARKER_SIZE_MM = 152.4;
+    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
+    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
   }
 
   public static final class Joysticks {
