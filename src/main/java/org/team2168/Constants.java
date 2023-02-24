@@ -20,7 +20,6 @@ public final class Constants {
   public static final int WRIST_MOTOR = 13;
   public static final int ARM_MOTOR = 16;
   
-
   public static final class Joysticks {
     public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
     public static final int OPERATOR_JOYSTICK = 1;//these constants are placeholders. 
