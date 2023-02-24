@@ -4,6 +4,8 @@
 
 package org.team2168.commands;
 
+import java.util.function.DoubleSupplier;
+
 import org.team2168.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -12,11 +14,11 @@ public class DriveElevatorToPosition extends CommandBase {
   /** Creates a new DriveElevatorToPosition. */
 
   private Elevator elevator;
-  private static double cms;
+  private static double inches;
 
-  public DriveElevatorToPosition(Elevator elevator, double cm) {
+  public DriveElevatorToPosition(Elevator elevator, double in) {
     this.elevator = elevator;
-    cms = cm;
+    inches = in;
 
     addRequirements(elevator);
   }
@@ -30,7 +32,7 @@ public class DriveElevatorToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.setPosition(cms);
+    elevator.setPosition(inches);
   }
 
   // Called once the command ends or is interrupted.

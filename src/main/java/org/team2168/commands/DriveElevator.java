@@ -14,9 +14,9 @@ public class DriveElevator extends CommandBase {
   /** Creates a new DriveElevator. */
 
   private Elevator elevator;
-  private double elevatorSpeed;
+  private DoubleSupplier elevatorSpeed;
 
-  public DriveElevator(Elevator elevator, double d) {
+  public DriveElevator(Elevator elevator, DoubleSupplier d) {
     this.elevator = elevator;
     elevatorSpeed = d;
 
@@ -30,7 +30,8 @@ public class DriveElevator extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    elevator.setPercentOutput(elevatorSpeed);;
+    //elevator.setPercentOutput(elevatorPercentOutput);
+    elevator.setSpeedVelocity(0.8 * elevatorSpeed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.

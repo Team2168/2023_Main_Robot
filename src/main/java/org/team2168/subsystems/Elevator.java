@@ -7,7 +7,9 @@ package org.team2168.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
+import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 import java.security.KeyFactory;
@@ -22,9 +24,9 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class Elevator extends SubsystemBase {
 
-  private static final double kI = 0; //intergral
-  private static final double kD = 0; //derivative
-  private static final double kF = 0; //feedforward: constant output added on which counteracts forces
+  private static final double kI = 6; //intergral
+  private static final double kD = 3; //derivative
+  private static final double kF = 3; //feedforward: constant output added on which counteracts forces
   private static final double kP = 0.3; //proportional: a proportion of the input
   private static final double kArbitraryFeedForward = 0.1;
 
@@ -37,10 +39,11 @@ public class Elevator extends SubsystemBase {
 
   private static final double TIME_UNITS_OF_VELOCITY = 0.1; //in seconds 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = 0; //3.75 : 1 ratio
+  private static final double GEAR_RATIO = (1/3.75); 
   private static final double SPROCKET_RADIUS = 0.521; //placeholder value for the radius of the sprocket gear (in inches)
+  private static final double INCHES_PER_REV = SPROCKET_RADIUS * 2 * Math.PI;
 
-  
+
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; //placeholder
   private static final double ACCELERATION_LIMIT = 5 * TIME_UNITS_OF_VELOCITY; //placeholder
@@ -49,8 +52,11 @@ public class Elevator extends SubsystemBase {
 
   private TalonFXHelper elevatorMotorLeft;
   private TalonFXHelper elevatorMotorRight;
-  private double position; //height in inches
+  //private double position; //height in inches
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
+
+  // private boolean kSensorPhase;
+  // private boolean kMotorInvert;
 
   static Elevator instance = null;
 
@@ -61,8 +67,12 @@ public class Elevator extends SubsystemBase {
 
     elevatorMotorLeft.configNeutralDeadband(NEUTRAL_DEADBAND);
     elevatorMotorRight.configNeutralDeadband(NEUTRAL_DEADBAND);
-    //elevatorMotorLeft.setNeutralMode(NeutralMode.Brake);
-    //elevatorMotorRight.setNeutralMode(NeutralMode.Brake);
+    elevatorMotorLeft.setNeutralMode(NeutralMode.Brake);
+    elevatorMotorRight.setNeutralMode(NeutralMode.Brake);
+
+    //elevatorMotorLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+    //elevatorMotorLeft.setSensorPhase(kSensorPhase);
+    //elevatorMotorLeft.setInverted(kMotorInvert);
 
     //sets the gains
     elevatorMotorLeft.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
@@ -100,21 +110,29 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV * 360);
   }
 
+  public static double inchesToTicks(double inches){
+    return(inches/INCHES_PER_REV) * GEAR_RATIO * TICKS_PER_REV;
+  }
+
+  public static double ticksToInches(double ticks){
+    return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
+  }
+
   @Config(name = "Speed (Velocity)")
   public void setSpeedVelocity(double speed) {
-    elevatorMotorLeft.set(ControlMode.Velocity, speed); //speed is a placeholder for an actual speed rate parameter
+    elevatorMotorLeft.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
   }
 
   @Config(name = "Position")
-  public void setPosition(double position){
-    this.position = position;
+  public void setPosition(double inches){
+    //this.position = position;
 
-    elevatorMotorLeft.set(ControlMode.MotionMagic, this.position, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+    elevatorMotorLeft.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   @Config(name = "Percent Output")
   public void setPercentOutput(double speed) {
-    elevatorMotorLeft.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, 0.0);
+    elevatorMotorLeft.set(ControlMode.PercentOutput, INCHES_PER_REV, DemandType.ArbitraryFeedForward, 0.0);
   }
 
 

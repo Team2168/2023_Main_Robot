@@ -4,6 +4,8 @@
 
 package org.team2168;
 
+import java.util.function.DoubleSupplier;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,8 +17,8 @@ package org.team2168;
 public final class Constants {
 
   public static final class Climber{
-    public static final int ELEVATOR_MOTOR_RIGHT = 3; //placeholder values
-    public static final int ELEVATOR_MOTOR_LEFT = 9; //placeholder values
+    public static final int ELEVATOR_MOTOR_RIGHT = 15; 
+    public static final int ELEVATOR_MOTOR_LEFT = 14; 
     public static final double FIRSTNODE = 56.05;
     public static final double SECONDNODE = 106.05;
   }

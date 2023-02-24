@@ -80,7 +80,7 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
     oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
-    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 26.6));
+    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
   }
 
   /**
