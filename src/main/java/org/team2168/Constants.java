@@ -4,9 +4,12 @@
 
 package org.team2168;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -18,6 +21,15 @@ import edu.wpi.first.math.geometry.Translation3d;
  */
 public final class Constants {
   public static class FieldConstants {
+    public static final Pose3d APRIL_TAG_ID_1 = new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 180.0));
+    public static final Pose3d APRIL_TAG_ID_2 = new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(108.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 180.0));
+    public static final Pose3d APRIL_TAG_ID_3 = new Pose3d(Units.inchesToMeters(610.77), Units.inchesToMeters(174.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 180.0));
+    public static final Pose3d APRIL_TAG_ID_4 = new Pose3d(Units.inchesToMeters(636.96), Units.inchesToMeters(265.74), Units.inchesToMeters(27.38), new Rotation3d(0.0, 0.0, 180.0));
+
+    public static final Pose3d APRIL_TAG_ID_5 = new Pose3d(Units.inchesToMeters(14.25), Units.inchesToMeters(265.74), Units.inchesToMeters(27.38), new Rotation3d(0.0, 0.0, 0.0));
+    public static final Pose3d APRIL_TAG_ID_6 = new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(174.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 0.0));
+    public static final Pose3d APRIL_TAG_ID_7 = new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(108.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 0.0));
+    public static final Pose3d APRIL_TAG_ID_8 = new Pose3d(Units.inchesToMeters(40.45), Units.inchesToMeters(42.19), Units.inchesToMeters(18.22), new Rotation3d(0.0, 0.0, 0.0));
   }
 
   public static class VisionConstants {

@@ -11,9 +11,13 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.IOException;
+import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+
+import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -26,14 +30,6 @@ public class PhotonVisionCamera extends SubsystemBase {
   /** Creates a new PhotonVision. */
 
   private static PhotonVisionCamera instance;
-  private static NetworkTable networkTable;
-  private static NetworkTableEntry latencyMillis;
-  private static NetworkTableEntry targetPitch;
-  private static NetworkTableEntry hasTarget;
-  private static NetworkTableEntry targetYaw;
-  private static NetworkTableEntry targetArea;
-  private static NetworkTableEntry targetSkew;
-  private static NetworkTableEntry targetPose;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
@@ -49,7 +45,16 @@ public class PhotonVisionCamera extends SubsystemBase {
     } catch (IOException e) {
       // If AprilTagFieldLayout failed to load. We can't estimate poses if we don't know where the tags are.
       DriverStation.reportError("april tag filed layout failed to load", e.getStackTrace());
+      photonPoseEstimator = null;
     }
+  }
+
+  public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
+    if (photonPoseEstimator == null) {
+      return Optional.empty();
+    }
+    photonPoseEstimator.setReferencePose(prevEstimatedRobotPose);
+    return photonPoseEstimator.update();
   }
 
   public static PhotonVisionCamera getInstance() {
