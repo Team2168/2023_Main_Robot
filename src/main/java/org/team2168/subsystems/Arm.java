@@ -15,10 +15,12 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.annotations.Log;
 
 public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
-  private static TalonFXHelper armMotor;
+  private static TalonFXHelper armMotor; 
+  private static Arm instance = null;
 
   private static double setpoint = 0.0;
 
@@ -32,18 +34,18 @@ public class Arm extends SubsystemBase {
 
   private static final double TICKS_PER_REV = 2048;
   private static final double GEAR_RATIO = 0.0; //TODO: update value, teeth/diameter
-  private static final double TICKS_PER_ARM_ROTATION = TICKS_PER_REV * GEAR_RATIO;
+  private static final double TICKS_PER_ROTATION = TICKS_PER_REV * GEAR_RATIO;
 
   private static final double TICKS_PER_SECOND = TICKS_PER_REV;
   private static final double TICKS_PER_100_MS = TICKS_PER_REV/ 10.0;
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
-  private static final double ARM_MIN_ROTATION_TICKS = -10000; 
-  private static final double ARM_MAX_ROTATION_TICKS = 10000; //TODO: update number  
+  private static final double MIN_ROTATION_TICKS = -10000; 
+  private static final double MAX_ROTATION_TICKS = 10000; //TODO: update number  
 
-  private static final double ARM_MIN_ROTATION_DEGREES = ticksToDegrees(ARM_MIN_ROTATION_TICKS);
-  private static final double ARM_MAX_ROTATION_DEGREES = ticksToDegrees(ARM_MAX_ROTATION_TICKS);
-  private static final double ARM_TOTAL_DEGREES = Math.abs(ARM_MAX_ROTATION_DEGREES) + Math.abs(ARM_MIN_ROTATION_DEGREES);
+  private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
+  private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
+  private static final double TOTAL_DEGREES = Math.abs(MAX_ROTATION_DEGREES) + Math.abs(MIN_ROTATION_DEGREES);
 
   private static final double kPeakOutput = 1.0;
   private static final int kPIDLoopIdx = 0;
@@ -53,8 +55,6 @@ public class Arm extends SubsystemBase {
 
   private static final double ACCELERATION_LIMIT = 0.0; //TODO: update value after testing
   private static final double CRUISE_VELOCITY_LIMIT = 0.0; //TODO: update value after testing
- 
-  private static Arm instance = null;
 
   public Arm getInstance() {
     if (instance == null)
@@ -110,11 +110,11 @@ public class Arm extends SubsystemBase {
   }
 
   private static double ticksToDegrees(double ticks) {
-    return (ticks/TICKS_PER_ARM_ROTATION)*360;
+    return (ticks/TICKS_PER_ROTATION)*360;
   }
 
   private static double degreesToTicks(double degrees) {
-    return (degrees/360)*TICKS_PER_ARM_ROTATION;
+    return (degrees/360)*TICKS_PER_ROTATION;
   }
 
   private static double ticksPer100msToDegreesPerSecond(double ticks) {
@@ -125,10 +125,67 @@ public class Arm extends SubsystemBase {
     return degreesToTicks(degrees) / 10.0;
   }
 
+  /*
+   * Moves the arm to a certain position
+   * 
+   * @param degrees the desired destination (degrees)
+   */
   public static void setArmRotationDegrees(double degrees) {
-    var demand = MathUtil.clamp(degrees, ARM_MIN_ROTATION_DEGREES, ARM_MAX_ROTATION_DEGREES);
+    var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
     setpoint = degrees;
     armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
+  }
+
+  /*
+   * @return the current error position (degrees)
+   */
+  @Log(name = "Error", rowIndex = 1, columnIndex = 1)
+  public double getControllerError() {
+    return ticksToDegrees(armMotor.getClosedLoopError());
+  }
+
+  /*
+   * @return the velocity of the arm (degrees/second)
+   */
+  @Log(name = "Speed (deg/sec)", rowIndex = 2, columnIndex = 2)
+  public double getVelocity() {
+    return ticksPer100msToDegreesPerSecond(armMotor.getSelectedSensorVelocity());
+  }
+
+  /*
+   * @return the position of the arm (degrees)
+   */
+  @Log(name = "Position", rowIndex = 2, columnIndex = 1)
+  public double getPositionDegrees() {
+    return ticksToDegrees(armMotor.getSelectedSensorPosition());
+  }
+
+  /*
+   * @return the position of the arm (ticks)
+   */
+  @Log(name = "Encoder Position", rowIndex = 1, columnIndex = 3)
+  public double getEncoderPosition() {
+    return armMotor.getSelectedSensorPosition();
+  }
+
+  public boolean atSoftLimit() {
+    return !(getPositionDegrees() > MIN_ROTATION_DEGREES && getPositionDegrees() < MAX_ROTATION_DEGREES);
+  }
+
+  public boolean isAtZero() {
+    return (getPositionDegrees() > -0.5 && getPositionDegrees() < 0.5);
+  }
+
+  public double getForwardSoftLimit() {
+    return MIN_ROTATION_DEGREES;
+  }
+
+  public double getReverseSoftLimit() {
+    return MAX_ROTATION_DEGREES;
+  }
+
+  public double getSetpoint() {
+    return setpoint;
   }
 
   @Override
