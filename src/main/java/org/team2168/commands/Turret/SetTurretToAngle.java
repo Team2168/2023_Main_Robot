@@ -20,15 +20,16 @@ public class SetTurretToAngle extends CommandBase {
   /** Creates a new SetTurretToAngle. */
   public SetTurretToAngle(Turret t, Double targetPosition) {
 
-    turret = t;
-    targetPositionDegrees = targetPosition;
+    this(t, targetPosition, 0.1);
     // Use addRequirements() here to declare subsystem dependencies.
 
     addRequirements(t);
   }
 
-  public SetTurretToAngle(Turret t, Double a, Double acceptableError) {
+  public SetTurretToAngle(Turret t, Double targetPosition, Double acceptableError) {
     acceptableErrorDegrees = acceptableError;
+    turret = t;
+    targetPositionDegrees = targetPosition;
 
     addRequirements(t);
   }

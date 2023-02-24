@@ -15,7 +15,7 @@ package org.team2168;
 public final class Constants {
 
   public static final class CANDevices {
-    public static final int TURRET_MOTOR = 1; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
+    public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
   }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;

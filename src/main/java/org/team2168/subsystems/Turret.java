@@ -37,9 +37,11 @@ public class Turret extends SubsystemBase {
 
   private static final double TICKS_PER_SECOND = TICKS_PER_TURRET_ROTATION;
   private static final double TICKS_PER_100_MS = TICKS_PER_SECOND / 10.0;
-  private static final double ONE_HUNDRED_MS_PER_MINUTE = 100.0 / 60.0;
+  private static final double ONE_HUNDRED_MS_PER_MINUTE = 100.0 / 60000.0;
 
-  // 2022 values, TODO: Update to new robots requirements.
+  // 2022 values
+
+  // The Minimum and Maximum rotation ticks of the turret are 90 degrees in both directions
   private static final int MIN_ROTATION_TICKS = -122800; 
   private static final int MAX_ROTATION_TICKS = 122800; 
 
@@ -49,6 +51,7 @@ public class Turret extends SubsystemBase {
 
   private static final double ACCELERATION = degreesPerSecondToTicksPer100ms(360.0 * 22.5);
   private static final double CRUISE_VELOCITY = degreesPerSecondToTicksPer100ms(360.0 * 10);
+
 
   public static final double kV = 0.005;
   public static final double kA = 0.0005;
@@ -70,7 +73,7 @@ public class Turret extends SubsystemBase {
    * The Gains for the Turret
    */
   static {
-      kGains = new Gains(0.1, 0.0, 0.0, 0.0, 550, 1.0);
+      kGains = new Gains(0.1, 0.0, 0.01, 0.0, 550, 1.0);
    }
 
 
@@ -209,9 +212,9 @@ public class Turret extends SubsystemBase {
     turretSim.update(Constants.LOOP_TIMESTEP_S);
 
     // Update motor sensor states based on physics model
-    double sim_velocity_ticks_per_100ms = turretSim.getAngularVelocityRPM() * ONE_HUNDRED_MS_PER_MINUTE;
+    double sim_velocity_ticks_per_100ms = turretSim.getAngularVelocityRPM() / ONE_HUNDRED_MS_PER_MINUTE;
     turretMotorSim.setIntegratedSensorVelocity((int) sim_velocity_ticks_per_100ms);
-    turretMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + Constants.LOOP_TIMESTEP_S * sim_velocity_ticks_per_100ms));
+    turretMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + (Constants.LOOP_TIMESTEP_S / 10) * sim_velocity_ticks_per_100ms));
 
   }
 }
