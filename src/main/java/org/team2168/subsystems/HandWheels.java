@@ -19,7 +19,7 @@ import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class HandWheels extends SubsystemBase {
-  private static HandWheels instance;
+  private static HandWheels instance = null;
   private CANSparkMax intakeLeftMotor;
   private CANSparkMax intakeRightMotor;
   private DigitalInput input;
