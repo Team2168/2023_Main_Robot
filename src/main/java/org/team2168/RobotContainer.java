@@ -8,6 +8,7 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.HandCommands.OpenAndRunIntake;
+import org.team2168.commands.HandCommands.RunIntake;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
@@ -33,7 +34,6 @@ public class RobotContainer {
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
-      private final F310 controller = new F310(0);
       private final OI oi = OI.getInstance();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -63,7 +63,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
+    // m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
+    oi.testJoystick.ButtonA().onTrue(new RunIntake(hand, 0.5));
     // controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
