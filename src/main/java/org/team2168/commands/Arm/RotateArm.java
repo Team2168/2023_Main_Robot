@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands;
+package org.team2168.commands.Arm;
 
 import org.team2168.subsystems.Arm;
 
@@ -15,14 +15,13 @@ public class RotateArm extends CommandBase {
   private double degrees;
   private double errorTolerance = 1.0;
 
-  /*
+  /**
    * Rotates the arm to a position
    * 
    * @param arm the Arm subsystem
    * @param degrees the position for the arm to move to (degrees)
    */
   public RotateArm(Arm arm, double degrees) {
-    // Use addRequirements() here to declare subsystem dependencies.
     this.arm = arm;
     this.degrees = degrees;
 
@@ -42,21 +41,18 @@ public class RotateArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setArmRotationDegrees(degrees);
+    arm.setRotationDegrees(degrees);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    arm.setArmSpeed(0.0);
+    arm.setSpeed(0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(arm.getControllerError() < errorTolerance)
-      return true;
-    else
-      return false;
+    return (arm.getControllerError() < errorTolerance);
   }
 }
