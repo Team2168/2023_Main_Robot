@@ -29,7 +29,9 @@ public class PoseEstimationWithLimelight extends CommandBase {
   public PoseEstimationWithLimelight(Limelight lime) {
     this.lime = lime;
     // Use addRequirements() here to declare subsystem dependencies.
-    poseEstimator.addVisionMeasurement(new Pose2d(new Translation2d(lime.botPoseArrayTwo[1], lime.botPoseArrayTwo[3]), new Rotation2d(Units.radiansToDegrees(lime.getOffsetX()))), Timer.getFPGATimestamp());
+    poseEstimator.addVisionMeasurement(new Pose2d(new Translation2d(lime.botPoseArrayTwo[1], lime.botPoseArrayTwo[3]), new Rotation2d(Units.radiansToDegrees(lime.botPoseArrayTwo[6]))), 
+    Timer.getFPGATimestamp() - (lime.getLatencyMs() / 1000) - (lime.getCapturedLatencyTime() / 1000));
+
     poseEstimator.setVisionMeasurementStdDevs(null);
 
     

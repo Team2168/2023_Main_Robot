@@ -28,6 +28,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static double[] contourEntries = new double[4];
   private static NetworkTableEntry tl;
   private static NetworkTableEntry tc;
+  private static NetworkTableEntry cl;
   private static NetworkTableEntry tshort;
   private static NetworkTableEntry tlong;
   private static NetworkTableEntry thor;
@@ -42,6 +43,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static NetworkTableEntry targetPoseRobotSpace;
   private static NetworkTableEntry botPoseTargetSpace;
   private static NetworkTableEntry tid;
+  private static NetworkTableEntry campose;
   // ledmode enum
   private static NetworkTableEntry ledMode;
 
@@ -198,6 +200,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     setLedMode(1);
     setPipeline(0);
     isLimelightEnabled = false;
+    
   }
 
   public boolean isLimelightEnabled() {
@@ -207,6 +210,14 @@ public class Limelight extends SubsystemBase implements Loggable {
   @Log(name = "Current Pipeline: ", rowIndex = 4, columnIndex = 3)
   public int getCurrentPipeline() {
     return getPipe.getNumber(0.0).intValue();
+  }
+
+  public double getLatencyMs() {
+    return tl.getDouble(0.0);
+  }
+
+  public double getCapturedLatencyTime() {
+    return cl.getDouble(0.0);
   }
 
   
@@ -234,6 +245,10 @@ public class Limelight extends SubsystemBase implements Loggable {
   public double[] getBotPoseInTargetSpace() {
     double[] botPoseTargetSpaceArray = new double[6];
     return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
+  }
+
+  public double getAprilTagID() {
+    return tid.getDouble(0.0);
   }
 
   // empty until current appropiate robot data is avaliable to make this method work.
@@ -300,7 +315,10 @@ public class Limelight extends SubsystemBase implements Loggable {
     targetPoseRobotSpace = networkTable.getEntry("targetpose_robotspace");
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
+    cl = networkTable.getEntry("cl");
+    campose = networkTable.getEntry("campose");
   }
+
 
   @Override
   public void periodic() {
