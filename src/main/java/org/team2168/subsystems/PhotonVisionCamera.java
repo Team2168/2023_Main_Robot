@@ -16,6 +16,9 @@ import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 
 import org.photonvision.EstimatedRobotPose;
@@ -26,8 +29,9 @@ import org.team2168.Constants;
 import org.team2168.Constants.VisionConstants;
 
 public class PhotonVisionCamera extends SubsystemBase {
-  private PhotonCamera photonCamera;
-  private PhotonPoseEstimator photonPoseEstimator;
+  public PhotonCamera photonCamera;
+  public PhotonPoseEstimator photonPoseEstimator;
+  private Transform3d robotToCam;
   /** Creates a new PhotonVision. */
 
   private static PhotonVisionCamera instance;
@@ -37,6 +41,8 @@ public class PhotonVisionCamera extends SubsystemBase {
     // photonCamera = new PhotonCamera();
     networkTableInstance = NetworkTableInstance.getDefault();
     photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
+    robotToCam = new Transform3d(new Translation3d(7.115, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
+    new Rotation3d(0, 0, 0));
 
     try {
       // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
