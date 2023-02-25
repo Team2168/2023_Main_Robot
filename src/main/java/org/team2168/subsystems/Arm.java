@@ -127,6 +127,7 @@ public class Arm extends SubsystemBase {
 
   /**
    * Moves the arm to a certain position
+   * 0 degrees moves the arm downward, -180 moves the arm upward
    * @param degrees the desired destination (degrees)
    */
   public void setRotationDegrees(double degrees) {
