@@ -124,22 +124,25 @@ public class Wrist extends SubsystemBase {
   }
 
   
-  public static void setWristRotationDegrees(double degrees) {
+  /**
+   * Move the wrist to a position
+   * @param degrees the position for the wrist to move to
+   */
+  public void setRotationDegrees(double degrees) {
     var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
-    setpoint = degrees;
-    wristMotor.set(ControlMode.MotionMagic, degreesToTicks(degrees));
+    setpoint = demand;
+    wristMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
   }
 
-  /*
+  /**
    * Sets the speed of the wrist
-   * 
    * @param speed speed to set the wrist to (degrees/second)
    */
-  public static void setWristSpeed(double speed) {
+  public void setSpeed(double speed) {
     wristMotor.set(ControlMode.Velocity, degreesPerSecondToTicksPer100ms(speed));
   }
 
-    /*
+  /**
    * @return the current error position (degrees)
    */
   @Log(name = "Error", rowIndex = 1, columnIndex = 1)
@@ -147,7 +150,7 @@ public class Wrist extends SubsystemBase {
     return ticksToDegrees(wristMotor.getClosedLoopError());
   }
 
-  /*
+  /**
    * @return the velocity of the arm (degrees/second)
    */
   @Log(name = "Speed (deg/sec)", rowIndex = 2, columnIndex = 2)
@@ -155,7 +158,7 @@ public class Wrist extends SubsystemBase {
     return ticksPer100msToDegreesPerSecond(wristMotor.getSelectedSensorVelocity());
   }
 
-  /*
+  /**
    * @return the position of the arm (degrees)
    */
   @Log(name = "Position", rowIndex = 2, columnIndex = 1)
@@ -163,7 +166,7 @@ public class Wrist extends SubsystemBase {
     return ticksToDegrees(wristMotor.getSelectedSensorPosition());
   }
 
-  /*
+  /**
    * @return the position of the arm (ticks)
    */
   @Log(name = "Encoder Position", rowIndex = 1, columnIndex = 3)
@@ -187,7 +190,7 @@ public class Wrist extends SubsystemBase {
     return MAX_ROTATION_DEGREES;
   }
 
-  public double gteSetpoint() {
+  public double getSetpoint() {
     return setpoint;
   }
 

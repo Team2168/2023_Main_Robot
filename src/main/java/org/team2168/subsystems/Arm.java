@@ -125,27 +125,25 @@ public class Arm extends SubsystemBase {
     return degreesToTicks(degrees) / 10.0;
   }
 
-  /*
+  /**
    * Moves the arm to a certain position
-   * 
    * @param degrees the desired destination (degrees)
    */
-  public void setArmRotationDegrees(double degrees) {
+  public void setRotationDegrees(double degrees) {
     var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
-    setpoint = degrees;
+    setpoint = demand;
     armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
   }
 
-  /*
+  /**
    * The speed to set the arm to
-   * 
    * @param speed the speed to set the arm to (degrees/second)
    */
-  public void setArmSpeed(double speed) {
+  public void setSpeed(double speed) {
     armMotor.set(ControlMode.Velocity, speed);
   }
 
-  /*
+  /**
    * @return the current error position (degrees)
    */
   @Log(name = "Error", rowIndex = 1, columnIndex = 1)
@@ -153,7 +151,7 @@ public class Arm extends SubsystemBase {
     return ticksToDegrees(armMotor.getClosedLoopError());
   }
 
-  /*
+  /**
    * @return the velocity of the arm (degrees/second)
    */
   @Log(name = "Speed (deg/sec)", rowIndex = 2, columnIndex = 2)
@@ -161,7 +159,7 @@ public class Arm extends SubsystemBase {
     return ticksPer100msToDegreesPerSecond(armMotor.getSelectedSensorVelocity());
   }
 
-  /*
+  /**
    * @return the position of the arm (degrees)
    */
   @Log(name = "Position", rowIndex = 2, columnIndex = 1)
@@ -169,7 +167,7 @@ public class Arm extends SubsystemBase {
     return ticksToDegrees(armMotor.getSelectedSensorPosition());
   }
 
-  /*
+  /**
    * @return the position of the arm (ticks)
    */
   @Log(name = "Encoder Position", rowIndex = 1, columnIndex = 3)
