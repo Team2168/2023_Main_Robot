@@ -2,6 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+// adapted from Photonvision's AprilTag example code.
 package org.team2168.subsystems;
 
 import edu.wpi.first.networktables.NetworkTable;
@@ -30,10 +31,12 @@ public class PhotonVisionCamera extends SubsystemBase {
   /** Creates a new PhotonVision. */
 
   private static PhotonVisionCamera instance;
+  private static NetworkTableInstance networkTableInstance;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
-    photonCamera = new PhotonCamera(Constants.VisionConstants.CAMERA_NAME);
+    networkTableInstance = NetworkTableInstance.getDefault();
+    photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
 
     try {
       // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
