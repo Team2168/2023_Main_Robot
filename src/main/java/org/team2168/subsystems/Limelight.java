@@ -4,6 +4,11 @@
 
 package org.team2168.subsystems;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -48,52 +53,52 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static NetworkTableEntry ledMode;
 
   // public enum LEDMode {
-  //   CURRENTPIPELINE(0),
-  //   FORCEOFF(1),
-  //   FORCEBLINK(2),
-  //   FORCEON(3);
+  // CURRENTPIPELINE(0),
+  // FORCEOFF(1),
+  // FORCEBLINK(2),
+  // FORCEON(3);
 
-  //   public final int value;
+  // public final int value;
 
-  //   private LEDMode(int value) {
-  //     this.value = value;
-  //   }
+  // private LEDMode(int value) {
+  // this.value = value;
+  // }
   // }
 
   // cam mode
   private static NetworkTableEntry camMode;
 
   // public enum CamMode {
-  //   VISION_PROCESSOR(0),
-  //   DRIVER_CAMERA(1);
+  // VISION_PROCESSOR(0),
+  // DRIVER_CAMERA(1);
 
-  //   public final int camValue;
+  // public final int camValue;
 
-  //   private CamMode(int camValue) {
-  //     this.camValue = camValue;
-  //   }
+  // private CamMode(int camValue) {
+  // this.camValue = camValue;
+  // }
   // }
 
   // pipeline
   private static NetworkTableEntry pipeline;
 
   // public enum Pipeline {
-  //   PIPELINE_ZERO(0),
-  //   PIPELINE_ONE(1),
-  //   PIPELINE_TWO(2),
-  //   PIPELINE_THREE(3),
-  //   PIPELINE_FOUR(4),
-  //   PIPELINE_FIVE(5),
-  //   PIPELINE_SIX(6),
-  //   PIPELINE_SEVEN(7),
-  //   PIPELINE_EIGHT(8),
-  //   PIPELINE_NINE(9);
+  // PIPELINE_ZERO(0),
+  // PIPELINE_ONE(1),
+  // PIPELINE_TWO(2),
+  // PIPELINE_THREE(3),
+  // PIPELINE_FOUR(4),
+  // PIPELINE_FIVE(5),
+  // PIPELINE_SIX(6),
+  // PIPELINE_SEVEN(7),
+  // PIPELINE_EIGHT(8),
+  // PIPELINE_NINE(9);
 
-  //   public final int pipelineValue;
+  // public final int pipelineValue;
 
-  //   private Pipeline(int pipelineValue) {
-  //     this.pipelineValue = pipelineValue;
-  //   }
+  // private Pipeline(int pipelineValue) {
+  // this.pipelineValue = pipelineValue;
+  // }
   // }
 
   // camera stream
@@ -115,14 +120,14 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static NetworkTableEntry snapshot;
 
   // public enum Snapshot {
-  //   RESET_SNAPSHOT_MODE(0),
-  //   TAKE_ONE(1);
+  // RESET_SNAPSHOT_MODE(0),
+  // TAKE_ONE(1);
 
-  //   public final int snapshotValue;
+  // public final int snapshotValue;
 
-  //   private Snapshot(int snapshotValue) {
-  //     this.snapshotValue = snapshotValue;
-  //   }
+  // private Snapshot(int snapshotValue) {
+  // this.snapshotValue = snapshotValue;
+  // }
   // }
 
   // crop values
@@ -151,7 +156,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   public double getOffsetX() {
     return tx.getDouble(0.0);
   }
- 
+
   @Log(name = "Vertical Angle", rowIndex = 3, columnIndex = 3)
   public double getOffsetY() {
     return ty.getDouble(0.0);
@@ -172,12 +177,10 @@ public class Limelight extends SubsystemBase implements Loggable {
     stream.setNumber(streamValue);
   }
 
-
- 
-   public void enableVision(boolean turnOn) {
+  public void enableVision(boolean turnOn) {
 
     isLimelightEnabled = true;
-   }
+  }
 
   public void setCamMode(int camValue) {
     camMode.setNumber(camValue);
@@ -191,7 +194,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     pipeline.setNumber(pipelineValue);
   }
 
-  public void takeSnapshot(int snapshotValue){
+  public void takeSnapshot(int snapshotValue) {
     snapshot.setNumber(snapshotValue);
   }
 
@@ -200,7 +203,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     setLedMode(1);
     setPipeline(0);
     isLimelightEnabled = false;
-    
+
   }
 
   public boolean isLimelightEnabled() {
@@ -220,13 +223,11 @@ public class Limelight extends SubsystemBase implements Loggable {
     return cl.getDouble(0.0);
   }
 
-  
   public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
     return botPose.getDoubleArray(botPoseArray);
   }
 
-  
   public double[] getCameraViewTranslation() {
     double[] cameraViewArray = new double[6];
     return cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
@@ -251,12 +252,12 @@ public class Limelight extends SubsystemBase implements Loggable {
     return tid.getDouble(0.0);
   }
 
-  // empty until current appropiate robot data is avaliable to make this method work.
+  // empty until current appropiate robot data is avaliable to make this method
+  // work.
   // public void getDistanceMeters() {
 
   // }
 
- 
   public void getCropValues() {
     cropValues[0] = -1.0;
     cropValues[1] = 1.0;
@@ -319,6 +320,17 @@ public class Limelight extends SubsystemBase implements Loggable {
     campose = networkTable.getEntry("campose");
   }
 
+  public Pose3d getPose3d() {
+    return new Pose3d(botPoseArrayTwo[1], botPoseArrayTwo[2], botPoseArrayTwo[3],
+        new Rotation3d(Units.degreesToRadians(botPoseArrayTwo[4]), Units.degreesToRadians(botPoseArrayTwo[5]),
+            Units.degreesToRadians(botPoseArrayTwo[6])));
+
+  }
+
+  public Pose2d getPose2d() {
+    return new Pose2d(botPoseArrayTwo[1], botPoseArrayTwo[2],
+        new Rotation2d(Units.degreesToRadians(botPoseArrayTwo[6])));
+  }
 
   @Override
   public void periodic() {
