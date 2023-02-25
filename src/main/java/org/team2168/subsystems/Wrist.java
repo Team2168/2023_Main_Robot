@@ -19,6 +19,30 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class Wrist extends SubsystemBase {
   /** Creates a new Wrist. */
+
+  public enum WristPosition{ //TODO: change all the 0.0s, they are placeholders
+    AUTO_HIGH_CONE_NODE(0.0), //see if auto positions can be the same as the teleop positions
+    AUTO_HIGH_CUBE_NODE(0.0),
+    AUTO_MID_CONE_NODE(0.0),
+    AUTO_MID_CUBE_NODE(0.0),
+    AUTO_HYBRID_NODE(0.0),
+    AUTO_STAGING_MARK(0.0),
+    HIGH_CONE_NODE(0.0),
+    HIGH_CUBE_NODE(0.0),
+    MID_CONE_NODE(0.0),
+    MID_CUBE_NODE(0.0),
+    HYBRID_NODE(0.0),
+    STAGING_MARK(0.0),
+    HP_STATION(0.0),
+    GROUND(0.0); //I don't know if we'll be able to pick up stuff from the ground
+
+    public final double position_degrees;
+
+    private WristPosition(double position_degrees){
+      this.position_degrees = position_degrees;
+    }
+  }
+
   private static TalonFXHelper wristMotor;
   private static Wrist instance = null;
   private static double setpoint = 0.0;

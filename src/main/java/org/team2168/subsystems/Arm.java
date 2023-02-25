@@ -19,6 +19,30 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class Arm extends SubsystemBase {
   /** Creates a new Arm. */
+
+  public enum ArmPosition{ //TODO: change all the 0.0s, they are placeholders
+    AUTO_HIGH_CONE_NODE(0.0), //see if auto positions can be the same as the teleop positions
+    AUTO_HIGH_CUBE_NODE(0.0),
+    AUTO_MID_CONE_NODE(0.0),
+    AUTO_MID_CUBE_NODE(0.0),
+    AUTO_HYBRID_NODE(0.0),
+    AUTO_STAGING_MARK(0.0),
+    HIGH_CONE_NODE(0.0),
+    HIGH_CUBE_NODE(0.0),
+    MID_CONE_NODE(0.0),
+    MID_CUBE_NODE(0.0),
+    HYBRID_NODE(0.0),
+    STAGING_MARK(0.0),
+    HP_STATION(0.0),
+    GROUND(0.0); //I don't know if we'll be able to pick up stuff from the ground
+
+    public final double position_degrees;
+
+    private ArmPosition(double position_degrees){
+      this.position_degrees = position_degrees;
+    }
+  }
+
   private static TalonFXHelper armMotor; 
   private static Arm instance = null;
 
@@ -123,6 +147,15 @@ public class Arm extends SubsystemBase {
 
   public static double degreesPerSecondToTicksPer100ms(double degrees) {
     return degreesToTicks(degrees) / 10.0;
+  }
+
+  /**
+   * How far out the robot arm is in degrees, <strong>is always positive</strong> (as if 0 is the top of the arm's range)
+   * @param inches how far out the arm is in inches
+   * @return how far out the arm is in degrees
+   */
+  public static double inchesToDegrees(double inches) {
+    return Math.toDegrees(Math.asin(inches/Constants.RobotMetrics.ARM_LENGTH));
   }
 
   /**
