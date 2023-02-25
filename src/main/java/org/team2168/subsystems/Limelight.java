@@ -15,6 +15,8 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
+
+  public double[] botPoseArrayTwo = getBotPoseTranslation();
   // standard entries
 
   private static boolean isLimelightEnabled;
