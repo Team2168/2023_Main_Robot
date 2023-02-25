@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -38,7 +40,27 @@ public final class Constants {
     new Rotation3d(0, 0, 0)
     );
   }
+  public static final class CANDevices {
+    public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final double LOOP_TIMESTEP_S = 0.02;
+  public static final class FieldMetrics {
+    public static final double MARKER_SIZE_MM = 152.4;
+    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
+    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+  }
+
+  public static final class Joysticks {
+    public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
+    public static final int OPERATOR_JOYSTICK = 1;//these constants are placeholders. 
+    public static final int BUTTON_BOX_1 = 4;//these constants are placeholders. 
+    public static final int BUTTON_BOX_2 = 8;//these constants are placeholders. 
+    public static final int DRIVER_OPERATOR_E_BACKUP = 2;//these constants are placeholders. 
+    public static final int PID_TEST_JOYSTICK = 5;//these constants are placeholders. 
 }
+}
+

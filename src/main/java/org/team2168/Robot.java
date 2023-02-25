@@ -4,9 +4,13 @@
 
 package org.team2168;
 
+
+import org.team2168.subsystems.Limelight;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import io.github.oblarg.oblog.Logger;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -18,6 +22,8 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private RobotContainer m_robotContainer;
+  private Limelight limelight;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -28,6 +34,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    limelight = Limelight.getInstance();
   }
 
   /**
@@ -44,6 +51,8 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+
+    Logger.updateEntries();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -57,6 +66,8 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    limelight.setPipeline(1);
+    limelight.setLedMode(0);
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -74,9 +85,13 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+    limelight.enableBaseCameraSettings();
+    limelight.setPipeline(1);
+    limelight.setLedMode(0);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
   }
 
   /** This function is called periodically during operator control. */
