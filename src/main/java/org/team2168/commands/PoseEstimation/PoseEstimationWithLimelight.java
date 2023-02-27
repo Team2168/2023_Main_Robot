@@ -65,7 +65,7 @@ public class PoseEstimationWithLimelight extends CommandBase {
     poseEstimator.addVisionMeasurement(
         new Pose2d(new Translation2d(lime.botPoseArrayTwo[1], lime.botPoseArrayTwo[3]),
             Rotation2d.fromDegrees((lime.botPoseArrayTwo[6]))),
-        Timer.getFPGATimestamp() - (lime.getLatencyMs() / 1000) - (lime.getCapturedLatencyTime() / 1000));
+        Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs()) - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,6 +74,8 @@ public class PoseEstimationWithLimelight extends CommandBase {
 
     poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
         drivetrain.getRightEncoderDistance());
+
+    stateStandardDeviations.elementTimes(visionDeviations);
   }
 
   // Called once the command ends or is interrupted.
