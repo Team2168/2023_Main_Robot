@@ -75,7 +75,7 @@ public class PoseEstimationWithLimelight extends CommandBase {
     poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
         drivetrain.getRightEncoderDistance());
 
-    stateStandardDeviations.elementTimes(visionDeviations);
+   
   }
 
   // Called once the command ends or is interrupted.
