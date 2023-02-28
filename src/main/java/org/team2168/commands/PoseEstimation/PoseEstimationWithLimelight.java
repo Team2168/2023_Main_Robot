@@ -5,6 +5,7 @@
 package org.team2168.commands.PoseEstimation;
 
 import org.team2168.Constants;
+import org.team2168.RobotContainer;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
@@ -20,6 +21,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -77,7 +79,7 @@ public class PoseEstimationWithLimelight extends CommandBase {
     if (lime.hasTarget()) {
       poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
           drivetrain.getRightEncoderDistance());
-    } else if (!lime.hasTarget()) {
+    } else if (!lime.hasTarget() && RobotState.isTeleop()) {
       drivetrain.zeroHeading(); // account for gyro drift if vision is lost, resetting the gyro removes all
                                 // drift, if vision is present, the pose estimation will be accurate.
     }
