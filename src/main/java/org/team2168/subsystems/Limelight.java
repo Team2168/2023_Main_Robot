@@ -48,7 +48,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static NetworkTableEntry targetPoseRobotSpace;
   private static NetworkTableEntry botPoseTargetSpace;
   private static NetworkTableEntry tid;
-  private static NetworkTableEntry campose;
+  private static NetworkTableEntry cameraPoseRobotSpace;
   // ledmode enum
   private static NetworkTableEntry ledMode;
 
@@ -317,7 +317,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
     cl = networkTable.getEntry("cl");
-    campose = networkTable.getEntry("campose");
+    cameraPoseRobotSpace = networkTable.getEntry("camerapose_robotspace");
   }
 
   public Pose3d getPose3d() {
