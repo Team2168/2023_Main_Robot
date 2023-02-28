@@ -12,15 +12,22 @@ public class MoveArmToPosition extends CommandBase {
   /** Creates a new MoveArmToPosition. */
   private Arm arm;
   private double inches;
+  private boolean toFaceDown;
   private double errorTolerance;
 
-  public MoveArmToPosition(Arm arm, double inches) {
-    this(arm, inches, 1.0);
+  /**
+   * Moves the arm a certain position
+   * @param arm the Arm subsystem
+   * @param inches the amount of inches for the arm to extend outwards
+   */
+  public MoveArmToPosition(Arm arm, double inches, boolean toFaceDown) {
+    this(arm, inches, toFaceDown, 1.0);
   }
 
-  public MoveArmToPosition(Arm arm, double inches, double errorTolerance) {
+  public MoveArmToPosition(Arm arm, double inches, boolean toFaceDown, double errorTolerance) {
     this.arm = arm;
     this.inches = inches;
+    this.toFaceDown = toFaceDown;
     this.errorTolerance = errorTolerance;
 
     addRequirements(arm);
@@ -33,13 +40,22 @@ public class MoveArmToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    var demand = Arm.inchesToDegrees(inches);
+    var demand = Arm.inchesToDegrees(inches); //gives degrees to move as positive/clockwise
+    if(toFaceDown)
+      //if the arm should be angled downwards, the positive angle becomes negative
+      demand = -demand;
+    else 
+      // if the arm should be angled upwards, the positive angle gets added on to -180 (which is the arm's upper bound)
+      demand = -180 + demand;
+      
     arm.setRotationDegrees(demand);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.setSpeed(0.0);
+  }
 
   // Returns true when the command should end.
   @Override
