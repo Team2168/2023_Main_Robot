@@ -32,9 +32,9 @@ public class PoseEstimationWithLimelight extends CommandBase {
   private Matrix<N3, N1> standardDeviations;
   private Matrix<N3, N1> visionDeviations;
 
-  private Matrix<N3, N1> stateStandardDeviations = VecBuilder.fill(0.02, 0.02, 0.01); // standard base values used by
+  private Matrix<N3, N1> stateStandardDeviations = VecBuilder.fill(0.02, 0.02, Units.degreesToRadians(0.01)); // standard base values used by
                                                                                       // wpilibs.
-  private Matrix<N3, N1> visionStandardDeviations = VecBuilder.fill(0.1, 0.1, 0.1); // standard base values used by
+  private Matrix<N3, N1> visionStandardDeviations = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)); // standard base values used by
                                                                                     // wpilibs.
 
   public PoseEstimationWithLimelight(Limelight lime, Drivetrain drivetrain) {
