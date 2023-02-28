@@ -23,6 +23,9 @@ public class DriveElevator extends CommandBase {
     addRequirements(elevator);
   }
 
+  public DriveElevator(Elevator elevator2, double testJoystickX) {
+  }
+
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
@@ -37,7 +40,7 @@ public class DriveElevator extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    elevator.setSpeedVelocity(0);
+    //elevator.setSpeedVelocity(0);
   }
 
   // Returns true when the command should end.

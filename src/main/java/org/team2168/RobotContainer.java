@@ -12,8 +12,10 @@ import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.Constants.Climber;
+import org.team2168.Constants.Joysticks;
 
 import edu.wpi.first.math.Drake;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -34,6 +36,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Elevator elevator = new Elevator();
+  //public final F310 testJoystick = new F310(Joysticks.PID_TEST_JOYSTICK);
 
   OI oi = OI.getInstance();
 
@@ -80,7 +83,7 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
     oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
-    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
+    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi.testJoystick::getLeftStickRaw_X)); //doesn't work
   }
 
   /**
