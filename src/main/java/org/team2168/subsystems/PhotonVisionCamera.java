@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -25,6 +26,8 @@ import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
+import org.photonvision.targeting.PhotonPipelineResult;
+import org.photonvision.targeting.PhotonTrackedTarget;
 import org.team2168.Constants;
 import org.team2168.Constants.VisionConstants;
 
@@ -36,6 +39,8 @@ public class PhotonVisionCamera extends SubsystemBase {
 
   private static PhotonVisionCamera instance;
   private static NetworkTableInstance networkTableInstance;
+  private static PhotonPipelineResult result;
+  private static List<PhotonTrackedTarget> targets;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
@@ -43,6 +48,8 @@ public class PhotonVisionCamera extends SubsystemBase {
     photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
     robotToCam = new Transform3d(new Translation3d(7.115, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
     new Rotation3d(0, 0, 0));
+
+    result = new PhotonPipelineResult();
 
     try {
       // Attempt to load the AprilTagFieldLayout that will tell us where the tags are on the field.
