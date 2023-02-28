@@ -65,7 +65,8 @@ public class PoseEstimationWithLimelight extends CommandBase {
     poseEstimator.addVisionMeasurement(
         new Pose2d(new Translation2d(lime.botPoseArrayTwo[0], lime.botPoseArrayTwo[2]),
             Rotation2d.fromDegrees((lime.botPoseArrayTwo[5]))),
-        Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs()) - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
+        Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs())
+            - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
 
   }
 
@@ -73,10 +74,14 @@ public class PoseEstimationWithLimelight extends CommandBase {
   @Override
   public void execute() {
 
-    poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
-        drivetrain.getRightEncoderDistance());
+    if (lime.hasTarget()) {
+      poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
+          drivetrain.getRightEncoderDistance());
+    } else if (!lime.hasTarget()) {
+      drivetrain.zeroHeading(); // account for gyro drift if vision is lost, resetting the gyro removes all
+                                // drift, if vision is present, the pose estimation will be accurate.
+    }
 
-   
   }
 
   // Called once the command ends or is interrupted.
