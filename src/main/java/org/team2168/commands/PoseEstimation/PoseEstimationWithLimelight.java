@@ -5,16 +5,12 @@
 package org.team2168.commands.PoseEstimation;
 
 import org.team2168.Constants;
-import org.team2168.RobotContainer;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
-import edu.wpi.first.math.MatBuilder;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
-import edu.wpi.first.math.estimator.UnscentedKalmanFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,10 +28,16 @@ public class PoseEstimationWithLimelight extends CommandBase {
   private Matrix<N3, N1> standardDeviations;
   private Matrix<N3, N1> visionDeviations;
 
-  private Matrix<N3, N1> stateStandardDeviations = VecBuilder.fill(0.02, 0.02, Units.degreesToRadians(0.01)); // standard base values used by
-                                                                                      // wpilibs.
-  private Matrix<N3, N1> visionStandardDeviations = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)); // standard base values used by
-                                                                                    // wpilibs.
+  private Matrix<N3, N1> stateStandardDeviations = VecBuilder.fill(0.02, 0.02, Units.degreesToRadians(0.01)); // standard
+                                                                                                              // base
+                                                                                                              // values
+                                                                                                              // used by
+  // wpilibs.
+  private Matrix<N3, N1> visionStandardDeviations = VecBuilder.fill(0.1, 0.1, Units.degreesToRadians(0.1)); // standard
+                                                                                                            // base
+                                                                                                            // values
+                                                                                                            // used by
+  // wpilibs.
 
   public PoseEstimationWithLimelight(Limelight lime, Drivetrain drivetrain) {
 
@@ -89,6 +91,7 @@ public class PoseEstimationWithLimelight extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    lime.pauseLimelight();
   }
 
   // Returns true when the command should end.
