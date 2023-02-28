@@ -321,15 +321,15 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public Pose3d getPose3d() {
-    return new Pose3d(botPoseArrayTwo[1], botPoseArrayTwo[2], botPoseArrayTwo[3],
-        new Rotation3d(Units.degreesToRadians(botPoseArrayTwo[4]), Units.degreesToRadians(botPoseArrayTwo[5]),
-            Units.degreesToRadians(botPoseArrayTwo[6])));
+    return new Pose3d(botPoseArrayTwo[0], botPoseArrayTwo[1], botPoseArrayTwo[2],
+        new Rotation3d(Units.degreesToRadians(botPoseArrayTwo[3]), Units.degreesToRadians(botPoseArrayTwo[4]),
+            Units.degreesToRadians(botPoseArrayTwo[5])));
 
   }
 
   public Pose2d getPose2d() {
-    return new Pose2d(botPoseArrayTwo[1], botPoseArrayTwo[2],
-        new Rotation2d(Units.degreesToRadians(botPoseArrayTwo[6])));
+    return new Pose2d(botPoseArrayTwo[0], botPoseArrayTwo[1],
+        new Rotation2d(Units.degreesToRadians(botPoseArrayTwo[5])));
   }
 
   @Override
