@@ -369,5 +369,12 @@ public class Limelight extends SubsystemBase implements Loggable {
       
     }
 
+    
+
   }
+
+  public Pose3d getApriltagDimensionsFromFidicualId(){
+    return apriltagValue;
+  }
+  
 }
