@@ -4,6 +4,8 @@
 
 package org.team2168.subsystems;
 
+import org.team2168.Constants;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -25,6 +27,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   // standard entries
 
   private static boolean isLimelightEnabled;
+  public Pose3d apriltagValue;
   private static NetworkTableEntry tv;
   private static NetworkTableEntry tx;
   private static NetworkTableEntry ty;
@@ -341,6 +344,29 @@ public class Limelight extends SubsystemBase implements Loggable {
     } else {
 
       enableBaseCameraSettings();
+    }
+
+    var apriltagId = (int)Math.round(getAprilTagID());
+
+    switch(apriltagId) {
+      case 1:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(0);
+      case 2:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(1);
+      case 3:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(2);
+      case 4:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(3);
+      case 5:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(4);
+      case 6:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(5);
+      case 7:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(6);
+      case 8:
+      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(7);
+
+      
     }
 
   }
