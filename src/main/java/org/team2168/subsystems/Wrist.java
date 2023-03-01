@@ -79,7 +79,7 @@ public class Wrist extends SubsystemBase {
   private static final double ACCELERATION_LIMIT = 0.0; //TODO: update value after testing
   private static final double CRUISE_VELOCITY_LIMIT = 0.0; //TODO: update value after testing
 
-  public Wrist getInstance() {
+  public static Wrist getInstance() {
     if (instance == null)
       instance = new Wrist();
     return instance;  

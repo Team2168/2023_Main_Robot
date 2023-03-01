@@ -12,8 +12,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -46,6 +51,9 @@ public class Arm extends SubsystemBase {
   private static TalonFXHelper armMotor; 
   private static Arm instance = null;
 
+  private static FlywheelSim armSim;
+  private static TalonFXSimCollection armMotorSim;
+
   private static double setpoint = 0.0;
 
   // Current limit configuration
@@ -64,8 +72,8 @@ public class Arm extends SubsystemBase {
   private static final double TICKS_PER_100_MS = TICKS_PER_REV/ 10.0;
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
-  private static final double MIN_ROTATION_TICKS = -10000; 
-  private static final double MAX_ROTATION_TICKS = 10000; //TODO: update number  
+  private static final double MIN_ROTATION_TICKS = degreesToTicks(-180); 
+  private static final double MAX_ROTATION_TICKS = degreesToTicks(0); //TODO: update number  
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
@@ -80,7 +88,7 @@ public class Arm extends SubsystemBase {
   private static final double ACCELERATION_LIMIT = 0.0; //TODO: update value after testing
   private static final double CRUISE_VELOCITY_LIMIT = 0.0; //TODO: update value after testing
 
-  public Arm getInstance() {
+  public static Arm getInstance() {
     if (instance == null)
       instance = new Arm();
     return instance;  
@@ -98,7 +106,9 @@ public class Arm extends SubsystemBase {
     kD = 0.0;
     kF = 0.0;
   }
-  
+
+  private static final double kV = 0.05;
+  private static final double kA = 0.002;
 
   private Arm() {
     armMotor = new TalonFXHelper(Constants.ARM_MOTOR);
@@ -131,6 +141,12 @@ public class Arm extends SubsystemBase {
     armMotor.configSupplyCurrentLimit(talonCurrentLimit);
 
     armMotor.configClosedLoopStatusFrameRates();
+
+    armSim = new FlywheelSim(
+            LinearSystemId.identifyVelocitySystem(kV, kA), 
+            DCMotor.getFalcon500(1), 
+            GEAR_RATIO);
+    armMotorSim = armMotor.getSimCollection();
   }
 
   private static double ticksToDegrees(double ticks) {
@@ -232,5 +248,17 @@ public class Arm extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+  }
+
+  @Override
+  public void simulationPeriodic(){
+    armMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+    armSim.setInput(armMotorSim.getMotorOutputLeadVoltage());
+    armSim.update(0.02);
+
+    double simVelocityTicksPer100ms = armSim.getAngularVelocityRPM()*ONE_HUNDRED_MS_PER_MINUTE;
+    armMotorSim.setIntegratedSensorVelocity((int) simVelocityTicksPer100ms);
+    armMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + 0.02*simVelocityTicksPer100ms));
   }
 }
