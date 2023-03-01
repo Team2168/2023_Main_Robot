@@ -7,16 +7,16 @@ package org.team2168;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.Arm.BumpArm;
+import org.team2168.commands.Arm.RotateArm;
+import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
-import org.team2168.utils.F310;
+import org.team2168.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import io.github.oblarg.oblog.Logger;
-import io.github.oblarg.oblog.annotations.Config;
-import io.github.oblarg.oblog.annotations.Log;
 import io.github.oblarg.oblog.Logger;
 
 /**
@@ -29,9 +29,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = Limelight.getInstance();
- 
+  private final Arm arm = Arm.getInstance();
+  private final Wrist wrist = Wrist.getInstance();
 
-
+  private final OI oi = OI.getInstance();
+  
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -62,7 +64,11 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
- 
+    oi.testJoystick.ButtonA().whileTrue(new RotateArm(arm, -45));
+    oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
+    oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
+    oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
+
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
