@@ -113,6 +113,9 @@ public class PhotonVisionCamera extends SubsystemBase {
     avgXCameraTargetTransforms = sumOfXCameraTargetTransforms/targets.size();
     avgYCameraTargetTransforms = sumOfYCameraTargetTransforms/targets.size();
 
+    sumOfXCameraTargetTransforms = 0.0;
+    sumOfYCameraTargetTransforms = 0.0;
+
     
 
   }
