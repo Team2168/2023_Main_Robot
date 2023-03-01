@@ -34,18 +34,18 @@ public class DriveElevator extends CommandBase {
   @Override
   public void execute() {
     //elevator.setPercentOutput(elevatorPercentOutput);
-    elevator.setSpeedVelocity(0.8 * elevatorSpeed.getAsDouble());
+    elevator.setSpeedVelocity(elevatorSpeed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    //elevator.setSpeedVelocity(0);
+    elevator.setPercentOutput(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (elevator.getPosition() == 0);
+    return true;
   }
 }

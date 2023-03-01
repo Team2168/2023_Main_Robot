@@ -15,7 +15,7 @@ import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import java.security.KeyFactory;
 
 import org.team2168.Constants;
-import org.team2168.Constants.Climber;
+import org.team2168.Constants.ElevatorMotors;
 import org.team2168.utils.TalonFXHelper;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -24,18 +24,18 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class Elevator extends SubsystemBase {
 
-  private static final double kI = 0.3; //intergral (TODO: replace placeholder)
-  private static final double kD = 0.3; //derivative (TODO: replace placeholder)
-  private static final double kF = 0.3; //feedforward: constant output added on which counteracts forces (TODO: replace placeholder)
-  private static final double kP = 0.5; //proportional: a proportion of the input (TODO: replace placeholder)
-  private static final double kArbitraryFeedForward = 0.1;
+  private static final double kI = 0.1; //intergral 
+  private static final double kD = 0.1; //derivative 
+  private static final double kF = 0.1; //feedforward: constant output added on which counteracts forces 
+  private static final double kP = 0.3; //proportional: a proportion of the input 
+  private static final double kArbitraryFeedForward = 0.05;
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
 
-  private static final double CURRENT_LIMIT = 2; //(TODO: replace placeholder), it limits when the feature is activited (in amps)
-  private static final double THRESHOLD_CURRENT = 3; //(TODO: replace placeholder), it tells what the threshold should be for the limit to be activited (in amps)
-  private static final double THRESHOLD_TIME = 3; //(TODO: replace placeholder), time in seconds of when the limiting should happen after the threshold has been overreached
+  private static final double CURRENT_LIMIT = 20; //it limits when the feature is activited (in amps)
+  private static final double THRESHOLD_CURRENT = 30; //it tells what the threshold should be for the limit to be activited (in amps)
+  private static final double THRESHOLD_TIME = 0.2; //time in seconds of when the limiting should happen after the threshold has been overreached
 
   private static final double TIME_UNITS_OF_VELOCITY = 0.1; //in seconds 
   private static final double TICKS_PER_REV = 2048;
@@ -62,8 +62,8 @@ public class Elevator extends SubsystemBase {
 
   /** Creates a new Elevator. */
   public Elevator() {
-    elevatorMotorLeft = new TalonFXHelper(Climber.ELEVATOR_MOTOR_LEFT); //these are placeholder constant values
-    elevatorMotorRight = new TalonFXHelper(Climber.ELEVATOR_MOTOR_RIGHT); //these are placeholder constant values
+    elevatorMotorLeft = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR_LEFT); //these are placeholder constant values
+    elevatorMotorRight = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR_RIGHT); //these are placeholder constant values
 
     elevatorMotorLeft.configNeutralDeadband(NEUTRAL_DEADBAND);
     elevatorMotorRight.configNeutralDeadband(NEUTRAL_DEADBAND);
@@ -88,7 +88,7 @@ public class Elevator extends SubsystemBase {
     elevatorMotorLeft.configSupplyCurrentLimit(talonCurrentLimit);
 
     //this tells the second motor to do the same things as the first motor at the same exact time
-    elevatorMotorRight.set(ControlMode.Follower, Constants.Climber.ELEVATOR_MOTOR_LEFT);
+    elevatorMotorRight.set(ControlMode.Follower, Constants.ElevatorMotors.ELEVATOR_MOTOR_LEFT);
     elevatorMotorRight.setInverted(InvertType.OpposeMaster);
 
     elevatorMotorLeft.configFactoryDefault();
@@ -118,19 +118,19 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
   }
 
-  @Log(name = "Speed (Velocity)")
+  @Log(name = "Speed (Velocity)", rowIndex = 3, columnIndex = 0)
   public void setSpeedVelocity(double speed) {
     elevatorMotorLeft.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
   }
 
-  @Log(name = "Position")
+  @Log(name = "Position", rowIndex = 3, columnIndex = 1)
   public void setPosition(double inches){
     //this.position = position;
 
     elevatorMotorLeft.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
-  @Log(name = "Percent Output")
+  @Log(name = "Percent Output", rowIndex = 3, columnIndex = 2)
   public void setPercentOutput(double speed) {
     elevatorMotorLeft.set(ControlMode.PercentOutput, INCHES_PER_REV, DemandType.ArbitraryFeedForward, 0.0);
   }

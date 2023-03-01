@@ -11,10 +11,8 @@ import org.team2168.commands.DriveElevatorToPosition;
 import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.subsystems.ExampleSubsystem;
-import org.team2168.Constants.Climber;
 import org.team2168.Constants.Joysticks;
 
-import edu.wpi.first.math.Drake;
 import edu.wpi.first.wpilibj.Joystick;
 import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
@@ -87,10 +85,12 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     
-    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.SECONDNODE));
+    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.SECONDNODE));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.Climber.FIRSTNODE));
-    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi.testJoystick::getLeftStickRaw_X)); //doesn't work
+    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.FIRSTNODE));
+    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi.testJoystick::getLeftStickRaw_X)); //doesn't work, non-interpolated version used since interpolated version doesn't work as well
+
+    
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
