@@ -10,6 +10,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
@@ -52,6 +54,13 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static NetworkTableEntry botPoseTargetSpace;
   private static NetworkTableEntry tid;
   private static NetworkTableEntry cameraPoseRobotSpace;
+  public static double camerapose_x;
+  public static double camerapose_y;
+  public static double camerapose_z;
+  public static double camerapose_roll;
+  public static double camerapose_pitch;
+  public static double camerapose_yaw;
+
   // ledmode enum
   private static NetworkTableEntry ledMode;
 
@@ -232,7 +241,14 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public double[] getCameraViewTranslation() {
+   
     double[] cameraViewArray = new double[6];
+    camerapose_x = cameraViewArray[0];
+    camerapose_y = cameraViewArray[1];
+    camerapose_z = cameraViewArray[2];
+    camerapose_roll = cameraViewArray[3];
+    camerapose_pitch = cameraViewArray[4];
+    camerapose_yaw = cameraViewArray[5];
     return cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
   }
 
@@ -335,6 +351,11 @@ public class Limelight extends SubsystemBase implements Loggable {
         new Rotation2d(Units.degreesToRadians(botPoseArrayTwo[5])));
   }
 
+  public Pose3d getCameraTransformFromBotPose() {
+    return getPose3d().transformBy(new Transform3d(new Translation3d(camerapose_x, camerapose_y,
+    camerapose_z), new Rotation3d(camerapose_roll, camerapose_pitch, camerapose_yaw)));
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run\
@@ -376,5 +397,5 @@ public class Limelight extends SubsystemBase implements Loggable {
   public Pose3d getApriltagDimensionsFromFidicualId(){
     return apriltagValue;
   }
-  
+
 }

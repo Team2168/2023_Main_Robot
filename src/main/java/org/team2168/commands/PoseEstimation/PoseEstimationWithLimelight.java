@@ -94,9 +94,7 @@ public class PoseEstimationWithLimelight extends CommandBase {
 
   }
 
-  public Pose3d getCameraTransform() {
-    return lime.getPose3d().transformBy(new Transform3d(new Translation3d(), new Rotation3d()));
-  }
+  
 
   // Called once the command ends or is interrupted.
   @Override
