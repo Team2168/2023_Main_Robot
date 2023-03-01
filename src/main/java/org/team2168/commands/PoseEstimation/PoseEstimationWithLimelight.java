@@ -12,8 +12,13 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
@@ -87,6 +92,10 @@ public class PoseEstimationWithLimelight extends CommandBase {
                                 // drift, if vision is present, the pose estimation will be accurate.
     }
 
+  }
+
+  public Pose3d getCameraTransform() {
+    return lime.getPose3d().transformBy(new Transform3d(new Translation3d(), new Rotation3d()));
   }
 
   // Called once the command ends or is interrupted.
