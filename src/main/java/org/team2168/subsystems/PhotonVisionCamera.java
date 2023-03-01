@@ -17,6 +17,7 @@ import java.util.Optional;
 
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -41,9 +42,26 @@ public class PhotonVisionCamera extends SubsystemBase {
   private static NetworkTableInstance networkTableInstance;
   private static PhotonPipelineResult result;
   private static List<PhotonTrackedTarget> targets;
+  private static PhotonTrackedTarget singleTarget;
+
+  private static double xCameraTargetTransform;
+  private static double yCameraTargetTransform;
+  private static double zCameraTargetTransform;
+
+  private static double sumOfXCameraTargetTransforms;
+  private static double sumOfYCameraTargetTransforms;
+  private static double sumOfZCameraTargetTransforms;
+
+  private static double avgXCameraTargetTransforms;
+  private static double avgYCameraTargetTransforms;
+  private static double avgZCameraTargetTransforms;
+
+  private static Pose3d avgCameraTargetTransform;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
+    sumOfXCameraTargetTransforms = 0.0;
+    sumOfYCameraTargetTransforms = 0.0;
     networkTableInstance = NetworkTableInstance.getDefault();
     photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
     robotToCam = new Transform3d(new Translation3d(7.115, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
@@ -83,5 +101,19 @@ public class PhotonVisionCamera extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    result = photonCamera.getLatestResult();
+    targets = result.getTargets();
+
+    for (int i = 0; i < targets.size(); i++){
+      singleTarget = targets.get(i);
+      sumOfXCameraTargetTransforms = sumOfXCameraTargetTransforms + singleTarget.getBestCameraToTarget().getX();
+      sumOfYCameraTargetTransforms = sumOfYCameraTargetTransforms + singleTarget.getBestCameraToTarget().getY();
+    }
+
+    avgXCameraTargetTransforms = sumOfXCameraTargetTransforms/targets.size();
+    avgYCameraTargetTransforms = sumOfYCameraTargetTransforms/targets.size();
+
+    
+
   }
 }

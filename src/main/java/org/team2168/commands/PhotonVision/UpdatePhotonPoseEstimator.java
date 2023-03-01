@@ -32,7 +32,9 @@ public class UpdatePhotonPoseEstimator extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    robotToCam = new Transform3d(new Translation3d(-turretRadius*Math.sin(turret.getTurretAngle()), turretRadius*Math.cos(turret.getTurretAngle()), 0.0), new Rotation3d(0.0, 0.0, 0.0));
+    // robotToCam = new Transform3d(new Translation3d(turretRadius*Math.cos(turret.getTurretAngle()), //need drivetrain code to integrate gyro angle into the transformation.
+    // turretRadius*Math.sin(turret.getTurretAngle()), 0.0), 
+    // new Rotation3d(0.0, 0.0, -Units.degreesToRadians(turret.getTurretAngle())));
     photonVisionCamera.photonPoseEstimator.setRobotToCameraTransform(robotToCam);
   }
 
