@@ -241,7 +241,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public double[] getCameraViewTranslation() {
-   
+
     double[] cameraViewArray = new double[6];
     camerapose_x = cameraViewArray[0];
     camerapose_y = cameraViewArray[1];
@@ -353,7 +353,9 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   public Pose3d getCameraTransformFromBotPose() {
     return getPose3d().transformBy(new Transform3d(new Translation3d(camerapose_x, camerapose_y,
-    camerapose_z), new Rotation3d(camerapose_roll, camerapose_pitch, camerapose_yaw)));
+        camerapose_z),
+        new Rotation3d(Units.degreesToRadians(camerapose_roll),
+            Units.degreesToRadians(camerapose_pitch), Units.degreesToRadians(camerapose_yaw))));
   }
 
   @Override
@@ -367,34 +369,31 @@ public class Limelight extends SubsystemBase implements Loggable {
       enableBaseCameraSettings();
     }
 
-    var apriltagId = (int)Math.round(getAprilTagID());
+    var apriltagId = (int) Math.round(getAprilTagID());
 
-    switch(apriltagId) {
+    switch (apriltagId) {
       case 1:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(0);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(0);
       case 2:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(1);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(1);
       case 3:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(2);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(2);
       case 4:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(3);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(3);
       case 5:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(4);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(4);
       case 6:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(5);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(5);
       case 7:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(6);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(6);
       case 8:
-      apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(7);
+        apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(7);
 
-      
     }
-
-    
 
   }
 
-  public Pose3d getApriltagDimensionsFromFidicualId(){
+  public Pose3d getApriltagDimensionsFromFidicualId() {
     return apriltagValue;
   }
 
