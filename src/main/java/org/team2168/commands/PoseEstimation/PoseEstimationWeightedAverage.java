@@ -60,6 +60,8 @@ public class PoseEstimationWeightedAverage extends CommandBase {
   @Override
   public void execute() {
 
+    // this gets an weighted average of the camera estimated apriltag pose, as well
+    // as the actual position of the apriltag in space.
     double aprilTagPoseAverageX = filter.calculate(
         lime.getApriltagDimensionsFromFidicualId().getX() + lime.getAprilTagPoseRelativeToLimelight().getX());
     double aprilTagPoseAverageY = filter.calculate(
@@ -73,6 +75,12 @@ public class PoseEstimationWeightedAverage extends CommandBase {
     double apriltagPoseAverageYaw = filter.calculate(lime.getApriltagDimensionsFromFidicualId().getRotation().getZ() +
         lime.getAprilTagPoseRelativeToLimelight().getRotation().getZ());
 
+    // this calculates the weighted average of each pose3d component, in the x y z
+    // plane. The horizontal distance point is calculated by getting the difference
+    // between x2, and x1. This essentially forms a right triangle between the
+    // apriltag, and estimated camerapose, we then fuse this vision data with data
+    // reported by the gyro to get a weighted average of the (x, y, z, roll, pitch,
+    // yaw)
     double weightedAverageX = filter.calculate(
         (aprilTagPoseAverageX - lime.getPose3d().getX()) + drive.getPose().getX());
     double weightedAverageY = filter
