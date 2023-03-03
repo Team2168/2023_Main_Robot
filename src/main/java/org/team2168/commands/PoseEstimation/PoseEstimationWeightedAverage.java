@@ -79,23 +79,26 @@ public class PoseEstimationWeightedAverage extends CommandBase {
         .calculate((aprilTagPoseAverageY - lime.getPose3d().getY()) + drive.getPose().getY());
     double weightedAverageZ = filter
         .calculate((aprilTagPoseAverageZ - lime.getPose3d().getZ()) + drive.getPose().getY());
-    double weightedAverageRoll = filter.calculate(apriltagPoseAverageRoll - lime.getPose3d().getRotation().getX() + drive.getRoll());
-    double weightedAveragePitch = filter.calculate(apriltagPoseAveragePitch - lime.getPose3d().getZ() + drive.getPitch());
+    double weightedAverageRoll = filter
+        .calculate(apriltagPoseAverageRoll - lime.getPose3d().getRotation().getX() + drive.getRoll());
+    double weightedAveragePitch = filter
+        .calculate(apriltagPoseAveragePitch - lime.getPose3d().getZ() + drive.getPitch());
     double weightedAverageYaw = filter.calculate(
         apriltagPoseAverageYaw - lime.getPose3d().getRotation().getZ() + drive.getPose().getRotation().getDegrees());
-
 
     Pose3d weightedPose = new Pose3d(new Translation3d(weightedAverageX, weightedAverageY, weightedAverageZ),
         new Rotation3d(weightedAverageRoll, weightedAveragePitch, weightedAverageYaw));
 
-    if(lime.hasTarget()){
-    poseEstimator.addVisionMeasurement(weightedPose.toPose2d(),
-        Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs()) -
-            Units.secondsToMilliseconds(lime.getCapturedLatencyTime()));
+    if (lime.hasTarget()) {
+      poseEstimator.addVisionMeasurement(weightedPose.toPose2d(),
+          Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs()) -
+              Units.secondsToMilliseconds(lime.getCapturedLatencyTime()));
 
-    poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance());
-    } else if(!lime.hasTarget()) {
-      poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance(), drive.getPose());
+      poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance());
+      poseEstimator.getEstimatedPosition();
+    } else if (!lime.hasTarget()) {
+      poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(),
+          drive.getRightEncoderDistance(), drive.getPose());
     }
 
   }
