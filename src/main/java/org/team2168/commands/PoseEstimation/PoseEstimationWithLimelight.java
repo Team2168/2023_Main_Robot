@@ -88,7 +88,9 @@ public class PoseEstimationWithLimelight extends CommandBase {
           drivetrain.getRightEncoderDistance());
           poseEstimator.getEstimatedPosition();
     } else if (!lime.hasTarget() && RobotState.isTeleop()) {
-      drivetrain.zeroHeading(); // account for gyro drift if vision is lost, resetting the gyro removes all
+      drivetrain.zeroHeading();
+      poseEstimator.resetPosition(poseEstimator.getEstimatedPosition().getRotation(), 
+      drivetrain.getLeftEncoderDistance(), drivetrain.getRightEncoderDistance(), poseEstimator.getEstimatedPosition()); // account for gyro drift if vision is lost, resetting the gyro removes all
                                 // drift, if vision is present, the pose estimation will be accurate.
     }
 
