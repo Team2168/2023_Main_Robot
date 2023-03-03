@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class PoseEstimationWeightedAverage extends CommandBase {
 
   public Limelight lime;
-  public LinearFilter filter; // this filter performs exponential smoothing to calulate the moving average
+  public LinearFilter filter; // this filter performs exponential smoothing to calulate the moving (weighted) average
                               // between gyro and vision pose estimation
   public Drivetrain drive;
   public DifferentialDrivePoseEstimator poseEstimator;
