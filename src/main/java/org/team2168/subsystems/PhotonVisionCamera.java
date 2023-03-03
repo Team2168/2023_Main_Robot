@@ -38,30 +38,29 @@ public class PhotonVisionCamera extends SubsystemBase {
   private Transform3d robotToCam;
   /** Creates a new PhotonVision. */
 
+  private static AprilTagFieldLayout fieldLayout;
+
   private static PhotonVisionCamera instance;
   private static NetworkTableInstance networkTableInstance;
   private static PhotonPipelineResult result;
   private static List<PhotonTrackedTarget> targets;
   private static PhotonTrackedTarget singleTarget;
 
-  private static double xCameraTargetTransform;
-  private static double yCameraTargetTransform;
-  private static double zCameraTargetTransform;
+  private static double xCalcCameraPose;
+  private static double yCalcCameraPose;
 
-  private static double sumOfXCameraTargetTransforms;
-  private static double sumOfYCameraTargetTransforms;
-  private static double sumOfZCameraTargetTransforms;
+  private static double sumOfXCalcCameraPose;
+  private static double sumOfYCalcCameraPose;
 
-  private static double avgXCameraTargetTransforms;
-  private static double avgYCameraTargetTransforms;
-  private static double avgZCameraTargetTransforms;
+  private static double avgXCameraPose;
+  private static double avgYCameraPose;
 
-  private static Pose3d avgCameraTargetTransform;
+  private static Pose3d avgCameraPose;
+  private static int targetID;
+  private static Pose3d targetPose;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
-    sumOfXCameraTargetTransforms = 0.0;
-    sumOfYCameraTargetTransforms = 0.0;
     networkTableInstance = NetworkTableInstance.getDefault();
     photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
     robotToCam = new Transform3d(new Translation3d(7.115, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
@@ -101,22 +100,23 @@ public class PhotonVisionCamera extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    sumOfXCalcCameraPose = 0.0;
+    sumOfYCalcCameraPose = 0.0;
+
     result = photonCamera.getLatestResult();
     targets = result.getTargets();
 
     for (int i = 0; i < targets.size(); i++){
       singleTarget = targets.get(i);
-      sumOfXCameraTargetTransforms = sumOfXCameraTargetTransforms + singleTarget.getBestCameraToTarget().getX();
-      sumOfYCameraTargetTransforms = sumOfYCameraTargetTransforms + singleTarget.getBestCameraToTarget().getY();
+      targetID = singleTarget.getFiducialId();
+      targetPose = fieldLayout.getTagPose(targetID).get();
+      
+      sumOfXCalcCameraPose = sumOfXCalcCameraPose + (targetPose.getX() - singleTarget.getBestCameraToTarget().getX());
+      sumOfYCalcCameraPose = sumOfYCalcCameraPose + (targetPose.getY() - singleTarget.getBestCameraToTarget().getY());
     }
 
-    avgXCameraTargetTransforms = sumOfXCameraTargetTransforms/targets.size();
-    avgYCameraTargetTransforms = sumOfYCameraTargetTransforms/targets.size();
-
-    sumOfXCameraTargetTransforms = 0.0;
-    sumOfYCameraTargetTransforms = 0.0;
-
-    
-
+    avgXCameraPose = sumOfXCalcCameraPose/targets.size();
+    avgYCameraPose = sumOfYCalcCameraPose/targets.size();
+    avgCameraPose = new Pose3d(avgXCameraPose, avgYCameraPose, Constants.VisionConstants.CAMERA_HEIGHT_M, new Rotation3d()); // replace Rotation3d with Drivetrain gyro angle
   }
 }
