@@ -260,6 +260,13 @@ public class Drivetrain extends SubsystemBase {
     return -pidgey.getRate();
   }
 
+  public double getRoll() {
+    return pidgey.getRoll();
+  }
+
+  public double getYaw() {
+    return pidgey.getYaw();
+  }
   /**
    * Get average encoder distance
    *
