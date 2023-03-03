@@ -411,6 +411,11 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   }
 
+  public double getEstimatedDistance() {
+    return Math.sqrt((Math.pow(this.getAprilTagPoseRelativeToLimelight().getZ() - this.getPose2d().getY(), 2)
+     + Math.pow(this.getAprilTagPoseRelativeToLimelight().getX() - this.getPose2d().getX(), 2)));
+  }
+
   public Pose3d getApriltagDimensionsFromFidicualId() {
     return apriltagValue;
   }
