@@ -77,6 +77,9 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //this doesn't work for some reason
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -88,9 +91,6 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.SECONDNODE));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
     oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.FIRSTNODE));
-    oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi.testJoystick::getLeftStickRaw_X)); //doesn't work, non-interpolated version used since interpolated version doesn't work as well
-
-    
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }

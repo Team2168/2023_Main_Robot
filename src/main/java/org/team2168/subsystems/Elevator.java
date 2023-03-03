@@ -50,8 +50,7 @@ public class Elevator extends SubsystemBase {
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
-  private TalonFXHelper elevatorMotorLeft;
-  private TalonFXHelper elevatorMotorRight;
+  private TalonFXHelper elevatorMotor;
   //private double position; //height in inches
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
 
@@ -62,37 +61,30 @@ public class Elevator extends SubsystemBase {
 
   /** Creates a new Elevator. */
   public Elevator() {
-    elevatorMotorLeft = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR_LEFT); //these are placeholder constant values
-    elevatorMotorRight = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR_RIGHT); //these are placeholder constant values
+    elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
 
-    elevatorMotorLeft.configNeutralDeadband(NEUTRAL_DEADBAND);
-    elevatorMotorRight.configNeutralDeadband(NEUTRAL_DEADBAND);
-    elevatorMotorLeft.setNeutralMode(NeutralMode.Brake);
-    elevatorMotorRight.setNeutralMode(NeutralMode.Brake);
+    elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
+    elevatorMotor.setNeutralMode(NeutralMode.Brake);
 
-    //elevatorMotorLeft.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
-    //elevatorMotorLeft.setSensorPhase(kSensorPhase);
+    //elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
+    //elevatorMotor.setSensorPhase(kSensorPhase);
     //elevatorMotorLeft.setInverted(kMotorInvert);
 
     //sets the gains
-    elevatorMotorLeft.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
-    elevatorMotorLeft.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
-    elevatorMotorLeft.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
-    elevatorMotorLeft.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
-    elevatorMotorLeft.configMotionAcceleration(ACCELERATION_LIMIT);
+    elevatorMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
+    elevatorMotor.config_kP(kPIDLoopIdx, kP, kTimeoutMs);
+    elevatorMotor.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
+    elevatorMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
+    elevatorMotor.configMotionAcceleration(ACCELERATION_LIMIT);
 
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)
-    elevatorMotorRight.configSupplyCurrentLimit(talonCurrentLimit);
-    elevatorMotorLeft.configSupplyCurrentLimit(talonCurrentLimit);
+    elevatorMotor.configSupplyCurrentLimit(talonCurrentLimit);
 
-    //this tells the second motor to do the same things as the first motor at the same exact time
-    elevatorMotorRight.set(ControlMode.Follower, Constants.ElevatorMotors.ELEVATOR_MOTOR_LEFT);
-    elevatorMotorRight.setInverted(InvertType.OpposeMaster);
+    elevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);
 
-    elevatorMotorLeft.configFactoryDefault();
-    elevatorMotorRight.configFactoryDefault();
+    elevatorMotor.configFactoryDefault();
   }
 
   public static Elevator getInstance(){
@@ -120,29 +112,29 @@ public class Elevator extends SubsystemBase {
 
   @Log(name = "Speed (Velocity)", rowIndex = 3, columnIndex = 0)
   public void setSpeedVelocity(double speed) {
-    elevatorMotorLeft.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
+    elevatorMotor.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
   }
 
   @Log(name = "Position", rowIndex = 3, columnIndex = 1)
   public void setPosition(double inches){
     //this.position = position;
 
-    elevatorMotorLeft.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+    elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   @Log(name = "Percent Output", rowIndex = 3, columnIndex = 2)
-  public void setPercentOutput(double speed) {
-    elevatorMotorLeft.set(ControlMode.PercentOutput, INCHES_PER_REV, DemandType.ArbitraryFeedForward, 0.0);
+  public void setPercentOutput(double percentOutput) {
+    elevatorMotor.set(ControlMode.PercentOutput, percentOutput, DemandType.ArbitraryFeedForward, 0.0);
   }
 
 
   @Log()
   public void setToZero(){
-    elevatorMotorLeft.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, 0);
+    elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, 0);
   }
 
   public double getPosition(){
-    return elevatorMotorLeft.get();
+    return elevatorMotor.get();
   }
 
   @Override

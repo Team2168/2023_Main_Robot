@@ -19,8 +19,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 public final class Constants {
 
   public static final class ElevatorMotors{
-    public static final int ELEVATOR_MOTOR_RIGHT = 15; 
-    public static final int ELEVATOR_MOTOR_LEFT = 14; 
+    public static final int ELEVATOR_MOTOR = 14; 
     public static final double FIRSTNODE = 22.07;
     public static final double SECONDNODE = 41.75;
   }
