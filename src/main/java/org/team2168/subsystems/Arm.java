@@ -18,7 +18,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.wpilibj.RobotController;
-import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -51,7 +51,7 @@ public class Arm extends SubsystemBase {
   private static TalonFXHelper armMotor; 
   private static Arm instance = null;
 
-  private static FlywheelSim armSim;
+  private static SingleJointedArmSim armSim;
   private static TalonFXSimCollection armMotorSim;
 
   private static double setpoint = 0.0;
@@ -101,10 +101,10 @@ public class Arm extends SubsystemBase {
   private static final double kF;
 
   static{
-    kP = 0.0;
-    kI = 0.0;
-    kD = 0.0;
-    kF = 0.0;
+    kP = 0.5;
+    kI = 0.01;
+    kD = 0.01;
+    kF = 0.001;
   }
 
   private static final double kV = 0.05;
@@ -142,10 +142,13 @@ public class Arm extends SubsystemBase {
 
     armMotor.configClosedLoopStatusFrameRates();
 
-    armSim = new FlywheelSim(
-            LinearSystemId.identifyVelocitySystem(kV, kA), 
-            DCMotor.getFalcon500(1), 
-            GEAR_RATIO);
+    armSim = new SingleJointedArmSim(LinearSystemId.identifyPositionSystem(kV, kA), 
+                                    DCMotor.getFalcon500(1), 
+                                    GEAR_RATIO, 
+                                    Constants.RobotMetrics.ARM_LENGTH, 
+                                    Math.toRadians(MIN_ROTATION_DEGREES), 
+                                    Math.toRadians(MAX_ROTATION_DEGREES), 
+                                    true);
     armMotorSim = armMotor.getSimCollection();
   }
 
@@ -257,7 +260,7 @@ public class Arm extends SubsystemBase {
     armSim.setInput(armMotorSim.getMotorOutputLeadVoltage());
     armSim.update(0.02);
 
-    double simVelocityTicksPer100ms = armSim.getAngularVelocityRPM()*ONE_HUNDRED_MS_PER_MINUTE;
+    double simVelocityTicksPer100ms = degreesToTicks(Math.toDegrees(armSim.getVelocityRadPerSec()/10));
     armMotorSim.setIntegratedSensorVelocity((int) simVelocityTicksPer100ms);
     armMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + 0.02*simVelocityTicksPer100ms));
   }
