@@ -416,7 +416,7 @@ public class Limelight extends SubsystemBase implements Loggable {
         break;
       default:
       apriltagValue = new Pose3d();
-      break;
+ 
 
     }
 
