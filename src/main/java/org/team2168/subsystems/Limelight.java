@@ -392,20 +392,31 @@ public class Limelight extends SubsystemBase implements Loggable {
     switch (apriltagId) {
       case 1:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(0);
+        break;
       case 2:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(1);
+        break;
       case 3:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(2);
+        break;
       case 4:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(3);
+        break;
       case 5:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(4);
+        break;
       case 6:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(5);
+        break;
       case 7:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(6);
+        break;
       case 8:
         apriltagValue = Constants.AprilTagPoses.apriltagPoses.get(7);
+        break;
+      default:
+      apriltagValue = new Pose3d();
+      break;
 
     }
 
