@@ -21,11 +21,13 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
+import org.photonvision.PhotonUtils;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
@@ -49,15 +51,24 @@ public class PhotonVisionCamera extends SubsystemBase {
   private static double xCalcCameraPose;
   private static double yCalcCameraPose;
 
+  private static double sumCalcRobotPoseX;
+  private static double sumCalcRobotPoseY;
+  private static double sumCalcRobotPoseZ;
+
   private static double sumOfXCalcCameraPose;
   private static double sumOfYCalcCameraPose;
 
   private static double avgXCameraPose;
   private static double avgYCameraPose;
 
+  private static double calcRobotPoseRadians;
+
   private static Pose3d avgCameraPose;
+  private static Pose3d avgRobotPose;
   private static int targetID;
   private static Pose3d targetPose;
+  private static Pose3d singleTagRobotPose;
+  private static double numTargets;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
@@ -97,26 +108,46 @@ public class PhotonVisionCamera extends SubsystemBase {
     return instance;
   }
 
+  public Pose3d getAvgRobotPose() { // gets Average Robot Pose calculated from sum of Target Data
+    return avgRobotPose;
+  }
+
+  public List<PhotonTrackedTarget> getTargets() {
+    return photonCamera.getLatestResult().getTargets();
+  }
+  public PhotonTrackedTarget getBestTarget() {
+    return photonCamera.getLatestResult().getBestTarget();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    sumOfXCalcCameraPose = 0.0;
-    sumOfYCalcCameraPose = 0.0;
+    sumCalcRobotPoseX = 0.0;
+    sumCalcRobotPoseY = 0.0;
+    sumCalcRobotPoseZ = 0.0;
 
     result = photonCamera.getLatestResult();
     targets = result.getTargets();
+    numTargets = targets.size();
 
-    for (int i = 0; i < targets.size(); i++){
+    for (int i = 0; i < numTargets; i++){
       singleTarget = targets.get(i);
       targetID = singleTarget.getFiducialId();
       targetPose = fieldLayout.getTagPose(targetID).get();
+
+      singleTagRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(singleTarget.getBestCameraToTarget(), fieldLayout.getTagPose(singleTarget.getFiducialId()).get(), robotToCam);
+      sumCalcRobotPoseX = sumCalcRobotPoseX + singleTagRobotPose.getX();
+      sumCalcRobotPoseY = sumCalcRobotPoseY + singleTagRobotPose.getY();
+      sumCalcRobotPoseZ = sumCalcRobotPoseZ + singleTagRobotPose.getZ();
       
-      sumOfXCalcCameraPose = sumOfXCalcCameraPose + (targetPose.getX() - singleTarget.getBestCameraToTarget().getX());
-      sumOfYCalcCameraPose = sumOfYCalcCameraPose + (targetPose.getY() - singleTarget.getBestCameraToTarget().getY());
+      // sumOfXCalcCameraPose = sumOfXCalcCameraPose + (targetPose.getX() - singleTarget.getBestCameraToTarget().getX());
+      // sumOfYCalcCameraPose = sumOfYCalcCameraPose + (targetPose.getY() - singleTarget.getBestCameraToTarget().getY());
     }
 
-    avgXCameraPose = sumOfXCalcCameraPose/targets.size();
-    avgYCameraPose = sumOfYCalcCameraPose/targets.size();
-    avgCameraPose = new Pose3d(avgXCameraPose, avgYCameraPose, Constants.VisionConstants.CAMERA_HEIGHT_M, new Rotation3d()); // replace Rotation3d with Drivetrain gyro angle
+    avgRobotPose = new Pose3d(sumCalcRobotPoseX/numTargets, sumCalcRobotPoseY/numTargets, sumCalcRobotPoseZ/numTargets, new Rotation3d()); // rotation should use Drivetrain gyro Angle
+
+    // avgXCameraPose = sumOfXCalcCameraPose/targets.size();
+    // avgYCameraPose = sumOfYCalcCameraPose/targets.size();
+    // avgCameraPose = new Pose3d(avgXCameraPose, avgYCameraPose, Constants.VisionConstants.CAMERA_HEIGHT_M, new Rotation3d()); // replace Rotation3d with Drivetrain gyro angle
   }
 }
