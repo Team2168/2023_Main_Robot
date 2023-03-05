@@ -19,6 +19,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -107,7 +108,7 @@ public class PoseEstimationWeightedAverage extends CommandBase {
 
       poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance());
       poseEstimator.getEstimatedPosition();
-    } else if (!lime.hasTarget()) {
+    } else if (!lime.hasTarget() && RobotState.isTeleop()) {
       poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(),
           drive.getRightEncoderDistance(), drive.getPose());
     }
