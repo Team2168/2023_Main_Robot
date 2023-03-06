@@ -23,33 +23,30 @@ import edu.wpi.first.wpilibj.RobotState;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class PoseEstimationWeightedAverage extends CommandBase {
+public class PoseEstimationWithoutEstimator extends CommandBase {
 
   public Limelight lime;
   public LinearFilter filter; // this filter performs exponential smoothing to calulate the moving (weighted)
                               // average
                               // between gyro and vision pose estimation
   public Drivetrain drive;
-  public DifferentialDrivePoseEstimator poseEstimator;
+
   Matrix<N3, N1> stateStdDeviations;
   Matrix<N3, N1> visionStdDeviations;
 
-  public PoseEstimationWeightedAverage(Limelight lime, Drivetrain drive) {
+  public PoseEstimationWithoutEstimator(Limelight lime, Drivetrain drive) {
     this.lime = lime;
     this.drive = drive;
-    poseEstimator = new DifferentialDrivePoseEstimator(Constants.Drivetrain.kDriveKinematics,
-        drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance(), drive.getPose());
+
     filter = LinearFilter.singlePoleIIR(0.1,
         Units.millisecondsToSeconds(lime.getLatencyMs() + lime.getCapturedLatencyTime()));
   }
 
-  public PoseEstimationWeightedAverage(Limelight lime, Drivetrain drive, Matrix<N3, N1> stateStdDeviations,
+  public PoseEstimationWithoutEstimator(Limelight lime, Drivetrain drive, Matrix<N3, N1> stateStdDeviations,
       Matrix<N3, N1> visionStdDeviations) {
     this.lime = lime;
     this.drive = drive;
-    poseEstimator = new DifferentialDrivePoseEstimator(Constants.Drivetrain.kDriveKinematics,
-        drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance(), drive.getPose(),
-        stateStdDeviations, visionStdDeviations);
+
     filter = LinearFilter.singlePoleIIR(0.1,
         Units.millisecondsToSeconds(lime.getLatencyMs() + lime.getCapturedLatencyTime()));
   }
@@ -102,20 +99,13 @@ public class PoseEstimationWeightedAverage extends CommandBase {
         new Rotation3d(weightedAverageRoll, weightedAveragePitch, weightedAverageYaw));
 
     if (lime.hasTarget()) {
-      poseEstimator.addVisionMeasurement(weightedPose.toPose2d(),
-          Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs()) -
-              Units.secondsToMilliseconds(lime.getCapturedLatencyTime()));
-
-      poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance());
-      poseEstimator.getEstimatedPosition();
+      drive.resetOdometry(weightedPose.toPose2d());
     } else if (!lime.hasTarget() && RobotState.isTeleop()) {
-      poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(),
-          drive.getRightEncoderDistance(), drive.getPose());
+      drive.zeroHeading();
+
     }
 
     drive.resetOdometry(null);
-
-    
 
   }
 
