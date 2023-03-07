@@ -57,14 +57,14 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public Limelight lime;
   public Drivetrain drive;
 
-
   public final Pose3d POSE_TO_TAG_LIMIT;
 
   /**
    * 
    * @param drive       The Drivetrain subystsem.
    * @param lime        The Limelight camera subsystem.
-   * @param scoringArea The distance/pose where the drivetrain will stop when aligned with
+   * @param scoringArea The distance/pose where the drivetrain will stop when
+   *                    aligned with
    *                    the apriltag, so the claw is able to score the gamepiece
    */
   public AutoAlignWithPoseEstimation(Drivetrain drive, Limelight lime, ScoringArea scoringArea) {
@@ -80,8 +80,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     xController.setTolerance(0.02);
     yController.setTolerance(0.02);
     turnController.setTolerance(0.02);
-    xController.enableContinuousInput(-10, 10); //placeholder
-    yController.enableContinuousInput(-10, 10); //placeholder
+    xController.enableContinuousInput(-10, 10); // placeholder
+    yController.enableContinuousInput(-10, 10); // placeholder
     turnController.enableContinuousInput(-Math.PI, Math.PI);
     this.drive = drive;
     this.lime = lime;
@@ -105,8 +105,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public void execute() {
 
     var tagToBotTransform = lime.getAprilTagPoseRelativeToLimelight().transformBy(
-      new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), lime.getPose3d())
-    );
+        new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), lime.getPose3d()));
 
     var goalPose = lime.getAprilTagPoseRelativeToLimelight()
         .transformBy(new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), POSE_TO_TAG_LIMIT)).toPose2d();
