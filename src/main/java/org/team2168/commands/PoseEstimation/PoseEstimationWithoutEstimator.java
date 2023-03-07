@@ -30,6 +30,7 @@ public class PoseEstimationWithoutEstimator extends CommandBase {
                               // average
                               // between gyro and vision pose estimation
   public Drivetrain drive;
+  public Pose3d weightedPose;
 
   Matrix<N3, N1> stateStdDeviations;
   Matrix<N3, N1> visionStdDeviations;
@@ -95,7 +96,7 @@ public class PoseEstimationWithoutEstimator extends CommandBase {
     double weightedAverageYaw = filter.calculate(
         apriltagPoseAverageYaw - lime.getPose3d().getRotation().getZ() + drive.getPose().getRotation().getDegrees());
 
-    Pose3d weightedPose = new Pose3d(new Translation3d(weightedAverageX, weightedAverageY, weightedAverageZ),
+    weightedPose = new Pose3d(new Translation3d(weightedAverageX, weightedAverageY, weightedAverageZ),
         new Rotation3d(weightedAverageRoll, weightedAveragePitch, weightedAverageYaw));
 
     if (lime.hasTarget()) {
@@ -109,6 +110,12 @@ public class PoseEstimationWithoutEstimator extends CommandBase {
 
   }
 
+  public Pose3d getWeightedPose() {
+    return weightedPose;
+  }
+
+ 
+ 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

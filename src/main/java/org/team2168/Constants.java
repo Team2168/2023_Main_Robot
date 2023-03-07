@@ -85,6 +85,10 @@ public static final class AprilTagPoses {
     new Pose3d(new Translation3d(1.027, 1.071, 0.462), new Rotation3d(0.0, 0.0, 0.0))
   );
 }
+
+public static final class ROBOT_METRICS {
+  public static final double ARM_LENGTH_TO_CLAW = Units.inchesToMeters(55.92);
+}
 }
 
 

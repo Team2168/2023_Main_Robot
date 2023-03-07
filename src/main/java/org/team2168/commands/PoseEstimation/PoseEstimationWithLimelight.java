@@ -98,6 +98,10 @@ public class PoseEstimationWithLimelight extends CommandBase {
 
   }
 
+  public Pose2d getPose() {
+    return poseEstimator.getEstimatedPosition();
+  }
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
