@@ -56,7 +56,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public Pose3d robotPose;
   public Limelight lime;
   public Drivetrain drive;
-  public SimpleMotorFeedforward feedforward;
+
 
   public final Pose3d POSE_TO_TAG_LIMIT;
 
@@ -129,8 +129,6 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     }
 
     ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d());
-
-    feedforward = new SimpleMotorFeedforward(0.1, 0.1);
 
   }
 
