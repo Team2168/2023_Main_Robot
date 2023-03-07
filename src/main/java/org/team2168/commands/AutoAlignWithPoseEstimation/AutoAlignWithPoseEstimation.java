@@ -57,8 +57,9 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints);
     yController = new ProfiledPIDController(1.0, 0, 0, yControllerConstraints);
     turnController = new ProfiledPIDController(1.0, 0, 0, null);
-    xController.setTolerance(0.1);
-    yController.setTolerance(0.0);
+    xController.setTolerance(0.02);
+    yController.setTolerance(0.02);
+    turnController.setTolerance(0.02);
     this.drive = drive;
     this.lime = lime;
     poseEstimation = new PoseEstimationWeightedAverage(lime, drive);
@@ -71,6 +72,9 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    xController.reset(drive.getPose().getX());
+    yController.reset(drive.getPose().getY());
+    turnController.reset(drive.getPose().getRotation().getDegrees());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -84,21 +88,41 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     turnController.setGoal(goalPose.getRotation().getDegrees());
 
     var xSpeed = xController.calculate(robotPose.getX());
+    if (xController.atGoal()) {
+      xSpeed = 0.0;
+    }
     var ySpeed = yController.calculate(robotPose.getY());
+    if (yController.atGoal()) {
+      ySpeed = 0.0;
+    }
     var rotSpeed = turnController.calculate(robotPose.getRotation().getZ());
+    if (turnController.atGoal()) {
+      rotSpeed = 0.0;
+    }
 
     ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d());
+
+  }
+
+  private boolean allControllersAtState() {
+
+    if (xController.atGoal() && yController.atGoal() && turnController.atGoal()) {
+      return true;
+    } else {
+      return false;
+    }
 
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    drive.arcadeDrive(0.0, 0.0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return allControllersAtState();
   }
 }
