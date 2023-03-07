@@ -11,11 +11,13 @@ import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -54,6 +56,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public Pose3d robotPose;
   public Limelight lime;
   public Drivetrain drive;
+  public SimpleMotorFeedforward feedforward;
 
   public final Pose3d POSE_TO_TAG_LIMIT;
 
@@ -101,6 +104,10 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   @Override
   public void execute() {
 
+    var tagToBotTransform = lime.getAprilTagPoseRelativeToLimelight().transformBy(
+      new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), lime.getPose3d())
+    );
+
     var goalPose = lime.getAprilTagPoseRelativeToLimelight()
         .transformBy(new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), POSE_TO_TAG_LIMIT)).toPose2d();
 
@@ -122,6 +129,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     }
 
     ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d());
+
+    feedforward = new SimpleMotorFeedforward(0.1, 0.1);
 
   }
 
