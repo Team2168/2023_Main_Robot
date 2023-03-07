@@ -65,7 +65,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
    * @param lime        The Limelight camera subsystem.
    * @param scoringArea The distance/pose where the drivetrain will stop when
    *                    aligned with
-   *                    the apriltag, so the claw is able to score the gamepiece
+   *                    the apriltag, so the claw is able to score the gamepiece, since the arm mechanism is static (unable to extend or retract)
    */
   public AutoAlignWithPoseEstimation(Drivetrain drive, Limelight lime, ScoringArea scoringArea) {
     xControllerConstraints = new Constraints(Constants.Drivetrain.kMaxSpeedMetersPerSecond,
