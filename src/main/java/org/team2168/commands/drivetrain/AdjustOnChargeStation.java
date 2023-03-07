@@ -14,8 +14,8 @@ public class AdjustOnChargeStation extends CommandBase {
   Drivetrain drivetrain;
   double pitchErrorTolerance = 0.5;
   double maxChargingStationDeg = 15.0;
-  double lowestSpeed;
-  double highestSpeed;
+  double lowestSpeed = 0.08;
+  double highestSpeed = 0.25;
   int balancedLoops;
   public AdjustOnChargeStation(Drivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,11 +30,11 @@ public class AdjustOnChargeStation extends CommandBase {
   @Override
   public void execute() {
     if (drivetrain.getPitch() < -pitchErrorTolerance) {
-      drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, -0.25, -0.08), 0.0);
+      drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, -highestSpeed, -lowestSpeed), 0.0);
       balancedLoops = 0;
     }
     else if (drivetrain.getPitch() > pitchErrorTolerance) {
-      drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, 0.08, 0.25), 0.0);
+      drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, lowestSpeed, highestSpeed), 0.0);
       balancedLoops = 0;
     }
     else {
