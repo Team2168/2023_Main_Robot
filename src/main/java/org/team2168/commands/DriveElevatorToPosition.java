@@ -15,6 +15,7 @@ public class DriveElevatorToPosition extends CommandBase {
 
   private Elevator elevator;
   private static double inches;
+  private static double errorTolerance = 0.5;
 
   public DriveElevatorToPosition(Elevator elevator, double in) {
     this.elevator = elevator;
@@ -44,6 +45,6 @@ public class DriveElevatorToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (elevator.getPosition() >= (inches - errorTolerance) && elevator.getPosition() <= (inches + errorTolerance));
   }
 }

@@ -78,7 +78,7 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //this doesn't work for some reason
+    //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
@@ -91,6 +91,7 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.SECONDNODE));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
     oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.FIRSTNODE));
+    //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }

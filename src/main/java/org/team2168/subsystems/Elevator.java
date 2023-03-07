@@ -18,6 +18,8 @@ import org.team2168.Constants;
 import org.team2168.Constants.ElevatorMotors;
 import org.team2168.utils.TalonFXHelper;
 
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
@@ -46,13 +48,18 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = 5 * TIME_UNITS_OF_VELOCITY; //(TODO: this could be a pontinteal placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(42 * 2) * TIME_UNITS_OF_VELOCITY; //(TODO: this could be a pontinteal placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(42 * 1.5) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
   private TalonFXHelper elevatorMotor;
+  
   //private double position; //height in inches
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)
+  private static final double MIN_HEIGHT_INCHES = 0.0;
+  private static final double MAX_HEIGHT_INCHES = 42.0; //MAX HEIGHT NEEDS TO BE CHANGED (placeholder)
 
   // private boolean kSensorPhase;
   // private boolean kMotorInvert;
@@ -68,7 +75,11 @@ public class Elevator extends SubsystemBase {
 
     //elevatorMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
     //elevatorMotor.setSensorPhase(kSensorPhase);
-    //elevatorMotorLeft.setInverted(kMotorInvert);
+
+    elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
+    elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
+    elevatorMotor.configPeakOutputForward(kPeakOutput, kTimeoutMs);
+    elevatorMotor.configPeakOutputReverse(kPeakOutput, kTimeoutMs);
 
     //sets the gains
     elevatorMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
@@ -76,15 +87,20 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.config_kI(kPIDLoopIdx, kI, kTimeoutMs);
     elevatorMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
     elevatorMotor.configMotionAcceleration(ACCELERATION_LIMIT);
+    elevatorMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
 
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)
     elevatorMotor.configSupplyCurrentLimit(talonCurrentLimit);
 
-    elevatorMotor.setInverted(TalonFXInvertType.CounterClockwise);
+    elevatorMotor.setInverted(kInvertType);
+    elevatorMotor.configClosedLoopStatusFrameRates();
 
     elevatorMotor.configFactoryDefault();
+
+
+    //elevatorMotorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(0), Units.inchesToMeters(42));
   }
 
   public static Elevator getInstance(){
@@ -108,6 +124,10 @@ public class Elevator extends SubsystemBase {
 
   public static double ticksToInches(double ticks){
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
+  }
+
+  private double getEncoderTicks(){
+    return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
 
   @Log(name = "Speed (Velocity)", rowIndex = 3, columnIndex = 0)
