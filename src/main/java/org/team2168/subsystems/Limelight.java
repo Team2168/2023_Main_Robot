@@ -352,10 +352,7 @@ public class Limelight extends SubsystemBase implements Loggable {
     cameraPoseRobotSpace = networkTable.getEntry("camerapose_robotspace");
   }
 
-  public Pose3d getTagPose() {
-    return new Pose3d(new Translation3d(apriltagPose_x, apriltagPose_y, apriltagPose_z), 
-    new Rotation3d(apriltagPose_roll, apriltagPose_Pitch, apriltagPose_Yaw));
-  }
+  
 
   public Pose3d getPose3d() {
     return new Pose3d(botPoseArrayTwo[0], botPoseArrayTwo[1], botPoseArrayTwo[2],

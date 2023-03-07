@@ -56,6 +56,9 @@ public final class Constants {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+    public static final double LOW_NODE_LENGTH_METERS = Units.inchesToMeters(5.6875);
+    public static final double MIDDLE_NODE_LENGTH_METERS = Units.inchesToMeters(22.75);
+    public static final double HIGH_NODE_LENGTH_METERS = Units.inchesToMeters(39.75);
   }
   
 

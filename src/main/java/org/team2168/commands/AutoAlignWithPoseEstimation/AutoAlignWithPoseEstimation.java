@@ -17,14 +17,24 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoAlignWithPoseEstimation extends CommandBase {
 
   public enum ScoringArea {
-    LOW_NODE(new Pose3d()),
-    MIDDLE_NODE(new Pose3d()),
-    HIGH_NODE(new Pose3d());
+    LOW_NODE(new Pose3d(
+        new Translation3d(Constants.ROBOT_METRICS.ARM_LENGTH_TO_CLAW - Constants.FieldMetrics.LOW_NODE_LENGTH_METERS,
+            0.0, 0.0),
+        new Rotation3d(0.0, 0.0, 0.0))),
+    MIDDLE_NODE(new Pose3d(
+        new Translation3d(Constants.ROBOT_METRICS.ARM_LENGTH_TO_CLAW - Constants.FieldMetrics.MIDDLE_NODE_LENGTH_METERS,
+            0.0, 0.0),
+        new Rotation3d(0.0, 0.0, 0.0))),
+    HIGH_NODE(new Pose3d(
+        new Translation3d(Constants.ROBOT_METRICS.ARM_LENGTH_TO_CLAW - Constants.FieldMetrics.HIGH_NODE_LENGTH_METERS,
+            0.0, 0.0),
+        new Rotation3d(0.0, 0.0, 0.0)));
 
     public final Pose3d nodePoses;
 
@@ -81,7 +91,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   @Override
   public void execute() {
 
-    var goalPose = lime.getTagPose().transformBy(new Transform3d(lime.getTagPose(), POSE_TO_TAG_LIMIT)).toPose2d();
+    var goalPose = lime.getAprilTagPoseRelativeToLimelight()
+        .transformBy(new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), POSE_TO_TAG_LIMIT)).toPose2d();
 
     xController.setGoal(goalPose.getX());
     yController.setGoal(goalPose.getY());
