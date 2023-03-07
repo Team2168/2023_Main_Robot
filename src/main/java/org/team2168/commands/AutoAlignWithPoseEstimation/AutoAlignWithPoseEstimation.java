@@ -57,6 +57,13 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
 
   public final Pose3d POSE_TO_TAG_LIMIT;
 
+  /**
+   * 
+   * @param drive       The Drivetrain subystsem.
+   * @param lime        The Limelight camera subsystem.
+   * @param scoringArea The distance/pose where the drivetrain will stop when aligned with
+   *                    the apriltag, so the claw is able to score the gamepiece
+   */
   public AutoAlignWithPoseEstimation(Drivetrain drive, Limelight lime, ScoringArea scoringArea) {
     xControllerConstraints = new Constraints(Constants.Drivetrain.kMaxSpeedMetersPerSecond,
         Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared); // change to realistic constraint values;
@@ -64,12 +71,15 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
         Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared);
     turnControllerConstraints = new Constraints(1.0, 1.0); // change to real values
 
-    xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints); //change to real PID Values
+    xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints); // change to real PID Values
     yController = new ProfiledPIDController(1.0, 0, 0, yControllerConstraints);
     turnController = new ProfiledPIDController(1.0, 0, 0, null);
     xController.setTolerance(0.02);
     yController.setTolerance(0.02);
     turnController.setTolerance(0.02);
+    xController.enableContinuousInput(-10, 10); //placeholder
+    yController.enableContinuousInput(-10, 10); //placeholder
+    turnController.enableContinuousInput(-Math.PI, Math.PI);
     this.drive = drive;
     this.lime = lime;
     poseEstimation = new PoseEstimationWeightedAverage(lime, drive);
