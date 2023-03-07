@@ -115,8 +115,13 @@ public class PhotonVisionCamera extends SubsystemBase {
   public List<PhotonTrackedTarget> getTargets() {
     return photonCamera.getLatestResult().getTargets();
   }
+
   public PhotonTrackedTarget getBestTarget() {
     return photonCamera.getLatestResult().getBestTarget();
+  }
+
+  public AprilTagFieldLayout getFieldLayout() {
+    return fieldLayout;
   }
 
   @Override
