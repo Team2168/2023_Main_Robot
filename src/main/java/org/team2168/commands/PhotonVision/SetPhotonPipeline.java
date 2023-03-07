@@ -32,6 +32,8 @@ public class SetPhotonPipeline extends CommandBase {
   public void execute() {
     photonVisionCamera.photonCamera.setPipelineIndex(pipelineNum);
     photonVisionCamera.photonCamera.setLED(VisionLEDMode.kDefault);
+    photonVisionCamera.photonCamera.setDriverMode(false);
+    photonVisionCamera.photonCamera.setLED(VisionLEDMode.kDefault);
   }
 
   // Called once the command ends or is interrupted.

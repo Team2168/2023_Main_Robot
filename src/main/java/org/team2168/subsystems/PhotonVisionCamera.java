@@ -48,6 +48,8 @@ public class PhotonVisionCamera extends SubsystemBase {
   private static List<PhotonTrackedTarget> targets;
   private static PhotonTrackedTarget singleTarget;
 
+  private static double latencySeconds;
+
   private static double xCalcCameraPose;
   private static double yCalcCameraPose;
 
@@ -69,6 +71,8 @@ public class PhotonVisionCamera extends SubsystemBase {
   private static Pose3d targetPose;
   private static Pose3d singleTagRobotPose;
   private static double numTargets;
+
+  private static double imageCaptureTime;
 
   public PhotonVisionCamera() {
     // photonCamera = new PhotonCamera();
@@ -124,6 +128,10 @@ public class PhotonVisionCamera extends SubsystemBase {
     return fieldLayout;
   }
 
+  public double getLatencySecs() {
+    return latencySeconds;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -134,7 +142,8 @@ public class PhotonVisionCamera extends SubsystemBase {
     result = photonCamera.getLatestResult();
     targets = result.getTargets();
     numTargets = targets.size();
-
+    imageCaptureTime = result.getTimestampSeconds();
+    if (result.hasTargets()) {
     for (int i = 0; i < numTargets; i++){
       singleTarget = targets.get(i);
       targetID = singleTarget.getFiducialId();
@@ -149,7 +158,9 @@ public class PhotonVisionCamera extends SubsystemBase {
       // sumOfYCalcCameraPose = sumOfYCalcCameraPose + (targetPose.getY() - singleTarget.getBestCameraToTarget().getY());
     }
 
+    latencySeconds = result.getLatencyMillis()/1000.0;
     avgRobotPose = new Pose3d(sumCalcRobotPoseX/numTargets, sumCalcRobotPoseY/numTargets, sumCalcRobotPoseZ/numTargets, new Rotation3d()); // rotation should use Drivetrain gyro Angle
+  }
 
     // avgXCameraPose = sumOfXCalcCameraPose/targets.size();
     // avgYCameraPose = sumOfYCalcCameraPose/targets.size();
