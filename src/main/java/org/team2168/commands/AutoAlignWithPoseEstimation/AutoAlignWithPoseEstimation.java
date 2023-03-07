@@ -64,7 +64,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
         Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared);
     turnControllerConstraints = new Constraints(1.0, 1.0); // change to real values
 
-    xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints);
+    xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints); //change to real PID Values
     yController = new ProfiledPIDController(1.0, 0, 0, yControllerConstraints);
     turnController = new ProfiledPIDController(1.0, 0, 0, null);
     xController.setTolerance(0.02);

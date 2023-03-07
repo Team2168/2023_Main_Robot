@@ -106,7 +106,7 @@ public class PoseEstimationWithoutEstimator extends CommandBase {
 
     }
 
-    drive.resetOdometry(null);
+    
 
   }
 

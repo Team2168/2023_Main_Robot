@@ -7,6 +7,9 @@ package org.team2168;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.AutoAlignWithPoseEstimation.AutoAlignWithPoseEstimation;
+import org.team2168.commands.AutoAlignWithPoseEstimation.AutoAlignWithPoseEstimation.ScoringArea;
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
@@ -29,6 +32,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Limelight limelight = Limelight.getInstance();
+  private final Drivetrain drive = Drivetrain.getInstance();
  
 
 
@@ -62,6 +66,7 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    m_driverController.a().whileTrue(new AutoAlignWithPoseEstimation(drive, limelight, ScoringArea.MIDDLE_NODE));
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
