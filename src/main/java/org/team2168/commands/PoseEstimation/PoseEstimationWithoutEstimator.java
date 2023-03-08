@@ -12,6 +12,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.DifferentialDrivePoseEstimator;
 import edu.wpi.first.math.estimator.UnscentedKalmanFilter;
 import edu.wpi.first.math.filter.LinearFilter;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -113,6 +114,11 @@ public class PoseEstimationWithoutEstimator extends CommandBase {
   public Pose3d getWeightedPose() {
     return weightedPose;
   }
+
+  public Pose2d getPoseDisplayedField2d() {
+    Constants.FieldMetrics.field.setRobotPose(getWeightedPose().toPose2d());
+    return Constants.FieldMetrics.field.getRobotPose();
+}
 
  
  

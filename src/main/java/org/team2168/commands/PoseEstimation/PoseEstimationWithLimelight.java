@@ -102,6 +102,11 @@ public class PoseEstimationWithLimelight extends CommandBase {
     return poseEstimator.getEstimatedPosition();
   }
 
+  public Pose2d getPoseDisplayedField2d() {
+    Constants.FieldMetrics.field.setRobotPose(getPose());
+    return Constants.FieldMetrics.field.getRobotPose();
+}
+
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {

@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -59,6 +60,7 @@ public final class Constants {
     public static final double LOW_NODE_LENGTH_METERS = Units.inchesToMeters(5.6875);
     public static final double MIDDLE_NODE_LENGTH_METERS = Units.inchesToMeters(22.75);
     public static final double HIGH_NODE_LENGTH_METERS = Units.inchesToMeters(39.75);
+    public static final Field2d field = new Field2d();
   }
   
 
