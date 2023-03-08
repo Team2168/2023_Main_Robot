@@ -20,8 +20,6 @@ public final class Constants {
 
   public static final class ElevatorMotors{
     public static final int ELEVATOR_MOTOR = 14; 
-    public static final double FIRSTNODE = 22.07;
-    public static final double SECONDNODE = 41.75;
   }
 
   public static class OperatorConstants {
@@ -32,6 +30,8 @@ public final class Constants {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+    public static final double FIRST_NODE_HEIGHT_IN = 22.07;
+    public static final double SECOND_NODE_HEIGHT_IN = 41.75;
   }
 
   public static final class Joysticks {

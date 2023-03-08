@@ -88,9 +88,9 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     
-    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.SECONDNODE));
+    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.SECOND_NODE_HEIGHT_IN));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorMotors.FIRSTNODE));
+    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.FIRST_NODE_HEIGHT_IN));
     //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
