@@ -44,6 +44,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
       this.nodePoses = nodePoses;
     }
 
+   
+
   }
 
   public ProfiledPIDController xController;
@@ -56,8 +58,9 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public Pose3d robotPose;
   public Limelight lime;
   public Drivetrain drive;
+  public TrapezoidProfile.Constraints constraints;
 
-  public final Pose3d POSE_TO_TAG_LIMIT;
+  public Pose3d POSE_TO_TAG_LIMIT;
 
   /**
    * 
