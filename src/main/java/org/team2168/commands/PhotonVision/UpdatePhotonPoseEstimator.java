@@ -49,7 +49,7 @@ public class UpdatePhotonPoseEstimator extends CommandBase {
     photonVisionCamera.getAvgRobotPose().getY(),
     photonVisionCamera.getAvgRobotPose().getZ(),
     new Rotation3d(0.0, 0.0, (photonVisionCamera.getFieldLayout().getTagPose(photonCamera.getLatestResult().getBestTarget().getFiducialId()).get().getRotation().getAngle() + Math.PI
-    + Units.degreesToRadians(photonCamera.getLatestResult().getBestTarget().getYaw() + turret.getTurretAngle()))%360.0 - 180.0)));  // Makes counterclockwise angle between -180 and 180 deg, use Drivetrain gyro info for pitch and roll
+    + Units.degreesToRadians(photonCamera.getLatestResult().getBestTarget().getYaw() + turret.getTurretAngle()))%360.0 - 180.0)));  // Makes counterclockwise angle between -180 and 180 deg out of different counterclockwise and clockwise angles, use Drivetrain gyro info for pitch and roll
     photonPoseEstimator.update();
   }
 

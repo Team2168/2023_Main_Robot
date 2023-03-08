@@ -78,7 +78,7 @@ public class PhotonVisionCamera extends SubsystemBase {
     // photonCamera = new PhotonCamera();
     networkTableInstance = NetworkTableInstance.getDefault();
     photonCamera = new PhotonCamera(networkTableInstance, Constants.VisionConstants.CAMERA_NAME);
-    robotToCam = new Transform3d(new Translation3d(7.115, 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
+    robotToCam = new Transform3d(new Translation3d(Units.inchesToMeters(7.115), 0.0, 0.5), // change for real distance between photonvision cam and center of robot.
     new Rotation3d(0, 0, 0));
 
     result = new PhotonPipelineResult();
