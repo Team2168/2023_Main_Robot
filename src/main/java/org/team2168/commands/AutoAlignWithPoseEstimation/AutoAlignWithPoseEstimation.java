@@ -100,7 +100,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public void initialize() {
     xController.reset(drive.getPose().getX());
     yController.reset(drive.getPose().getY());
-    turnController.reset(drive.getPose().getRotation().getDegrees());
+    turnController.reset(drive.getHeading());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
