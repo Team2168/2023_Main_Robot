@@ -69,8 +69,8 @@ public class Drivetrain extends SubsystemBase {
   /**
    * Invert Directions for Left and Right
    */
-  TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
-  TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
+  TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
+  TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
 
   public static Drivetrain getInstance() {
     if (instance == null)

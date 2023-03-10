@@ -20,7 +20,7 @@ public final class Constants {
     public static final int DRIVETRAIN_LEFT_MOTOR_2 = 19; // uses placeholder value
     public static final int DRIVETRAIN_RIGHT_MOTOR_1 = 1; // uses placeholder value
     public static final int DRIVETRAIN_RIGHT_MOTOR_2 = 0; // uses placeholder value
-    public static final int PIGEON_IMU = 4; // uses placeholder value
+    public static final int PIGEON_IMU = 20; // uses placeholder value
   }
 
   public static class Drivetrain {
