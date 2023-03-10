@@ -124,6 +124,12 @@ public class PhotonVisionCamera extends SubsystemBase {
     return photonCamera.getLatestResult().getBestTarget();
   }
 
+  // public byte[] getRawBytes() {
+  //   return networkTableInstance.getEntry("rawBytes").getRaw();
+  // }
+
+
+
   public AprilTagFieldLayout getFieldLayout() {
     return fieldLayout;
   }
