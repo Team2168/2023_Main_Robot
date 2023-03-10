@@ -78,19 +78,19 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
+    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
 
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // Schedule `exampleMethodommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     
-    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.SECOND_NODE_HEIGHT_IN));
+    oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.SECOND_NODE_HEIGHT_IN, 5));
     oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.FIRST_NODE_HEIGHT_IN));
+    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.FIRST_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
  
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));

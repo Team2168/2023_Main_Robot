@@ -20,6 +20,7 @@ public final class Constants {
 
   public static final class ElevatorMotors{
     public static final int ELEVATOR_MOTOR = 14; 
+    public static final double UPDATE_TIME = 0.02;
   }
 
   public static class OperatorConstants {

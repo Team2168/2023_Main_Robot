@@ -13,6 +13,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 
 import java.security.KeyFactory;
 
@@ -22,6 +23,8 @@ import org.team2168.utils.TalonFXHelper;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
@@ -59,11 +62,13 @@ public class Elevator extends SubsystemBase {
   
   //private double position; //height in inches
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  private static ElevatorSim elevatorSim;
+  private static TalonFXSimCollection elevatorMotorSim;
   private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)
   private static final double MIN_HEIGHT_INCHES = 0;
   private static final double MAX_HEIGHT_INCHES = 30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
 
-  private boolean kSensorPhase;
+  private boolean kSensorPhase = false;
 
   static Elevator instance = null;
 
@@ -103,8 +108,9 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.configClosedLoopStatusFrameRates();
 
     elevatorMotor.configFactoryDefault();
-
-    //elevatorMotorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(0), Units.inchesToMeters(42));
+   
+    elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, null);
+    elevatorMotorSim = elevatorMotor.getSimCollection();
   }
 
   public static Elevator getInstance(){
@@ -161,8 +167,19 @@ public class Elevator extends SubsystemBase {
     return elevatorMotor.get();
   }
 
+  public boolean isZeroPosition(){
+    return elevatorMotor.isRevLimitSwitchClosed() == 1;
+  }
+
+  public boolean isAtUpperPosition(){
+    return elevatorMotor.isFwdLimitSwitchClosed() == 1;
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-  }
+    elevatorMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+    elevatorSim.setInput(elevatorMotorSim.getMotorOutputLeadVoltage());
+    elevatorSim.update(Constants.ElevatorMotors.UPDATE_TIME);
+}
 }

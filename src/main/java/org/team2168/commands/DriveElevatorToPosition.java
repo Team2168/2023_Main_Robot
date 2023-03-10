@@ -15,11 +15,13 @@ public class DriveElevatorToPosition extends CommandBase {
 
   private Elevator elevator;
   private static double inches;
+  private static double speedInInches;
   private static double errorTolerance = 0.5;
 
-  public DriveElevatorToPosition(Elevator elevator, double in) {
+  public DriveElevatorToPosition(Elevator elevator, double in, double speed) {
     this.elevator = elevator;
     inches = in;
+    speedInInches = speed;
 
     addRequirements(elevator);
   }
@@ -33,6 +35,7 @@ public class DriveElevatorToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    elevator.setSpeedVelocity(speedInInches);
     elevator.setPosition(inches);
   }
 
@@ -40,6 +43,7 @@ public class DriveElevatorToPosition extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     elevator.setPercentOutput(0.0);
+    //elevator.setSpeedVelocity(0);
   }
 
   // Returns true when the command should end.
