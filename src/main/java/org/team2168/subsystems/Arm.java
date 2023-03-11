@@ -169,11 +169,11 @@ public class Arm extends SubsystemBase {
   }
 
   /**
-   * How far out the robot arm is in degrees, <strong>is always positive</strong> (as if 0 is the top of the arm's range)
+   * Calculates how far out the robot arm is in degrees, <b>is always positive</b> (as if 0 is the top of the arm's range)
    * @param inches how far out the arm is in inches
    * @return how far out the arm is in degrees
    */
-  public static double inchesToDegrees(double inches) {
+  public static double calculateInchesfromDegrees(double inches) {
     return Math.toDegrees(Math.asin(inches/Constants.RobotMetrics.ARM_LENGTH));
   }
 
