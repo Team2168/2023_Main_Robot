@@ -47,7 +47,8 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
+  /** This function is called once each ti
+   * me the robot enters Disabled mode. */
   @Override
   public void disabledInit() {
     //makes Drivetrain able to be pushed only when the field is not real
@@ -57,6 +58,7 @@ public class Robot extends TimedRobot {
     else {
     m_robotContainer.drivetrain.setMotorsBrake();
     }
+    m_robotContainer.drivetrain.zeroHeading();
   }
 
   @Override
