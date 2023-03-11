@@ -97,6 +97,11 @@ public class PhotonVisionCamera extends SubsystemBase {
     }
   }
 
+  /**
+   * Updates estimated robot pose based on whatever it is given as the previous pose.
+   * @param prevEstimatedRobotPose last robot pose estimated by the pose estimator
+   * @return the updated robot pose
+   */
   public Optional<EstimatedRobotPose> getEstimatedGlobalPose(Pose2d prevEstimatedRobotPose) {
     if (photonPoseEstimator == null) {
       return Optional.empty();
@@ -111,31 +116,168 @@ public class PhotonVisionCamera extends SubsystemBase {
     }
     return instance;
   }
-
-  public Pose3d getAvgRobotPose() { // gets Average Robot Pose calculated from sum of Target Data
+  /**
+   * gets an average Robot Pose compiled from a sum of data from different Targets
+   * @return the calculated average Robot Pose relative to the field
+   */
+  public Pose3d getAvgRobotPose() {
     return avgRobotPose;
   }
 
+  /**
+   * gets a list of all targets tracked by the photonvision camera at one time
+   * @return a list of tracked targets
+   */
   public List<PhotonTrackedTarget> getTargets() {
     return photonCamera.getLatestResult().getTargets();
   }
 
+  /**
+   * gets best target out of the list of targets detected. "best" is evaluated
+   * based on the target sort - which is the most prioritized by the target sort
+   * mode?
+   * @return the best target from all targets detected
+   */
   public PhotonTrackedTarget getBestTarget() {
     return photonCamera.getLatestResult().getBestTarget();
   }
 
-  // public byte[] getRawBytes() {
-  //   return networkTableInstance.getEntry("rawBytes").getRaw();
-  // }
-
-
-
+  /**
+   * gets the AprilTagFieldLayout, storing information such as tag pose and origin position
+   * of the field.
+   * @return the field layout for this year's game
+   */
   public AprilTagFieldLayout getFieldLayout() {
     return fieldLayout;
   }
 
+  /**
+   * gets latency of the current pipeline result
+   * @return the latency of the result in seconds
+   */
   public double getLatencySecs() {
     return latencySeconds;
+  }
+
+  /**
+   * gets the condition for if the result detects a target or not
+   * @return true if target detected, false if not detected.
+   */
+  public boolean getHasTarget() {
+    return result.hasTargets();
+  }
+
+  /**
+   * gets pitch (rotation around the side-facing axis) of the target, relative to the
+   * center of view of the result.
+   * @return pitch of the target relative to the crosshair. positive means target is
+   * above the cross hair, negative means target is below.
+   */
+  public double getTargetPitch() {
+    return result.getBestTarget().getPitch();
+  }
+
+  /**
+   * gets yaw (rotation around the vertical axis) of the target, relative to the
+   * center of view of the result.
+   * @return yaw of the target relative to the crosshair. positive means the target is right
+   * of cross hair, negative means target is left of the crosshair.
+   */
+  public double getTargetYaw() {
+    return result.getBestTarget().getYaw();
+  }
+
+  /**
+   * gets how much of the camera feed the bounding box takes up.
+   * @return percentage of camera feed bounding box takes up.
+   */
+  public double getTargetArea() {
+    return result.getBestTarget().getArea();
+  }
+
+  /**
+   * gets what angle the target is facing relative to the camera's point of view
+   * @return angle target is facing (counterclockwise to directly facing camera is positive)
+   */
+  public double getTargetSkew() {
+    return result.getBestTarget().getSkew();
+  }
+
+  /**
+   * gets a double array from which all data was thrown into.
+   * @return double array with pose data in order of: x position, y position, z position,
+   * and a quaternion's w, x, y, and z values.
+   */
+  public double[] getTargetPoseValues() {
+    double[] defaultValue = new double[1];
+    defaultValue[0] = 0.0;
+    return networkTableInstance.getEntry("targetPose").getDoubleArray(defaultValue);
+  }
+
+  /**
+   * gets amount of pixels of the camera feed the target horizontally spans across
+   * @return pixels of target in the x-direction
+   */
+  public double getTargetPixelsX() {
+    return networkTableInstance.getEntry("targetPixelsX").getDouble(0.0);
+  }
+
+  /**
+   * gets amount of pixels of the camera feed the target vertically spans across
+   * @return pixels of target in the y-direction
+   */
+  public double getTargetPixelsY() {
+    return networkTableInstance.getEntry("targetPixelsY").getDouble(0.0);
+  }
+
+  /**
+   * sets the current pipeline index
+   * @param index the value to set the current pipeline to
+   */
+  public void setPipelineIndex(int index) {
+    networkTableInstance.getEntry("pipelineIndex").setInteger(index);
+  }
+
+  /**
+   * gets current pipeline index
+   * @return the integer value of the pipeline index
+   */
+  public int getPipelineIndex() {
+    return (int) networkTableInstance.getEntry("pipelineIndex").getInteger(0);
+  }
+
+  /**
+   * sets the photonvision camera to either be in driver mode or not
+   * @param isOn value to determine whether camera is in driver mode or not-
+   * true indicates driver mode, false indicates normal target detection settings.
+   */
+  public void setDriverMode(boolean isOn) {
+    networkTableInstance.getEntry("driverMode").setBoolean(isOn);
+  }
+
+  /**
+   * gets the mode of the photonvision camera
+   * @return if camera is in driver mode or not. true indicates being in driver mode,
+   * false indicates not being in driver mode.
+   */
+  public boolean getDriverMode() {
+    return networkTableInstance.getEntry("driverMode").getBoolean(false);
+  }
+
+  /**
+   * sets the led mode of the photonvision
+   * @param ledMode mode to set the photonvision to: (-1 = default, 0 is off, 1 is on, 2 is blink)
+   */
+  public void setLedMode(int ledMode) {
+    networkTableInstance.getTable("photonvision").getEntry("ledMode").setInteger(ledMode);
+  }
+
+  /**
+   * gets the current led mode of the photonvision
+   * @return either -1, 0, 1, or 2 to represent modes default, off, on, and blink, in that order.
+   */
+  public int getLedMode() {
+    return (int) networkTableInstance.getTable("photonvision").getEntry("ledMode").getInteger(-1);
   }
 
   @Override
