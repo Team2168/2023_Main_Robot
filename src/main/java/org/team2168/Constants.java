@@ -5,6 +5,8 @@
 package org.team2168;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -49,6 +51,12 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static final class FieldMetrics {
+    public static final double MARKER_SIZE_MM = 152.4;
+    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
+    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+  }
+
   public static final class Joysticks {
     public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
     public static final int OPERATOR_JOYSTICK = 1;//these constants are placeholders. 
@@ -58,3 +66,4 @@ public final class Constants {
     public static final int PID_TEST_JOYSTICK = 5;//these constants are placeholders. 
 }
 }
+
