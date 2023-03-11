@@ -66,7 +66,7 @@ public class HandWheels extends SubsystemBase {
 
   }
 
-  @Log(name = "Intake Velocity: ", tabName = "IntakeTab", methodName = "getVelocity()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
+  @Log(name = "Intake Percent Output: ", tabName = "IntakeTab", methodName = "getSpeed()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
   public double getSpeed() {
     return intakeLeftMotor.get(); // speed (-1.0 - 1.0) according to javadoc comment
   }
