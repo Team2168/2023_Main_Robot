@@ -12,6 +12,7 @@ import com.revrobotics.SparkMaxPIDController;
 import com.revrobotics.CANSparkMax.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,7 +26,6 @@ public class HandWheels extends SubsystemBase {
   private DigitalInput input;
   private boolean leftInvert = false;
   private boolean rightInvert = true;
-
 
   private final int CURRENT_LIMIT = 20;
   private final int VOLTAGE_COMPENSATION = 10;
@@ -52,6 +52,15 @@ public class HandWheels extends SubsystemBase {
     intakeLeftMotor.setInverted(leftInvert);
     intakeRightMotor.follow(intakeLeftMotor, rightInvert);
 
+    intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 255); // 255 is the samle periodMS value used in
+                                                                         // TalonFXHelperClass.
+    //to know what kStatus(0,1,2) do, go to definiton of PeriodicFrame.
+    intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 255);
+    intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 255);
+
+    intakeRightMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 255);
+    intakeRightMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 255);
+    intakeRightMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 255);
   }
 
   public static HandWheels getInstance() {
