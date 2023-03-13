@@ -173,7 +173,7 @@ public class Arm extends SubsystemBase {
    * @param inches how far out the arm is in inches
    * @return how far out the arm is in degrees
    */
-  public static double calculateInchesfromDegrees(double inches) {
+  public static double calculateDegreesfromInches(double inches) {
     return Math.toDegrees(Math.asin(inches/Constants.RobotMetrics.ARM_LENGTH));
   }
 

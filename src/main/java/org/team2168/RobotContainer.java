@@ -43,8 +43,6 @@ public class RobotContainer {
   private final Elevator elevator = new Elevator();
   //public final F310 testJoystick = new F310(Joysticks.PID_TEST_JOYSTICK);
 
-  OI oi = OI.getInstance();
-
   static RobotContainer instance = null;
   private final Limelight limelight = Limelight.getInstance();
   private final Arm arm = Arm.getInstance();

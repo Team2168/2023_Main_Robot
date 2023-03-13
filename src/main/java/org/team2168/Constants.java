@@ -42,6 +42,8 @@ public final class Constants {
     public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
     public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
     public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
+    public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
+    public static final double TOP_NODE_LENGTH_IN = 39.75;
   }
 
   public static final class Joysticks {
