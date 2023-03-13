@@ -52,7 +52,7 @@ public class HandWheels extends SubsystemBase {
     intakeLeftMotor.setInverted(leftInvert);
     intakeRightMotor.follow(intakeLeftMotor, rightInvert);
 
-    intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 255); // 255 is the same periodMS value used in
+    intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, 255); // 255 is the samef periodMS value used in
                                                                          // TalonFXHelperClass.
     //to know what kStatus(0,1,2) do, go to definiton of PeriodicFrame.
     intakeLeftMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 255);
