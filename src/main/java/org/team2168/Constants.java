@@ -24,15 +24,14 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
  */
 public final class Constants {
 
-  public static final class CANDevices {
-    public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
-  }
+
   public static class CANDevices {
     public static final int DRIVETRAIN_LEFT_MOTOR_1 = 18; // uses placeholder value
     public static final int DRIVETRAIN_LEFT_MOTOR_2 = 19; // uses placeholder value
     public static final int DRIVETRAIN_RIGHT_MOTOR_1 = 1; // uses placeholder value
     public static final int DRIVETRAIN_RIGHT_MOTOR_2 = 0; // uses placeholder value
     public static final int PIGEON_IMU = 4; // uses placeholder value
+    public static final int TURRET_MOTOR = 10;
   }
 
   public static class Drivetrain {
@@ -58,7 +57,7 @@ public final class Constants {
   }
 
 
-  public static final double LOOP_TIMESTEP_S = 0.02;
+  // public static final double LOOP_TIMESTEP_S = 0.02;
   public static final class FieldMetrics {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
