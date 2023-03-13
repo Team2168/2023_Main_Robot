@@ -23,6 +23,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Field2d;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final class CANDevices {
+    public static final int TURRET_MOTOR; // TODO: ADD VALUE
+  }
   public static class CANDevices {
     public static final int DRIVETRAIN_LEFT_MOTOR_1 = 18; // uses placeholder value
     public static final int DRIVETRAIN_LEFT_MOTOR_2 = 19; // uses placeholder value
@@ -67,6 +71,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+public static final double LOOP_TIMESTEP_S = 0.02;
 
   public static final class Joysticks {
     public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
