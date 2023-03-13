@@ -49,6 +49,6 @@ public class DriveElevatorToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (elevator.getPosition() >= (inches - errorTolerance) && elevator.getPosition() <= (inches + errorTolerance));
+    return (elevator.getPositionIn() >= (inches - errorTolerance) && elevator.getPositionIn() <= (inches + errorTolerance));
   }
 }

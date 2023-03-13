@@ -46,7 +46,7 @@ public class Elevator extends SubsystemBase {
 
   private static final double TIME_UNITS_OF_VELOCITY = 0.1; //in seconds 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = (1/3.75); //it might be the other way around but idk
+  private static final double GEAR_RATIO = ((8/48) * (28/42) * (40/20)); 
   private static final double SPROCKET_RADIUS = 0.25; 
   private static final double INCHES_PER_REV = SPROCKET_RADIUS * 2 * Math.PI;
 
@@ -163,7 +163,11 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
-  public double getPosition(){
+  public double getPositionIn(){
+    return ticksToInches(elevatorMotor.getSelectedSensorPosition());
+  }
+
+  public double getSpeed(){
     return elevatorMotor.get();
   }
 
@@ -178,7 +182,7 @@ public class Elevator extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    elevatorMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+    elevatorMotorSim.setBusVoltage(getSpeed() * RobotController.getBatteryVoltage());
     elevatorSim.setInput(elevatorMotorSim.getMotorOutputLeadVoltage());
     elevatorSim.update(Constants.ElevatorMotors.UPDATE_TIME);
 }

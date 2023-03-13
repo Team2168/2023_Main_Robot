@@ -31,8 +31,10 @@ public final class Constants {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
-    public static final double FIRST_NODE_HEIGHT_IN = 22.07;
-    public static final double SECOND_NODE_HEIGHT_IN = 41.75;
+    public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
+    public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
+    public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
+    public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
   }
 
   public static final class Joysticks {
