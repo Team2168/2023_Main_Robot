@@ -25,7 +25,7 @@ import org.team2168.utils.TalonFXHelper;
 
 
 
-public class Turret extends SubsystemBase {
+public class Turret extends SubsystemBase implements Loggable {
 
   private static TalonFXHelper turretMotor;
   private static Turret instance = null;
@@ -144,6 +144,14 @@ public class Turret extends SubsystemBase {
 
   public static double degreesPerSecondToTicksPer100ms(double degrees) {
     return degreesToEncoderTicks(degrees) / 10.0;
+  }
+
+  public static double getForwardSoftLimit() {
+    return ticksToDegrees(MAX_ROTATION_TICKS);
+  }
+
+  public static double getReverseSoftLimit() {
+    return ticksToDegrees(MIN_ROTATION_TICKS);
   }
 
   /**
