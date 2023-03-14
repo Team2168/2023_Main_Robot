@@ -8,6 +8,7 @@ import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Turret;
 
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -37,9 +38,12 @@ public class ResetTurretToApriltag extends CommandBase {
     double diffX = poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX();
     double diffY = poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY();
 
+    Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
+
     double finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
     turret.setRotationDegrees(finalAngle);
+    
   }
 
   // Called once the command ends or is interrupted.

@@ -105,7 +105,11 @@ public class PoseEstimationWithLimelight extends CommandBase {
   public Pose2d getPoseDisplayedField2d() {
     Constants.FieldMetrics.field.setRobotPose(getPose());
     return Constants.FieldMetrics.field.getRobotPose();
-}
+  }
+
+  public Pose2d relativeTo(Pose2d objectRelativeToBotPose) {
+    return poseEstimator.getEstimatedPosition().relativeTo(objectRelativeToBotPose);
+  }
 
   // Called once the command ends or is interrupted.
   @Override
