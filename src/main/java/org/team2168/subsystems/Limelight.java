@@ -66,6 +66,12 @@ public class Limelight extends SubsystemBase implements Loggable {
   public static double apriltagPose_roll;
   public static double apriltagPose_Pitch;
   public static double apriltagPose_Yaw;
+  public static double botPoseRelativeToTag_x;
+  public static double botPoseRelativeToTag_y;
+  public static double botPoseRelativeToTag_z;
+  public static double botPoseRelativeToTag_roll;
+  public static double botPoseRelativeToTag_pitch;
+  public static double botPoseRelativeToTag_yaw;
 
   // ledmode enum
   private static NetworkTableEntry ledMode;
@@ -277,7 +283,18 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   public double[] getBotPoseInTargetSpace() {
     double[] botPoseTargetSpaceArray = new double[6];
+    botPoseTargetSpaceArray[0] = botPoseRelativeToTag_x;
+    botPoseTargetSpaceArray[1] = botPoseRelativeToTag_y;
+    botPoseTargetSpaceArray[2] = botPoseRelativeToTag_z;
+    botPoseTargetSpaceArray[3] = botPoseRelativeToTag_roll;
+    botPoseTargetSpaceArray[4] = botPoseRelativeToTag_pitch;
+    botPoseTargetSpaceArray[5] = botPoseRelativeToTag_yaw;
     return botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
+  }
+
+  public Pose3d getPoseInTargetSpace() {
+    return new Pose3d(new Translation3d(botPoseRelativeToTag_x, botPoseRelativeToTag_y, botPoseRelativeToTag_z),
+    new Rotation3d(botPoseRelativeToTag_roll, botPoseRelativeToTag_pitch, botPoseRelativeToTag_yaw));
   }
 
   public double getAprilTagID() {

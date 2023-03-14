@@ -40,6 +40,8 @@ public class ResetTurretToApriltag extends CommandBase {
 
     Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
 
+    Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
+
     double finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
     turret.setRotationDegrees(finalAngle);
