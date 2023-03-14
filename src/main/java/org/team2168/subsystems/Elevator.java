@@ -21,10 +21,12 @@ import org.team2168.Constants;
 import org.team2168.Constants.ElevatorMotors;
 import org.team2168.utils.TalonFXHelper;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
+import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
@@ -109,8 +111,10 @@ public class Elevator extends SubsystemBase {
 
     elevatorMotor.configFactoryDefault();
    
-    elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, null);
+    elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, VecBuilder.fill(0.1));
     elevatorMotorSim = elevatorMotor.getSimCollection();
+
+    //public EncoderSim encoderSim = new EncoderSim(encoder);
   }
 
   public static Elevator getInstance(){
@@ -140,50 +144,72 @@ public class Elevator extends SubsystemBase {
     return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
 
-  @Log(name = "Speed (Velocity)", rowIndex = 3, columnIndex = 0)
+  public void setEncoderPosZero(){
+    elevatorMotor.setSelectedSensorPosition(0);
+  }
+
+  //Config()
   public void setSpeedVelocity(double speed) {
     elevatorMotor.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
   }
 
-  @Log(name = "Position", rowIndex = 3, columnIndex = 1)
+  //@Config()
   public void setPosition(double inches){
     //this.position = position;
 
     elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
-  @Log(name = "Percent Output", rowIndex = 3, columnIndex = 2)
+  //@Config()
   public void setPercentOutput(double percentOutput) {
     elevatorMotor.set(ControlMode.PercentOutput, percentOutput, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
-
-  @Log()
   public void setToZero(){
     elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
+  @Log(name = "Positiion (inches)", rowIndex = 3, columnIndex = 2)
   public double getPositionIn(){
     return ticksToInches(elevatorMotor.getSelectedSensorPosition());
   }
 
+  @Log(name = "Speed", rowIndex = 3, columnIndex = 3)
   public double getSpeed(){
     return elevatorMotor.get();
   }
 
+  @Log(name = "Velocity (in / s)", rowIndex = 3, columnIndex = 4)
+  public double getVelocity(){
+    return (ticksToInches(elevatorMotor.getSelectedSensorVelocity())) / TIME_UNITS_OF_VELOCITY;
+  }
+
+  @Log(name = "At Zero", rowIndex = 3, columnIndex = 0)
   public boolean isZeroPosition(){
     return elevatorMotor.isRevLimitSwitchClosed() == 1;
   }
 
+  @Log(name = "At Top", rowIndex = 3, columnIndex = 1)
   public boolean isAtUpperPosition(){
     return elevatorMotor.isFwdLimitSwitchClosed() == 1;
   }
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    elevatorMotorSim.setBusVoltage(getSpeed() * RobotController.getBatteryVoltage());
-    elevatorSim.setInput(elevatorMotorSim.getMotorOutputLeadVoltage());
-    elevatorSim.update(Constants.ElevatorMotors.UPDATE_TIME);
+    if (!isZeroPosition()){
+      setEncoderPosZero();
+    }
+}
+
+@Override
+public void simulationPeriodic() {
+  // This method will be called once per scheduler run
+  elevatorMotorSim.setBusVoltage(getSpeed() * RobotController.getBatteryVoltage()); //sets output of motor with speed and voltage
+  elevatorSim.setInput(elevatorMotorSim.getMotorOutputLeadVoltage()); //gets motor output
+  elevatorSim.update(Constants.ElevatorMotors.UPDATE_TIME); //how often the elevator will update (in secs)
+  double simVelocityInTicks = inchesToTicks(getSpeed() * TIME_UNITS_OF_VELOCITY);
+  double simPosition = inchesToTicks(getPositionIn());
+  elevatorMotorSim.setIntegratedSensorRawPosition((int) simPosition);
+  elevatorMotorSim.setIntegratedSensorVelocity((int) simVelocityInTicks);
 }
 }
