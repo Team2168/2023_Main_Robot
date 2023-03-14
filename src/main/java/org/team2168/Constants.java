@@ -28,9 +28,9 @@ public final class Constants {
   public static class Drivetrain {
     public final static int kPigeonUnitsPerRotation = 8192;
     public static final double MAX_VOLTAGE = 10.0;
-    public static final double ksVolts = 1.0;
-    public static final double kvVoltSecondsPerMeter = 1.0;
-    public static final double kaVoltSecondsSquaredPerMeter = 1.0;
+    public static final double ksVolts = 0.16855;
+    public static final double kvVoltSecondsPerMeter = 2.3191;
+    public static final double kaVoltSecondsSquaredPerMeter = 0.28327;
 
     public static final double kTrackwidthMeters = 0.5842; // uses physical trackwidth, need to average with sysid results
     public static final DifferentialDriveKinematics kDriveKinematics = 
@@ -40,10 +40,10 @@ public final class Constants {
     public static final double kRamseteB = 2.0; // replace these for 2022
     public static final double kRamseteZeta = 0.7;
 
-    public static final double kPDriveVel = 2.0;
+    public static final double kPDriveVel = 2.9277;
 
-    public static final double kMaxSpeedMetersPerSecond = 3.2;  // reconfigure these in sysId
-    public static final double kMaxAccelerationMetersPerSecondSquared = 1.7;
+    public static final double kMaxSpeedMetersPerSecond = 3.0;  // taken from sysID
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1.8;
 
   }
 

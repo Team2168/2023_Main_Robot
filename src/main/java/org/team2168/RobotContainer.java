@@ -8,6 +8,7 @@ import org.team2168.Constants.Joysticks;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.subsystems.Drivetrain;
@@ -15,6 +16,7 @@ import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -37,6 +39,7 @@ public class RobotContainer {
   OI oi = OI.getInstance();
   private final Limelight limelight = Limelight.getInstance();
  
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -52,6 +55,10 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     configureBindings();
+  }
+
+  public void configureAutoRoutines() {
+    autoChooser.setDefaultOption("do nothing", new DoNothing());
   }
 
   /**
@@ -88,7 +95,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    var auto = autoChooser.getSelected();
+    if (auto == null) {
+      System.out.println("selected path is null!");
+      return new DoNothing();
+    }
+    else {
+      return autoChooser.getSelected();
+    }
   }
 }
