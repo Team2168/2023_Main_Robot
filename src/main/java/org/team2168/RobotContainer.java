@@ -72,8 +72,8 @@ public class RobotContainer {
     oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
 
 
-    oi.operatorJoystick.ButtonLeftStick().whileTrue(new DriveWristWithJoystick(wrist, oi::getLeftOperatorJoystickX));
-    oi.operatorJoystick.ButtonRightStick().whileTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickX));
+    
+    oi.operatorJoystick.ButtonRightStick().whileTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
     
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
