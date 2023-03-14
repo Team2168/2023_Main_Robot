@@ -32,10 +32,11 @@ import io.github.oblarg.oblog.Logger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  private final Turret turret = new Turret();
+  private final Turret turret = Turret.getInstance();
   
 
   OI oi = OI.getInstance();
+  
   private final Limelight limelight = Limelight.getInstance();
  
 
@@ -49,7 +50,6 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     Logger.configureLoggingAndConfig(this, false);
-
     configureBindings();
   }
 
@@ -72,7 +72,8 @@ public class RobotContainer {
     
     oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
     oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
-    
+
+    oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
 
   
   }
