@@ -48,7 +48,7 @@ public class Elevator extends SubsystemBase {
 
   private static final double TIME_UNITS_OF_VELOCITY = 0.1; //in seconds 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = ((8/48) * (28/42) * (40/20)); 
+  private static final double GEAR_RATIO = ((8.0/48.0) * (28.0/42.0) * (40.0/20.0)); 
   private static final double SPROCKET_RADIUS = 0.25; 
   private static final double INCHES_PER_REV = SPROCKET_RADIUS * 2 * Math.PI;
 
@@ -111,7 +111,16 @@ public class Elevator extends SubsystemBase {
 
     elevatorMotor.configFactoryDefault();
    
-    elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, VecBuilder.fill(0.1));
+    elevatorSim = new ElevatorSim(
+    DCMotor.getFalcon500(1), 
+    GEAR_RATIO, 
+    CARRIAGE_MASS_KG, 
+    Units.inchesToMeters(SPROCKET_RADIUS), 
+    Units.inchesToMeters(MIN_HEIGHT_INCHES), 
+    Units.inchesToMeters(MAX_HEIGHT_INCHES), 
+    kSensorPhase, 
+    VecBuilder.fill(0.1));
+
     elevatorMotorSim = elevatorMotor.getSimCollection();
 
     //public EncoderSim encoderSim = new EncoderSim(encoder);
@@ -140,7 +149,7 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
   }
 
-  private double getEncoderTicks(){
+  private double getEncoderPositionInTicks(){
     return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
 
@@ -148,7 +157,7 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.setSelectedSensorPosition(0);
   }
 
-  //Config()
+  //@Config()
   public void setSpeedVelocity(double speed) {
     elevatorMotor.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
   }
@@ -179,7 +188,7 @@ public class Elevator extends SubsystemBase {
     return elevatorMotor.get();
   }
 
-  @Log(name = "Velocity (in / s)", rowIndex = 3, columnIndex = 4)
+  @Log(name = "Velocity (inches / sec)", rowIndex = 3, columnIndex = 4)
   public double getVelocity(){
     return (ticksToInches(elevatorMotor.getSelectedSensorVelocity())) / TIME_UNITS_OF_VELOCITY;
   }
@@ -192,6 +201,11 @@ public class Elevator extends SubsystemBase {
   @Log(name = "At Top", rowIndex = 3, columnIndex = 1)
   public boolean isAtUpperPosition(){
     return elevatorMotor.isFwdLimitSwitchClosed() == 1;
+  }
+
+  @Log(name = "Error", rowIndex = 3, columnIndex = 5)
+  public double getControllerError(){
+    return ticksToDegrees(elevatorMotor.getClosedLoopError()); //this method returns the current error position
   }
 
   @Override
@@ -207,8 +221,10 @@ public void simulationPeriodic() {
   elevatorMotorSim.setBusVoltage(getSpeed() * RobotController.getBatteryVoltage()); //sets output of motor with speed and voltage
   elevatorSim.setInput(elevatorMotorSim.getMotorOutputLeadVoltage()); //gets motor output
   elevatorSim.update(Constants.ElevatorMotors.UPDATE_TIME); //how often the elevator will update (in secs)
+
   double simVelocityInTicks = inchesToTicks(getSpeed() * TIME_UNITS_OF_VELOCITY);
   double simPosition = inchesToTicks(getPositionIn());
+
   elevatorMotorSim.setIntegratedSensorRawPosition((int) simPosition);
   elevatorMotorSim.setIntegratedSensorVelocity((int) simVelocityInTicks);
 }
