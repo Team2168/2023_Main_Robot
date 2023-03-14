@@ -21,7 +21,7 @@ public class AdjustOnChargeStation extends CommandBase {
   PIDController pid;
 
   //gains
-  private static final double P = 0.01;
+  private static final double P = 0.007;
   private static final double I = 0.0;
   private static final double D = 0.0;
   private static final double MAX_INTEGRAL = 1.0;

@@ -24,8 +24,10 @@ import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class Drivetrain extends SubsystemBase {
+public class Drivetrain extends SubsystemBase implements Loggable {
   /** Creates a new Drivetrain. */
   private PigeonHelper pidgey;
 
@@ -62,6 +64,9 @@ public class Drivetrain extends SubsystemBase {
   public static final double PIGEON_UNITS_PER_DEGREE = PIGEON_UNITS_PER_ROTATION / 360;
   public static final double WHEEL_BASE = 23.0; // distance between wheels (width) in inches
   public static final int TIMEOUT = 30;  // 30ms
+
+  public static final double kV = 0.0;
+  public static final double kA = 0.0;
 
     private double setPointPosition_sensorUnits;
     private double setPointHeading_sensorUnits;
@@ -179,8 +184,8 @@ public class Drivetrain extends SubsystemBase {
 		rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
 
       // /* Motion Magic Configs */ // need new configs for 2023
-      // rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
-      // rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
+      rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
+      rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
 
   /* APPLY the config settings */
   leftMotor1.configAllSettings(leftConfig);
@@ -246,6 +251,7 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return gyro pitch degrees
    */
+  @Log
   public double getPitch() {
     return pidgey.getPitch();
   }

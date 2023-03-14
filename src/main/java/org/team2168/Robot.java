@@ -6,6 +6,7 @@ package org.team2168;
 
 import edu.wpi.first.wpilibj.DriverStation;
 
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -24,6 +25,7 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private Limelight limelight;
+  private Drivetrain drivetrain;
   
 
   /**
