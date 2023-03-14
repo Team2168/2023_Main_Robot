@@ -51,9 +51,9 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public ProfiledPIDController xController;
   public ProfiledPIDController yController;
   public ProfiledPIDController turnController;
-  public Constraints xControllerConstraints;
-  public Constraints yControllerConstraints;
-  public Constraints turnControllerConstraints;
+  public TrapezoidProfile.Constraints xControllerConstraints;
+  public TrapezoidProfile.Constraints yControllerConstraints;
+  public TrapezoidProfile.Constraints turnControllerConstraints;
   public PoseEstimationWeightedAverage poseEstimation;
   public Pose3d robotPose;
   public Limelight lime;
@@ -71,11 +71,11 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
    *                    the apriltag, so the claw is able to score the gamepiece, since the arm mechanism is static (unable to extend or retract)
    */
   public AutoAlignWithPoseEstimation(Drivetrain drive, Limelight lime, ScoringArea scoringArea) {
-    xControllerConstraints = new Constraints(Constants.Drivetrain.kMaxSpeedMetersPerSecond,
+    xControllerConstraints = new TrapezoidProfile.Constraints(Constants.Drivetrain.kMaxSpeedMetersPerSecond,
         Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared); // change to realistic constraint values;
-    yControllerConstraints = new Constraints(Constants.Drivetrain.kPDriveVel,
+    yControllerConstraints = new TrapezoidProfile.Constraints(Constants.Drivetrain.kPDriveVel,
         Constants.Drivetrain.kMaxAccelerationMetersPerSecondSquared);
-    turnControllerConstraints = new Constraints(1.0, 1.0); // change to real values
+    turnControllerConstraints = new TrapezoidProfile.Constraints(1.0, 1.0); // change to real values
 
     xController = new ProfiledPIDController(1.0, 0, 0, xControllerConstraints); // change to real PID Values
     yController = new ProfiledPIDController(1.0, 0, 0, yControllerConstraints);
