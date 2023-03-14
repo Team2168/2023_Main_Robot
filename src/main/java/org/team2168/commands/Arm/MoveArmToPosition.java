@@ -40,7 +40,7 @@ public class MoveArmToPosition extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    var demand = Arm.calculateInchesfromDegrees(inches); //gives degrees to move as positive/clockwise position from 0 to 90 degrees
+    var demand = Arm.calculateDegreesfromInches(inches); //gives degrees to move as positive/clockwise position from 0 to 90 degrees
     if(toFaceDown)
       /* if the arm should be angled downwards, DEMAND becomes inverted so that it is within the arm's 
       range of motion from 0 to -90 degrees */
