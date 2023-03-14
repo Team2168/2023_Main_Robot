@@ -8,7 +8,9 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.Arm.BumpArm;
+import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
+import org.team2168.commands.Wrist.DriveWristWithJoystick;
 import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
@@ -33,7 +35,7 @@ public class RobotContainer {
   private final Wrist wrist = Wrist.getInstance();
 
   private final OI oi = OI.getInstance();
-  
+
   // Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
@@ -69,6 +71,10 @@ public class RobotContainer {
     oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
 
+
+    oi.operatorJoystick.ButtonLeftStick().whileTrue(new DriveWristWithJoystick(wrist, oi::getLeftOperatorJoystickX));
+    oi.operatorJoystick.ButtonRightStick().whileTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickX));
+    
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 

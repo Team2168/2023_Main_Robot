@@ -12,8 +12,13 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.annotations.Log;
 
@@ -47,6 +52,9 @@ public class Wrist extends SubsystemBase {
   private static Wrist instance = null;
   private static double setpoint = 0.0;
 
+  private static TalonFXSimCollection wristMotorSim;
+  private static FlywheelSim wristSim;
+
   // Current limit configuration
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
   private static final boolean ENABLE_CURRENT_LIMIT = true;
@@ -54,6 +62,7 @@ public class Wrist extends SubsystemBase {
   private static final double TRIGGER_THRESHOLD_LIMIT = 30; // amp TODO: update limit
   private static final double TRIGGER_THRESHOLD_TIME = 0.2; // s 
   private static final double NEUTRAL_DEADBAND = 0.001;
+
 
   private static final double TICKS_PER_REV = 2048;
   private static final double GEAR_RATIO = 0.0; //TODO: update value, teeth/diameter
@@ -97,6 +106,9 @@ public class Wrist extends SubsystemBase {
     kD = 0.0;
     kF = 0.0;
   }
+
+  public static final double kV = 0.02;
+  public static final double kA = 0.002;
   
   private Wrist() {
     wristMotor = new TalonFXHelper(Constants.WRIST_MOTOR);
@@ -129,6 +141,15 @@ public class Wrist extends SubsystemBase {
     wristMotor.configSupplyCurrentLimit(talonCurrentLimit);
     
     wristMotor.configClosedLoopStatusFrameRates();
+
+    wristSim = new FlywheelSim
+    (LinearSystemId.identifyVelocitySystem(kV, kA),
+    DCMotor.getFalcon500(1),
+    GEAR_RATIO
+    );
+
+
+    wristMotorSim = wristMotor.getSimCollection();
   }
 
   private static double ticksToDegrees(double ticks) {
@@ -222,4 +243,21 @@ public class Wrist extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
   }
+
+  @Override
+  public void simulationPeriodic() {
+    // Affect motor outputs by main system battery voltage dip 
+    wristMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
+
+    // Pass motor output voltage to physics sim
+    wristSim.setInput(wristMotorSim.getMotorOutputLeadVoltage());
+    wristSim.update(Constants.LOOP_TIMESTEP_S);
+
+    // Update motor sensor states based on physics model
+    double sim_velocity_ticks_per_100ms = wristSim.getAngularVelocityRPM() / ONE_HUNDRED_MS_PER_MINUTE;
+    wristMotorSim.setIntegratedSensorVelocity((int) sim_velocity_ticks_per_100ms);
+    wristMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + (Constants.LOOP_TIMESTEP_S / 10) * sim_velocity_ticks_per_100ms));
+
+  }
 }
+

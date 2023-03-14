@@ -258,10 +258,10 @@ public class Arm extends SubsystemBase {
     armMotorSim.setBusVoltage(RobotController.getBatteryVoltage());
 
     armSim.setInput(armMotorSim.getMotorOutputLeadVoltage());
-    armSim.update(0.02);
+    armSim.update(Constants.LOOP_TIMESTEP_S);
 
     double simVelocityTicksPer100ms = degreesToTicks(Math.toDegrees(armSim.getVelocityRadPerSec()/10));
     armMotorSim.setIntegratedSensorVelocity((int) simVelocityTicksPer100ms);
-    armMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + 0.02*simVelocityTicksPer100ms));
+    armMotorSim.setIntegratedSensorRawPosition((int) (getEncoderPosition() + Constants.LOOP_TIMESTEP_S * simVelocityTicksPer100ms));
   }
 }

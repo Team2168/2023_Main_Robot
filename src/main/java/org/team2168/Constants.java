@@ -22,6 +22,8 @@ public final class Constants {
   
   public static final int WRIST_MOTOR = 13;
   public static final int ARM_MOTOR = 16;
+
+  public static final double LOOP_TIMESTEP_S = 0.02;
   
   public static final class RobotMetrics{
     public static final double ARM_LENGTH = 45.0; //TODO: update, this is a placeholder
