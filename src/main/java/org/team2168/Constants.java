@@ -16,10 +16,15 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
+  public static final class CANDevices {
+    public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
+  }
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
 
+  public static final double LOOP_TIMESTEP_S = 0.02;
   public static final class FieldMetrics {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);

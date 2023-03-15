@@ -7,7 +7,10 @@ package org.team2168;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.Turret.*;
 import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.Turret;
+import org.team2168.OI;
 import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
 
@@ -19,6 +22,7 @@ import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 import io.github.oblarg.oblog.Logger;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -28,6 +32,11 @@ import io.github.oblarg.oblog.Logger;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Turret turret = Turret.getInstance();
+  
+
+  OI oi = OI.getInstance();
+  
   private final Limelight limelight = Limelight.getInstance();
  
 
@@ -41,7 +50,6 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     Logger.configureLoggingAndConfig(this, false);
-
     configureBindings();
   }
 
@@ -61,9 +69,13 @@ public class RobotContainer {
 
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
- 
-    // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
+    oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
+
+    oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+
+  
   }
 
   /**
