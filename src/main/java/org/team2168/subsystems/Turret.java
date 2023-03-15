@@ -74,7 +74,7 @@ public class Turret extends SubsystemBase implements Loggable {
    * The Gains for the Turret
    */
   static {
-      kGains = new Gains(0.1, 0.0, 0.01, 0.0, 550, 1.0);
+      kGains = new Gains(0.01, 0.0, 0.01, 0.0, 550, 1.0);
    }
 
 
