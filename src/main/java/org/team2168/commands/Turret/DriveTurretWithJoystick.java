@@ -29,7 +29,15 @@ public class DriveTurretWithJoystick extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.setSpeed(speed.getAsDouble());
+    
+    if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio())) < Turret.getForwardSoftLimit() || 
+    (Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio())) > Turret.getReverseSoftLimit()){
+      turret.setSpeed(speed.getAsDouble());
+    }
+    else {
+      turret.setSpeed(0.0);
+    }
+    
   }
 
   // Called once the command ends or is interrupted.

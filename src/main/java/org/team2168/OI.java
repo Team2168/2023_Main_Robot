@@ -60,10 +60,10 @@ public class OI {
      */
 
     private double[][] operatorJoystickInterpolation = {
-        {-1.00, -0.075},
+        {-1.00, -0.2},
         {-0.05,  0.0},  //set neutral deadband to -10%
         {+0.05,  0.0},
-        {+1.00, +0.075}  
+        {+1.00, +0.2}  
     };
     /**
      * A double list used for the test joystick to interpolate 

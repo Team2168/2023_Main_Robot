@@ -32,7 +32,7 @@ public class Turret extends SubsystemBase implements Loggable {
   private static Turret instance = null;
 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = 8.0/1.0 * 30.0/1.0; // Gear ratio maybe?
+  private static final double GEAR_RATIO = 37.5/1.0; // Gear ratio maybe?
   private static final double TICKS_PER_TURRET_ROTATION = TICKS_PER_REV * GEAR_RATIO;
   private static double setpoint = 0.0;
 
@@ -43,11 +43,11 @@ public class Turret extends SubsystemBase implements Loggable {
   // 2022 values
 
   // The Minimum and Maximum rotation ticks of the turret are 90 degrees in both directions
-  private static final int MIN_ROTATION_TICKS = -122800; 
-  private static final int MAX_ROTATION_TICKS = 122800; 
+  private static final int MIN_ROTATION_TICKS = -19188; 
+  private static final int MAX_ROTATION_TICKS = 19188; 
 
-  private static final double MIN_ROTATION_DEGREES = ticksToDegrees(-122800.0);
-  private static final double MAX_ROTATION_DEGREES = ticksToDegrees(122800.0);
+  private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
+  private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
   private static final double TOTAL_ROTATION_DEGREES = Math.abs(MIN_ROTATION_DEGREES) + Math.abs(MAX_ROTATION_DEGREES);
 
   private static final double ACCELERATION = degreesPerSecondToTicksPer100ms(360.0 * 5);
@@ -131,7 +131,7 @@ public class Turret extends SubsystemBase implements Loggable {
     return instance;
  }
 
-  private static double ticksToDegrees(double ticks) {
+  public static double ticksToDegrees(double ticks) {
     return (ticks / TICKS_PER_TURRET_ROTATION) * 360.0;
   }
 
@@ -194,6 +194,11 @@ public class Turret extends SubsystemBase implements Loggable {
    */
   public double getEncoderPosition() {
     return turretMotor.getSelectedSensorPosition();
+  }
+
+
+  public double getGearRatio() {
+    return GEAR_RATIO;
   }
 
   @Override
