@@ -9,6 +9,8 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.auto.LeftLeaveCommunity;
+import org.team2168.commands.auto.MidCS;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.subsystems.Drivetrain;
@@ -17,6 +19,7 @@ import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -39,6 +42,7 @@ public class RobotContainer {
   OI oi = OI.getInstance();
   private final Limelight limelight = Limelight.getInstance();
  
+  @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
 
@@ -59,6 +63,10 @@ public class RobotContainer {
 
   public void configureAutoRoutines() {
     autoChooser.setDefaultOption("do nothing", new DoNothing());
+    autoChooser.addOption("Left community", new LeftLeaveCommunity(drivetrain));
+    autoChooser.addOption("Middle", new MidCS(drivetrain));
+
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
