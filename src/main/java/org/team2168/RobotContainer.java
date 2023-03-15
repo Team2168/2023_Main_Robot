@@ -9,6 +9,7 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.subsystems.Drivetrain;
@@ -59,6 +60,7 @@ public class RobotContainer {
 
   public void configureAutoRoutines() {
     autoChooser.setDefaultOption("do nothing", new DoNothing());
+    autoChooser.addOption("Drive Forward", new DriveForward(drivetrain));
   }
 
   /**
