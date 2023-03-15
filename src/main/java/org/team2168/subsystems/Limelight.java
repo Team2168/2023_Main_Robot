@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
 
-  public double[] botPoseArrayTwo = getBotPoseTranslation();
+  // public double[] botPoseArrayTwo;
   // standard entries
 
   private static boolean isLimelightEnabled;
@@ -247,10 +247,13 @@ public class Limelight extends SubsystemBase implements Loggable {
     return cl.getDouble(0.0);
   }
 
+  // deal with this problem of null pointer exception.
   public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
-    return botPose.getDoubleArray(botPoseArray);
+    return botPose.getDoubleArray(new double[6]);
   }
+
+  public double[] botPoseArrayTwo = new double[2];
 
   public double[] getCameraViewTranslation() {
 
