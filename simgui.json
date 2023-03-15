@@ -1,6 +1,31 @@
 {
   "HALProvider": {
     "Other Devices": {
+      "Talon FX[13]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[16]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[16]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[16]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[16]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[8]": {
         "header": {
           "open": true

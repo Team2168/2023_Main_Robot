@@ -114,8 +114,20 @@ public class OI {
         return gunStyleYInterpolator.interpolate(driverJoystick.getLeftStickRaw_Y());
     }
 
-    public double getOperatorJoystickY() {
+    public double getLeftOperatorJoystickX() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getLeftStickRaw_X());
+    }
+
+    public double getLeftOperatorJoystickY() {
         return operatorJoystickInterpolator.interpolate(operatorJoystick.getLeftStickRaw_Y());
+    }
+
+    public double getRightOperatorJoystickX() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getRightStickRaw_X());
+    }
+
+    public double getRightOperatorJoystickY() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getRightStickRaw_Y());
     }
 
     public double getTestJoystickX() {
