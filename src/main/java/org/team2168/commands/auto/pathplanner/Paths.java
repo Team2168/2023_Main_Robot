@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 /** Add your docs here. */
 public class Paths {
     public final Trajectory path_example;
+    public final Trajectory path_left_leave_community_blue;
+    public final Trajectory path_left_leave_community_red;
 
     private static Paths instance = null;
 
@@ -22,6 +24,8 @@ public class Paths {
         System.out.println("******* Begin generating autos *******");
 
         path_example = getTrajectory("example_path", true);
+        path_left_leave_community_blue = getTrajectory("Left community", true);
+        path_left_leave_community_red = getTrajectory("Right community", true);
 
         System.out.println("******* Finish generating autos *******");
     }
