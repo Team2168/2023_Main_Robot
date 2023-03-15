@@ -4,6 +4,7 @@
 
 package org.team2168;
 
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -20,6 +21,11 @@ public final class Constants {
   public static final class CANDevices {
     public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
   }
+  public static final class ElevatorMotors{
+    public static final int ELEVATOR_MOTOR = 14; 
+    public static final double UPDATE_TIME = 0.02;
+  }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
@@ -29,6 +35,10 @@ public final class Constants {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+    public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
+    public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
+    public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
+    public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
   }
 
   public static final class Joysticks {
