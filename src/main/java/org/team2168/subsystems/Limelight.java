@@ -25,7 +25,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
 
-  // public double[] botPoseArrayTwo;
+  public double[] botPoseArray = new double[6];
   // standard entries
 
   private static boolean isLimelightEnabled;
@@ -250,10 +250,11 @@ public class Limelight extends SubsystemBase implements Loggable {
   // deal with this problem of null pointer exception.
   public double[] getBotPoseTranslation() {
     double[] botPoseArray = new double[6];
-    return botPose.getDoubleArray(new double[6]);
+    return botPose.getDoubleArray(botPoseArray);
+    // botPoseArrayTwo = botPoseArray[0];
   }
 
-  public double[] botPoseArrayTwo = new double[2];
+  // public double[] botPoseArrayTwo = new double[2];
 
   public double[] getCameraViewTranslation() {
 
@@ -375,15 +376,15 @@ public class Limelight extends SubsystemBase implements Loggable {
   
 
   public Pose3d getPose3d() {
-    return new Pose3d(botPoseArrayTwo[0], botPoseArrayTwo[1], botPoseArrayTwo[2],
-        new Rotation3d(Units.degreesToRadians(botPoseArrayTwo[3]), Units.degreesToRadians(botPoseArrayTwo[4]),
-            Units.degreesToRadians(botPoseArrayTwo[5])));
+    return new Pose3d(botPoseArray[0], botPoseArray[1], botPoseArray[2],
+        new Rotation3d(Units.degreesToRadians(botPoseArray[3]), Units.degreesToRadians(botPoseArray[4]),
+            Units.degreesToRadians(botPoseArray[5])));
 
   }
 
   public Pose2d getPose2d() {
-    return new Pose2d(botPoseArrayTwo[0], botPoseArrayTwo[1],
-        new Rotation2d(Units.degreesToRadians(botPoseArrayTwo[5])));
+    return new Pose2d(botPoseArray[0], botPoseArray[1],
+        new Rotation2d(Units.degreesToRadians(botPoseArray[5])));
   }
 
   public Pose3d getCameraTransformFromBotPose() {

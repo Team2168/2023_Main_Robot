@@ -72,8 +72,8 @@ public class PoseEstimationWithLimelight extends CommandBase {
   public void initialize() {
 
     poseEstimator.addVisionMeasurement(
-        new Pose2d(new Translation2d(lime.botPoseArrayTwo[0], lime.botPoseArrayTwo[2]),
-            Rotation2d.fromDegrees((lime.botPoseArrayTwo[5]))),
+        new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
+            Rotation2d.fromDegrees((lime.botPoseArray[5]))),
         Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs())
             - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
 
