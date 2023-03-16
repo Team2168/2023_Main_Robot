@@ -9,6 +9,9 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.auto.LeftLeaveCommunity;
+import org.team2168.commands.auto.MidCS;
+import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.subsystems.Drivetrain;
@@ -17,6 +20,7 @@ import org.team2168.subsystems.Limelight;
 import org.team2168.utils.F310;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -38,7 +42,8 @@ public class RobotContainer {
 
   OI oi = OI.getInstance();
   private final Limelight limelight = Limelight.getInstance();
- 
+
+  @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
 
@@ -55,10 +60,16 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     configureBindings();
+    configureAutoRoutines();
   }
 
   public void configureAutoRoutines() {
     autoChooser.setDefaultOption("do nothing", new DoNothing());
+    autoChooser.addOption("Left community", new LeftLeaveCommunity(drivetrain));
+    autoChooser.addOption("Middle", new MidCS(drivetrain));
+    autoChooser.addOption("4 m forward", new FourMetersPathplanner(drivetrain));
+
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -73,7 +84,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
-    
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -83,9 +94,9 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_testController.a().onTrue(new AdjustOnChargeStation(drivetrain));
 
-    
+
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
- 
+
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
