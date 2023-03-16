@@ -14,6 +14,7 @@ import org.team2168.commands.auto.MidCS;
 import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
+import org.team2168.commands.drivetrain.ToggleBrakes;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
@@ -45,13 +46,6 @@ public class RobotContainer {
 
   @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
-
-
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final CommandXboxController m_testController =
-      new CommandXboxController(Joysticks.PID_TEST_JOYSTICK);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -92,10 +86,12 @@ public class RobotContainer {
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    m_testController.a().onTrue(new AdjustOnChargeStation(drivetrain));
+    oi.driverJoystick.ButtonA().onTrue(new AdjustOnChargeStation(drivetrain));
 
 
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    oi.driverJoystick.ButtonB().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+
+    oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
 
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }

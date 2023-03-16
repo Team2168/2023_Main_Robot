@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class Drivetrain extends SubsystemBase implements Loggable {
@@ -76,6 +77,18 @@ public class Drivetrain extends SubsystemBase implements Loggable {
    */
   TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
   TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
+
+  private boolean areTheBrakesToBeBrakesEnabled;
+
+  @Log(name = "Is are get brakes brakes enabed", columnIndex = 1, rowIndex = 0)
+  public boolean areTheBrakesToBeBrakesEnabled() {
+    return areTheBrakesToBeBrakesEnabled;
+  }
+
+  @Config(name = "Beat up-able", width = 1)
+  public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
+    areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
+  }
 
   public static Drivetrain getInstance() {
     if (instance == null)
@@ -522,6 +535,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Coast);
     rightMotor1.setNeutralMode(NeutralMode.Brake);
     rightMotor2.setNeutralMode(NeutralMode.Coast);
+    areTheBrakesToBeBrakesEnabled = true;
   }
 
   /** 
@@ -532,6 +546,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Brake);
     rightMotor1.setNeutralMode(NeutralMode.Brake);
     rightMotor2.setNeutralMode(NeutralMode.Brake);
+    areTheBrakesToBeBrakesEnabled = true;
   }
 
   /**
@@ -543,6 +558,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Coast);
     rightMotor1.setNeutralMode(NeutralMode.Coast);
     rightMotor2.setNeutralMode(NeutralMode.Coast);
+    areTheBrakesToBeBrakesEnabled = false;
   }
 
  /** 
