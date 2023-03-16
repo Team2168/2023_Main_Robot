@@ -233,6 +233,11 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   @Config(name = "are the brakes to be engaged?", width = 1)
   public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
     areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
+    if (toAmBrakesEnabled) {
+        setMotorsBrake();
+    } else {
+        setMotorsCoast();
+    }
   }
 
   /**
