@@ -42,7 +42,7 @@ public class RobotContainer {
 
   OI oi = OI.getInstance();
   private final Limelight limelight = Limelight.getInstance();
- 
+
   @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
@@ -84,7 +84,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
-    
+
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
         .onTrue(new ExampleCommand(m_exampleSubsystem));
@@ -94,9 +94,9 @@ public class RobotContainer {
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_testController.a().onTrue(new AdjustOnChargeStation(drivetrain));
 
-    
+
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
- 
+
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
