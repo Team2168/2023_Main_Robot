@@ -46,7 +46,6 @@ public class RobotContainer {
   static RobotContainer instance = null;
   private final Limelight limelight = Limelight.getInstance();
   private final Arm arm = Arm.getInstance();
-  private final Wrist wrist = Wrist.getInstance();
 
   private final OI oi = OI.getInstance();
   
