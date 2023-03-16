@@ -130,7 +130,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
       rotSpeed = 0.0;
     }
 
-    ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d());
+    drive.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d()));
+    //convert chassis speeds to field relative speeds.
 
   }
 
