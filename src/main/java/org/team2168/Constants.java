@@ -30,6 +30,12 @@ public final class Constants {
   public static final int WRIST_MOTOR = 13;
   public static final int ARM_MOTOR = 16;
   
+  public static final class PneumaticDevices {
+  public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
+  public static final int WIRST_FORWARD_CHANNEL = 15;
+  public static final int WIRST_REVERSE_CHANNEL = 12;
+  }
+
   public static final class RobotMetrics{
     public static final double ARM_LENGTH = 45.0; //TODO: update, this is a placeholder
   }

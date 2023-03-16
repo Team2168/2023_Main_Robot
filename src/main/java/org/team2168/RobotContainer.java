@@ -5,6 +5,7 @@
 package org.team2168;
 
 import org.team2168.Constants.OperatorConstants;
+import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.DriveElevator;
 import org.team2168.commands.DriveElevatorToPosition;
@@ -12,12 +13,16 @@ import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.RotateArm;
+import org.team2168.commands.Wrist.CloseWrist;
+import org.team2168.commands.Wrist.OpenWrist;
+import org.team2168.commands.Wrist.ToggleWrist;
 import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.Constants.Joysticks;
 
 import edu.wpi.first.wpilibj.Joystick;
 import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -46,6 +51,7 @@ public class RobotContainer {
   static RobotContainer instance = null;
   private final Limelight limelight = Limelight.getInstance();
   private final Arm arm = Arm.getInstance();
+  private final WNE_Wrist wrist = WNE_Wrist.getInstance();
 
   private final OI oi = OI.getInstance();
   
@@ -99,6 +105,16 @@ public class RobotContainer {
     oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
 
+    oi.operatorJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
+    oi.operatorJoystick.ButtonB().onTrue(new OpenWrist(wrist));
+    oi.operatorJoystick.ButtonX().onTrue(new CloseWrist(wrist));
+
+    oi.operatorJoystick.ButtonRightBumper().whileTrue(new DriveElevator(elevator, () -> oi.operatorJoystick.getLeftStickRaw_Y()));
+    oi.operatorJoystick.ButtonUpDPad().onTrue(new DriveElevatorToPosition(elevator, 20, 0));
+    oi.operatorJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, 10, 0));
+    oi.operatorJoystick.ButtonLeftDPad().onTrue(new DriveElevatorToPosition(elevator, 0, 0));
+
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new ArmAndElevator(arm, elevator, Constants.FieldMetrics.MIDDLE_NODE_LENGTH_IN, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, true));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
