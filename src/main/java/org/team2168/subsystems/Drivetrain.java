@@ -69,33 +69,24 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public static final double kV = 0.0;
   public static final double kA = 0.0;
 
-    private double setPointPosition_sensorUnits;
-    private double setPointHeading_sensorUnits;
-  
+  private double setPointPosition_sensorUnits;
+  private double setPointHeading_sensorUnits;
+
+  private boolean areTheBrakesToBeBrakesEnabled;
+
   /**
    * Invert Directions for Left and Right
    */
   TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
   TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
 
-  private boolean areTheBrakesToBeBrakesEnabled;
-
-  @Log(name = "Is are get brakes brakes enabed", columnIndex = 1, rowIndex = 0)
-  public boolean areTheBrakesToBeBrakesEnabled() {
-    return areTheBrakesToBeBrakesEnabled;
-  }
-
-  @Config(name = "Beat up-able", width = 1)
-  public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
-    areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
-  }
 
   public static Drivetrain getInstance() {
     if (instance == null)
         instance = new Drivetrain();
     return instance;
 }
-  
+
   public Drivetrain() {
  // Instantiate motor objects
   leftMotor1 = new TalonFXHelper(CANDevices.DRIVETRAIN_LEFT_MOTOR_1);
@@ -232,6 +223,16 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     rightMotor1.configAllSettings(rightConfig);
     leftMotor1.configAllSettings(leftConfig);
     leftMotor2.configAllSettings(leftConfig);
+  }
+
+  @Log(name = "Is are get brakes brakes enabed", columnIndex = 1, rowIndex = 0)
+  public boolean areTheBrakesToBeBrakesEnabled() {
+    return areTheBrakesToBeBrakesEnabled;
+  }
+
+  @Config(name = "are the brakes to be engaged?", width = 1)
+  public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
+    areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
   }
 
   /**
