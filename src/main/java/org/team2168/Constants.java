@@ -20,14 +20,14 @@ public final class Constants {
   }
 
   public final class CANDevices {
-    public static final int INTAKE_RIGHT_MOTOR = 8;
-    public static final int INTAKE_LEFT_MOTOR = 9;
+    public static final int INTAKE_RIGHT_MOTOR = 6;
+    public static final int INTAKE_LEFT_MOTOR = 7;
 
   }
 
   public static final class PneumaticsModules {
-    public static final int INTAKE_CLAMP = 1;
-    public static final int INTAKE_OPEN = 2;
+    public static final int INTAKE_CLAMP = 9;
+    public static final int INTAKE_OPEN = 8;
   
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
