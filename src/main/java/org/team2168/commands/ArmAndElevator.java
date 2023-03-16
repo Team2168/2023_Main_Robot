@@ -24,7 +24,7 @@ public class ArmAndElevator extends CommandBase {
    * @param positionX The amount in inches for the arm to be extended
    * @param positionY The height in inches for the wrist to be 
    */
-  public ArmAndElevator(Arm arm, Elevator elevator, double positionX, double positionY, double armFaceDown) {
+  public ArmAndElevator(Arm arm, Elevator elevator, double positionX, double positionY, boolean armFaceDown) {
     this(arm, elevator, positionX, positionY, armFaceDown, 1.0);
 
     addRequirements(arm);
@@ -39,7 +39,7 @@ public class ArmAndElevator extends CommandBase {
    * @param positionY The height in inches for the wrist to be 
    * @param errorTolerance The amount of allowable error in inches for the elevator and degrees for the arm
    */
-  public ArmAndElevator(Arm arm, Elevator elevator, double positionX, double positionY, double ArmFaceDown, double errorTolerance) {
+  public ArmAndElevator(Arm arm, Elevator elevator, double positionX, double positionY, boolean ArmFaceDown, double errorTolerance) {
     this.arm = arm;
     this.elevator = elevator;
     this.positionX = positionX;

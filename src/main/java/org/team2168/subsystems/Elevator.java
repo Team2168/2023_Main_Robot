@@ -111,7 +111,7 @@ public class Elevator extends SubsystemBase {
 
     elevatorMotor.configFactoryDefault();
    
-    elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, VecBuilder.fill(0.1));
+    //elevatorSim = new ElevatorSim(DCMotor.getFalcon500(1), GEAR_RATIO, CARRIAGE_MASS_KG, Units.inchesToMeters(SPROCKET_RADIUS), Units.inchesToMeters(MIN_HEIGHT_INCHES), Units.inchesToMeters(MAX_HEIGHT_INCHES), kSensorPhase, VecBuilder.fill(0.1));
     elevatorMotorSim = elevatorMotor.getSimCollection();
 
     //public EncoderSim encoderSim = new EncoderSim(encoder);
