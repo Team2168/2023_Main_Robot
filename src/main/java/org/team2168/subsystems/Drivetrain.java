@@ -27,7 +27,11 @@ import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class Drivetrain extends SubsystemBase {
+
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
+
+public class Drivetrain extends SubsystemBase implements Loggable {
   /** Creates a new Drivetrain. */
   private PigeonHelper pidgey;
 
@@ -45,6 +49,7 @@ public class Drivetrain extends SubsystemBase {
   private static final double TRIGGER_THRESHOLD_LIMIT = 40; // amp
   private static final double TRIGGER_THRESHOLD_TIME = 0.2; // s
   private final static double NEUTRALDEADBAND = 0.001;
+  private final static double NEUTRAL_DEADBAND = 0.001;
 
   private SupplyCurrentLimitConfiguration talonCurrentLimit;
 
@@ -65,14 +70,17 @@ public class Drivetrain extends SubsystemBase {
   public static final double WHEEL_BASE = 23.0; // distance between wheels (width) in inches
   public static final int TIMEOUT = 30;  // 30ms
 
+  public static final double kV = 0.0;
+  public static final double kA = 0.0;
+
     private double setPointPosition_sensorUnits;
     private double setPointHeading_sensorUnits;
   
   /**
    * Invert Directions for Left and Right
    */
-  TalonFXInvertType leftInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
-  TalonFXInvertType rightInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
+  TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
+  TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
 
   public static Drivetrain getInstance() {
     if (instance == null)
@@ -166,6 +174,8 @@ public class Drivetrain extends SubsystemBase {
   
     leftConfig.neutralDeadband = NEUTRALDEADBAND;
 		rightConfig.neutralDeadband = NEUTRALDEADBAND;
+    leftConfig.neutralDeadband = NEUTRAL_DEADBAND;
+		rightConfig.neutralDeadband = NEUTRAL_DEADBAND;
 
     /**
 		 * 1ms per loop.  PID loop can be slowed down if need be.
@@ -183,6 +193,8 @@ public class Drivetrain extends SubsystemBase {
       // /* Motion Magic Configs */ // need new configs for 2023
       // rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
       // rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
+      rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
+      rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
 
   /* APPLY the config settings */
   leftMotor1.configAllSettings(leftConfig);
@@ -248,6 +260,7 @@ public class Drivetrain extends SubsystemBase {
    *
    * @return gyro pitch degrees
    */
+  @Log
   public double getPitch() {
     return pidgey.getPitch();
   }
@@ -277,6 +290,11 @@ public class Drivetrain extends SubsystemBase {
     return (getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0;
   }
 
+  /**
+   * Gets average encoder distance
+   * 
+   * @return gets distance in inches
+   */
   public double getAverageEncoderDistanceIn() {
     return Units.metersToInches((getLeftEncoderDistance() + getRightEncoderDistance()) / 2.0);
   }
@@ -311,6 +329,11 @@ public class Drivetrain extends SubsystemBase {
     return ticksToMeters(getLeftEncoderDistanceRaw());
   }
 
+  /**
+   * Gets left encoder distance
+   * 
+   * @return encoder distance in inches
+   */
   public double getLeftEncoderDistanceIn() {
     return Units.metersToInches(ticksToMeters(getLeftEncoderDistanceRaw()));
   }
@@ -333,6 +356,11 @@ public class Drivetrain extends SubsystemBase {
     return ticksToMeters(getRightEncoderDistanceRaw());
   }
 
+  /**
+   * Gets right encoder distance
+   * 
+   * @return encoder distance in inches
+   */
   public double getRightEncoderDistanceIn() {
     return Units.metersToInches(getRightEncoderDistance());
   }
@@ -420,18 +448,38 @@ public class Drivetrain extends SubsystemBase {
     return ticksToMeters(getRightEncoderRateRaw()) * 10.0;
   }
 
+  /**
+   * Converts an input of inches to encoder ticks
+   * @param setpoint inches to be converted into ticks
+   * @return ticks from inches inputted
+   */
   private double inchesToTicks(double setpoint) {
     return (setpoint * TICKS_PER_REV * GEAR_RATIO) / WHEEL_CIRCUMFERENCE;
   }
 
+  /**
+   * Converts input of inches per second to ticks per 100 ms
+   * @param setpoint inches per second to be converted into ticks per 100 ms
+   * @return ticks per second from inches inputted
+   */
   private double inchesPerSecToTicksPer100ms(double setpoint) {
     return inchesToTicks(setpoint) / 10.0;
   }
 
+  /** 
+   * Converts input of encoder ticks to inches
+   * @param setpoint encoder ticks to be converted into inches
+   * @return inches converted from ticks inputted
+   */
   private double ticksToInches(double setpoint) {
     return (setpoint * WHEEL_CIRCUMFERENCE) / (TICKS_PER_REV * GEAR_RATIO);
   }
 
+  /**
+   * Converts input of encoder ticks to meters
+   * @param ticks encoder ticks to be converted into meters
+   * @return meters converted from ticks inputted
+   */
   private double ticksToMeters(double ticks) {
     // the cheezy poofs have been colluding to get inside of our codebase
     return ticksToInches(ticks) * 0.0254;
@@ -448,6 +496,13 @@ public class Drivetrain extends SubsystemBase {
     return setpoint * 10.0;
   }
 
+  /**
+   * Creates a tank drive which commands individual wheel speeds for each side of the robot
+   * @param leftSpeed speed for left wheels in terms of percentage of max output. Ranges from
+   * -1.0 to 1.0.
+   * @param rightSpeed speed for right wheels in terms of percentage of max output. Ranges from
+   * -1.0 to 1.0.
+   */
   public void tankDrive(double leftSpeed, double rightSpeed) {
     // drive.tankDrive(leftSpeed, rightSpeed);
     leftMotor1.set(leftSpeed);
@@ -456,6 +511,11 @@ public class Drivetrain extends SubsystemBase {
     rightMotor2.set(rightSpeed);
   }
 
+  /**
+   * Creates tank drive which commands individual voltage for each side of the robot
+   * @param leftVolts voltage commanded to the left wheels
+   * @param rightVolts voltage commanded to the right wheels
+   */
   public void tankDriveVolts(double leftVolts, double rightVolts) {
     //TODO: Change to use voltage compensation built into the motor controllers?
     // double batteryVoltage = RobotController.getBatteryVoltage();
@@ -481,6 +541,9 @@ public class Drivetrain extends SubsystemBase {
     rightMotor2.setNeutralMode(NeutralMode.Coast);
   }
 
+  /** 
+   * Change all motors to their brake settings for the autonomous period
+   */
   public void setMotorsBrakeAutos() {
     leftMotor1.setNeutralMode(NeutralMode.Brake);
     leftMotor2.setNeutralMode(NeutralMode.Brake);
