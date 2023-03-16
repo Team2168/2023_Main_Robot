@@ -17,6 +17,7 @@ public class Paths {
     public final Trajectory path_example;
     public final Trajectory path_left_leave_community_blue;
     public final Trajectory path_left_leave_community_red;
+    public final Trajectory path_4_m_forward;
 
     private static Paths instance = null;
 
@@ -26,6 +27,7 @@ public class Paths {
         path_example = getTrajectory("example_path", true);
         path_left_leave_community_blue = getTrajectory("Left community", true);
         path_left_leave_community_red = getTrajectory("Right community", true);
+        path_4_m_forward = getTrajectory("FWD_1_M", false);
 
         System.out.println("******* Finish generating autos *******");
     }

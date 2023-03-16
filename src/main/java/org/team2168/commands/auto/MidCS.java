@@ -22,9 +22,9 @@ public class MidCS extends SequentialCommandGroup {
     drivetrain = d;
 
     addCommands(
-      new ArcadeDrive(drivetrain, () -> {return -0.67;}, () -> {return 0.0;}).withTimeout(4.0),
-      new DoNothing().withTimeout(2.0)//,
-      // new ArcadeDrive(drivetrain, () -> {return -0.67;}, () -> {return 0.0;}).withTimeout(2.0),
+      new ArcadeDrive(drivetrain, () -> {return -0.5;}, () -> {return 0.0;}).withTimeout(2.1),
+      new DoNothing().withTimeout(2.0),
+      new ArcadeDrive(drivetrain, () -> {return 0.5;}, () -> {return 0.0;}).withTimeout(1.3)//,
       // new AdjustOnChargeStation(drivetrain).withTimeout(7.0)
     );
   }
