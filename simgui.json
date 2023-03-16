@@ -21,7 +21,17 @@
           "open": true
         }
       },
+      "Talon FX[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[8]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[0]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -31,7 +41,17 @@
           "open": true
         }
       },
+      "Talon FX[18]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[8]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[18]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -41,7 +61,27 @@
           "open": true
         }
       },
+      "Talon FX[19]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[9]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[19]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]/Integrated Sensor": {
         "header": {
           "open": true
         }

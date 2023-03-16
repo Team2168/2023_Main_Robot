@@ -4,6 +4,7 @@
 
 package org.team2168;
 
+import org.team2168.Constants.Joysticks;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.DriveElevator;
@@ -13,6 +14,14 @@ import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.RotateArm;
 import org.team2168.subsystems.Arm;
+import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.auto.LeftLeaveCommunity;
+import org.team2168.commands.auto.MidCS;
+import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
+import org.team2168.commands.drivetrain.AdjustOnChargeStation;
+import org.team2168.commands.drivetrain.ArcadeDrive;
+import org.team2168.commands.drivetrain.ToggleBrakes;
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.Constants.Joysticks;
 
@@ -20,6 +29,8 @@ import edu.wpi.first.wpilibj.Joystick;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Wrist;
 
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -39,19 +50,18 @@ import org.team2168.utils.F310;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Elevator elevator = new Elevator();
   //public final F310 testJoystick = new F310(Joysticks.PID_TEST_JOYSTICK);
 
   static RobotContainer instance = null;
+  public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final Limelight limelight = Limelight.getInstance();
   private final Arm arm = Arm.getInstance();
 
   private final OI oi = OI.getInstance();
-  
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+
+  @Log(name = "Auto Chooser", width = 2)
+  private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   public static RobotContainer getInstance() {
     if (instance == null){
@@ -67,6 +77,16 @@ public class RobotContainer {
     Logger.configureLoggingAndConfig(this, false);
 
     configureBindings();
+    configureAutoRoutines();
+  }
+
+  public void configureAutoRoutines() {
+    autoChooser.setDefaultOption("do nothing", new DoNothing());
+    autoChooser.addOption("Left community", new LeftLeaveCommunity(drivetrain));
+    autoChooser.addOption("Middle", new MidCS(drivetrain));
+    autoChooser.addOption("4 m forward", new FourMetersPathplanner(drivetrain));
+
+    SmartDashboard.putData(autoChooser);
   }
 
   /**
@@ -81,15 +101,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
+    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
 
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new Trigger(m_exampleSubsystem::exampleCondition)
-        .onTrue(new ExampleCommand(m_exampleSubsystem));
-
-    // Schedule `exampleMethodommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
     //oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, 5));
@@ -98,6 +111,10 @@ public class RobotContainer {
     oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
     oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
+    // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
+    oi.driverJoystick.ButtonA().onTrue(new AdjustOnChargeStation(drivetrain));
+
+    oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
 
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
@@ -108,7 +125,13 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return Autos.exampleAuto(m_exampleSubsystem);
+    var auto = autoChooser.getSelected();
+    if (auto == null) {
+      System.out.println("selected path is null!");
+      return new DoNothing();
+    }
+    else {
+      return autoChooser.getSelected();
+    }
   }
 }
