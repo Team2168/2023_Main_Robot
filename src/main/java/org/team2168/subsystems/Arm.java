@@ -111,7 +111,7 @@ public class Arm extends SubsystemBase {
   private static final double kA = 0.002;
 
   private Arm() {
-    armMotor = new TalonFXHelper(Constants.ARM_MOTOR);
+    armMotor = new TalonFXHelper(Constants.CANDevices.ARM_MOTOR);
 
     //arm config
     armMotor.configFactoryDefault();
