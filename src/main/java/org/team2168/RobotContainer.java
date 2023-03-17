@@ -12,6 +12,8 @@ import org.team2168.commands.DriveElevatorToPosition;
 import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.Arm.BumpArm;
+import org.team2168.commands.Arm.DriveArmWithJoystick;
+import org.team2168.commands.Arm.RotateArm;
 import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.auto.LeftLeaveCommunity;
 import org.team2168.commands.auto.MidCS;
@@ -51,7 +53,7 @@ import io.github.oblarg.oblog.annotations.Log;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   static RobotContainer instance = null;
-  private final Elevator elevator = new Elevator();
+  public final Elevator elevator = new Elevator();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Turret turret = Turret.getInstance();
@@ -114,30 +116,33 @@ public class RobotContainer {
     oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
-    oi.driverJoystick.ButtonA().onTrue(new AdjustOnChargeStation(drivetrain));
+    // oi.driverJoystick.ButtonA().onTrue(new AdjustOnChargeStation(drivetrain));
+    oi.driverJoystick.ButtonA().onTrue(new DriveTurretWithLimelight(turret, limelight));
 
-    oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
+    oi.driverJoystick.ButtonLeftStick().onTrue(new ToggleBrakes(drivetrain));
 
-    oi.operatorJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
-    oi.operatorJoystick.ButtonB().onTrue(new OpenWrist(wrist));
+    // oi.operatorJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
+    oi.operatorJoystick.ButtonY().onTrue(new OpenWrist(wrist));
     oi.operatorJoystick.ButtonX().onTrue(new CloseWrist(wrist));
 
-    oi.operatorJoystick.ButtonRightBumper().whileTrue(new DriveElevator(elevator, () -> oi.operatorJoystick.getLeftStickRaw_Y()));
-    oi.operatorJoystick.ButtonUpDPad().onTrue(new DriveElevatorToPosition(elevator, 20, 0));
-    oi.operatorJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, 10, 0));
-    oi.operatorJoystick.ButtonLeftDPad().onTrue(new DriveElevatorToPosition(elevator, 0, 0));
+    // oi.operatorJoystick.ButtonRightBumper().whileTrue(new DriveElevator(elevator, () -> oi.operatorJoystick.getLeftStickRaw_Y()));
+    // oi.operatorJoystick.ButtonUpDPad().onTrue(new DriveElevatorToPosition(elevator, 20, 0));
+    // oi.operatorJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, 10, 0));
+    // oi.operatorJoystick.ButtonLeftDPad().onTrue(new DriveElevatorToPosition(elevator, 0, 0));
 
-    oi.operatorJoystick.ButtonRightBumper().onTrue(new ArmAndElevator(arm, elevator, Constants.FieldMetrics.MIDDLE_NODE_LENGTH_IN, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, true));
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorHeights.RESTING_POS_IN, 0.0));
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new RotateArm(arm,Constants.ArmPositions.RESTING_POS_DEGREES));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     
-    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0, 0));
     oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
 
-    oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
-
-  
+    oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
+    oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
+    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
   }
 
   /**

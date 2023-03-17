@@ -9,8 +9,10 @@ import org.team2168.Constants;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Log;
 
-public class WNE_Wrist extends SubsystemBase {
+public class WNE_Wrist extends SubsystemBase implements Loggable {
   /** Creates a new WNE_Arm. */
   private static DoubleSolenoid wristSolenoid;
   private static WNE_Wrist instance = null;
@@ -50,11 +52,11 @@ public class WNE_Wrist extends SubsystemBase {
   public void retract() {
     wristSolenoid.set(DoubleSolenoid.Value.kReverse);
   }
-
+  @Log
   public boolean isExtended() {
     return wristSolenoid.get() == DoubleSolenoid.Value.kForward;
   }
-
+  @Log
   public boolean isRetracted() {
     return wristSolenoid.get() == DoubleSolenoid.Value.kReverse;
   }

@@ -27,20 +27,34 @@ public final class Constants {
         public static final double UPDATE_TIME = 0.02;
     }
 
+    public static final class ElevatorHeights {
+      public static final double ZERO_POS_IN = 0.0;
+      public static final double RESTING_POS_IN = 30.0;
+      public static final double GRAB_GAME_PIECES_IN = 10.0;
+      public static final double MID_CUBE_POS_IN = 15.0;
+      public static final double MID_CONE_POS_IN = 20.0;
+
+    }
+
+    public static final class ArmPositions {
+      public static final double RESTING_POS_DEGREES = -27.11;
+      
+    }
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
   
   public static final class PneumaticDevices {
   public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
-  public static final int WIRST_FORWARD_CHANNEL = 15;
-  public static final int WIRST_REVERSE_CHANNEL = 12;
+  public static final int WIRST_FORWARD_CHANNEL = 3;
+  public static final int WIRST_REVERSE_CHANNEL = 6;
   }
 
   public static final double LOOP_TIMESTEP_S = 0.02;
 
   public static final class RobotMetrics{
-    public static final double ARM_LENGTH = 40.0; 
+    public static final double ARM_LENGTH = 39.5; 
   }
     public static class CANDevices {
         public static final int DRIVETRAIN_LEFT_MOTOR_1 = 18; // uses placeholder value

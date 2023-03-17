@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveTurret extends CommandBase {
 
-  DoubleSupplier speed;
+  double speed;
   Turret turret;
   /** Creates a new DriveTurret. */
-  public DriveTurret(Turret t, DoubleSupplier s) {
+  public DriveTurret(Turret t, double s) {
     turret = t;
     speed = s;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -30,7 +30,7 @@ public class DriveTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.setSpeed(speed.getAsDouble());
+    turret.setSpeed(speed);
   }
 
   // Called once the command ends or is interrupted.

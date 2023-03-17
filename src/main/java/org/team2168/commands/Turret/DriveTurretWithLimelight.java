@@ -65,7 +65,16 @@ public class DriveTurretWithLimelight extends CommandBase {
     avg_limeXPos = Util.runningAverage(limeXPos, avg_limeXPos, 0.15);
     currentPos = turret.getEncoderPosition();
     targetPos = currentPos + (avg_limeXPos * LIME_KP);
-
+    if (targetPos > reverseSoftLimit && targetPos < forwardSoftLimit) {
+      driveLimeTurn = targetPos;
+    }
+    else if (targetPos < reverseSoftLimit) {
+      driveLimeTurn = reverseSoftLimit;
+    }
+    else if (targetPos > forwardSoftLimit) {
+      driveLimeTurn = forwardSoftLimit;
+    }
+  
     turret.setRotationDegrees(driveLimeTurn);
   }
 

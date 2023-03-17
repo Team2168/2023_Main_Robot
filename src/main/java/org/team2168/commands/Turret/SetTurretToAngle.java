@@ -14,6 +14,7 @@ public class SetTurretToAngle extends CommandBase {
   Turret turret;
   Double targetPositionDegrees;
   Double acceptableErrorDegrees = 0.1;
+  double angleOffsetDeg = 40.0;
 
   private double error;
 
@@ -43,7 +44,7 @@ public class SetTurretToAngle extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.setRotationDegrees(targetPositionDegrees);
+    turret.setRotationDegrees(targetPositionDegrees - angleOffsetDeg);
   }
 
   // Called once the command ends or is interrupted.
