@@ -99,7 +99,7 @@ public class Wrist extends SubsystemBase {
   }
   
   private Wrist() {
-    wristMotor = new TalonFXHelper(Constants.WRIST_MOTOR);
+    wristMotor = new TalonFXHelper(Constants.CANDevices.WRIST_MOTOR);
 
     //wrist config
     wristMotor.configFactoryDefault();
