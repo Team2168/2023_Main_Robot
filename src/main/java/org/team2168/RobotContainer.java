@@ -25,6 +25,10 @@ import org.team2168.commands.Wrist.ToggleWrist;
 import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
+import org.team2168.commands.Turret.*;
+import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.Turret;
+import org.team2168.OI;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.subsystems.Wrist;
@@ -37,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
 
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -48,11 +53,15 @@ public class RobotContainer {
   static RobotContainer instance = null;
   private final Elevator elevator = new Elevator();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
+  private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+  private final Turret turret = Turret.getInstance();
+  
+
+  OI oi = OI.getInstance();
+  
   private final Limelight limelight = Limelight.getInstance();
   private final Arm arm = Arm.getInstance();
   private final WNE_Wrist wrist = WNE_Wrist.getInstance();
-
-  private final OI oi = OI.getInstance();
 
   @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -69,7 +78,6 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     Logger.configureLoggingAndConfig(this, false);
-
     configureBindings();
     configureAutoRoutines();
   }
@@ -121,6 +129,15 @@ public class RobotContainer {
 
     oi.operatorJoystick.ButtonRightBumper().onTrue(new ArmAndElevator(arm, elevator, Constants.FieldMetrics.MIDDLE_NODE_LENGTH_IN, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, true));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
+    oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
+
+    oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+
+  
   }
 
   /**

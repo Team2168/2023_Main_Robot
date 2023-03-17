@@ -31,14 +31,13 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
   
-  public static final int WRIST_MOTOR = 13;
-  public static final int ARM_MOTOR = 16;
-  
   public static final class PneumaticDevices {
   public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
   public static final int WIRST_FORWARD_CHANNEL = 15;
   public static final int WIRST_REVERSE_CHANNEL = 12;
   }
+
+  public static final double LOOP_TIMESTEP_S = 0.02;
 
   public static final class RobotMetrics{
     public static final double ARM_LENGTH = 40.0; 
@@ -49,6 +48,9 @@ public final class Constants {
         public static final int DRIVETRAIN_RIGHT_MOTOR_1 = 1; // uses placeholder value
         public static final int DRIVETRAIN_RIGHT_MOTOR_2 = 0; // uses placeholder value
         public static final int PIGEON_IMU = 20; // uses placeholder value
+        public static final int TURRET_MOTOR = 10; // TODO: STAND-IN VALUE FOR TESTING PURPOSES
+        public static final int WRIST_MOTOR = 13;
+        public static final int ARM_MOTOR = 16;
     }
 
     public static class Drivetrain {
