@@ -35,7 +35,7 @@ public class Elevator extends SubsystemBase {
 
   private static final double kI = 0.0; //intergral (placeholder)
   private static final double kD = 0.0; //derivative (placeholder)
-  private static final double kF = 0.025; //feedforward: constant output added on which counteracts forces (placeholder)
+  private static final double kF = 0.0; //feedforward: (0.75 * 1023) / (0.75 * 25600)
   private static final double kP = 0.3; //proportional: a proportion of the input (placeholder)
   private static final double kArbitraryFeedForward = 0.075; //(placeholder)
 
@@ -55,8 +55,8 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(30.1 * 2) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(30.1 * 1.5) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(3.0) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(3.0) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
