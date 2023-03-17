@@ -39,6 +39,8 @@ public class DriveElevator extends CommandBase {
   }
   else {
     elevator.setPercentOutput(0.0);
+    System.out.println("not in range");
+    System.out.println("position: " + elevator.getPositionIn());
   }
 }
 

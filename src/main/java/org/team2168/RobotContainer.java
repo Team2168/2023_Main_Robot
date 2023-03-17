@@ -15,6 +15,7 @@ import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
 import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.auto.LeftLeaveCommunity;
 import org.team2168.commands.auto.MidCS;
 import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
@@ -89,6 +90,7 @@ public class RobotContainer {
     autoChooser.addOption("Left community", new LeftLeaveCommunity(drivetrain));
     autoChooser.addOption("Middle", new MidCS(drivetrain));
     autoChooser.addOption("4 m forward", new FourMetersPathplanner(drivetrain));
+    autoChooser.addOption("Drive forward", new DriveForward(drivetrain));
 
     SmartDashboard.putData(autoChooser);
   }
