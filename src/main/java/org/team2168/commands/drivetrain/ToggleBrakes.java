@@ -27,7 +27,7 @@ public class ToggleBrakes extends CommandBase {
     if(drivetrain.areTheBrakesToBeBrakesEnabled())
       drivetrain.setMotorsCoast();
     else
-      drivetrain.setMotorsBrake();
+      drivetrain.setMotorsBrakeAutos();
 
   }
 

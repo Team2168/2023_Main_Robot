@@ -37,7 +37,7 @@ public class Elevator extends SubsystemBase {
   private static final double kD = 0.0; //derivative (placeholder)
   private static final double kF = 0.025; //feedforward: constant output added on which counteracts forces (placeholder)
   private static final double kP = 0.3; //proportional: a proportion of the input (placeholder)
-  private static final double kArbitraryFeedForward = 0.025; //(placeholder)
+  private static final double kArbitraryFeedForward = 0.075; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
