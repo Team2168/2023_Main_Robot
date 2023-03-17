@@ -8,12 +8,16 @@ import org.team2168.Constants.Joysticks;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.Turret.DriveTurretWithJoystick;
+import org.team2168.commands.Turret.SetTurretToAngle;
+import org.team2168.commands.Turret.ZeroTurret;
 import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.Turret;
 import org.team2168.utils.F310;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -35,8 +39,11 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
+  private final Turret turret = Turret.getInstance();
+  
 
   OI oi = OI.getInstance();
+  
   private final Limelight limelight = Limelight.getInstance();
  
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -53,7 +60,6 @@ public class RobotContainer {
     // Configure the trigger bindings
 
     Logger.configureLoggingAndConfig(this, false);
-
     configureBindings();
   }
 
@@ -82,6 +88,11 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     m_testController.a().onTrue(new AdjustOnChargeStation(drivetrain));
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new SetTurretToAngle(turret, 25.0));
+    oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
+
+    oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
 
     
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
