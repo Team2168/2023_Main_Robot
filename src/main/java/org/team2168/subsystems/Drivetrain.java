@@ -47,7 +47,8 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   private static final double TRIGGER_THRESHOLD_TIME = 0.2; // s
   private final static double NEUTRAL_DEADBAND = 0.001;
 
-  private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  // if drivetrain exceeds 60 amps for more than 1 second, the motor will be limited to drawing 40 amps
+  private SupplyCurrentLimitConfiguration talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, 40.0, 60.0, 1);
 
   /**
    * Config Objects for motor controllers

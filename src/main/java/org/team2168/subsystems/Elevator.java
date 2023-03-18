@@ -35,9 +35,9 @@ public class Elevator extends SubsystemBase {
 
   private static final double kI = 0.0; //intergral (placeholder)
   private static final double kD = 0.0; //derivative (placeholder)
-  private static final double kF = 0.0; //feedforward: (0.75 * 1023) / (0.75 * 25600)
-  private static final double kP = 0.3; //proportional: a proportion of the input (placeholder)
-  private static final double kArbitraryFeedForward = 0.075; //(placeholder)
+  private static final double kF = 0.062; //feedforward: (1023) / (0.75 * 21777.07)
+  private static final double kP = 0.1; //proportional: a proportion of the input (placeholder)
+  private static final double kArbitraryFeedForward = 0.062; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
@@ -55,15 +55,16 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(3.0) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(3.0) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
   private TalonFXHelper elevatorMotor;
   
   //private double position; //height in inches
-  private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  //always limit current to 40 amps (apply to every motor except drivetrain motors)
+  private SupplyCurrentLimitConfiguration talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, 40.0, 0, 0);
   private static ElevatorSim elevatorSim;
   private static TalonFXSimCollection elevatorMotorSim;
   private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)

@@ -65,7 +65,7 @@ public class Arm extends SubsystemBase {
   private static final double NEUTRAL_DEADBAND = 0.001;
 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = 0.0; //TODO: update value, teeth/diameter
+  private static final double GEAR_RATIO = 9.16; //TODO: update value, teeth/diameter
   private static final double TICKS_PER_ROTATION = TICKS_PER_REV * GEAR_RATIO;
 
   private static final double TICKS_PER_SECOND = TICKS_PER_REV;
@@ -85,8 +85,8 @@ public class Arm extends SubsystemBase {
   private static boolean kSensorPhase = false;
   private static TalonFXInvertType kMotorInvert = TalonFXInvertType.Clockwise;
 
-  private static final double ACCELERATION_LIMIT = 0.0; //TODO: update value after testing
-  private static final double CRUISE_VELOCITY_LIMIT = 0.0; //TODO: update value after testing
+  private static final double ACCELERATION_LIMIT = 18000; // should start as a little bit more than the accel //TODO: update value after testing
+  private static final double CRUISE_VELOCITY_LIMIT = 16000; // should be a bit less than max possible velocity //TODO: update value after testing
 
   public static Arm getInstance() {
     if (instance == null)
@@ -101,10 +101,10 @@ public class Arm extends SubsystemBase {
   private static final double kF;
 
   static{
-    kP = 0.5;
-    kI = 0.01;
-    kD = 0.01;
-    kF = 0.001;
+    kP = 0.1;
+    kI = 0.0;
+    kD = 0.0; // when P is oscillating, lower P and make D gain 1.6 times P.
+    kF = 0.052; // 1023 / (((estimated speed_rpm based on the fact our gear ratio won't allow our motor to go at max velocity / 60) / 10) * 2048)
   }
 
   private static final double kV = 0.05;
