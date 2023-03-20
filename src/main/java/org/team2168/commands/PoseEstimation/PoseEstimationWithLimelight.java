@@ -71,11 +71,11 @@ public class PoseEstimationWithLimelight extends CommandBase {
   @Override
   public void initialize() {
 
-    poseEstimator.addVisionMeasurement(
-        new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
-            Rotation2d.fromDegrees((lime.botPoseArray[5]))),
-        Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs())
-            - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
+    // poseEstimator.addVisionMeasurement(
+    // new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
+    // Rotation2d.fromDegrees((lime.botPoseArray[5]))),
+    // Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs())
+    // - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
 
   }
 
@@ -84,11 +84,18 @@ public class PoseEstimationWithLimelight extends CommandBase {
   public void execute() {
 
     if (lime.hasTarget()) {
+      poseEstimator.addVisionMeasurement(
+          new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
+              Rotation2d.fromDegrees((lime.botPoseArray[5]))),
+          Timer.getFPGATimestamp() - (Units.millisecondsToSeconds(lime.getLatencyMs())
+              - (Units.millisecondsToSeconds(lime.getCapturedLatencyTime()))));
+
       poseEstimator.update(drivetrain.getRotation2d(), drivetrain.getLeftEncoderDistance(),
           drivetrain.getRightEncoderDistance());
       poseEstimator.getEstimatedPosition();
+
     } else if (!lime.hasTarget() && RobotState.isTeleop()) {
-      drivetrain.zeroHeading();
+
       poseEstimator.resetPosition(poseEstimator.getEstimatedPosition().getRotation(),
           drivetrain.getLeftEncoderDistance(), drivetrain.getRightEncoderDistance(),
           poseEstimator.getEstimatedPosition()); // account for gyro drift if vision is lost, resetting the gyro removes
