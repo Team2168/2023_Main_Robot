@@ -9,6 +9,8 @@ import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Turret;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -17,11 +19,17 @@ public class ResetTurretToApriltag extends CommandBase {
   public Limelight lime;
   public Turret turret;
   public PoseEstimationWithLimelight poseEstimator;
+  public boolean turnTurretToHighNode;
+  double diffX;
+  double diffY;
+  double finalAngle;
 
-  public ResetTurretToApriltag(Limelight lime, Turret turret, PoseEstimationWithLimelight poseEstimator) {
+  public ResetTurretToApriltag(Limelight lime, Turret turret, PoseEstimationWithLimelight poseEstimator,
+      boolean turnTurretToHighNode) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.lime = lime;
     this.turret = turret;
+    this.turnTurretToHighNode = turnTurretToHighNode;
     this.poseEstimator = poseEstimator;
   }
 
@@ -35,17 +43,34 @@ public class ResetTurretToApriltag extends CommandBase {
   public void execute() {
     // make code that checks what apriltag I.D we are at based on pose with switch
     // case, or if else.
-    double diffX = poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX();
-    double diffY = poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY();
+    if (turnTurretToHighNode == false) {
+      diffX = poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX();
+      diffY = poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY();
 
-    Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
+      Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
 
-    Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
+      Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
 
-    double finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
+      finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
-    turret.setRotationDegrees(finalAngle);
-    
+      turret.setRotationDegrees(finalAngle);
+    } else if (turnTurretToHighNode == true) {
+      Pose3d middleToHighNodeTransform = lime.getApriltagDimensionsFromFidicualId().transformBy(
+          new Transform3d(lime.getApriltagDimensionsFromFidicualId(),
+              new Pose3d(lime.getApriltagDimensionsFromFidicualId().getX() + 0.381,
+                  lime.getApriltagDimensionsFromFidicualId().getY() + 0.3048,
+                  lime.getApriltagDimensionsFromFidicualId().getZ(),
+                  lime.getApriltagDimensionsFromFidicualId().getRotation()))
+
+      );
+
+      diffX = poseEstimator.getPose().getX() - middleToHighNodeTransform.getX();
+      diffY = poseEstimator.getPose().getY() - middleToHighNodeTransform.getY();
+      finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
+
+      turret.setRotationDegrees(finalAngle);
+    }
+
   }
 
   // Called once the command ends or is interrupted.
