@@ -33,17 +33,17 @@ import io.github.oblarg.oblog.annotations.Log;
 
 public class Elevator extends SubsystemBase {
 
-  private static final double kI = 0.1; //intergral (placeholder)
-  private static final double kD = 0.1; //derivative (placeholder)
-  private static final double kF = 0.1; //feedforward: constant output added on which counteracts forces (placeholder)
-  private static final double kP = 0.3; //proportional: a proportion of the input (placeholder)
-  private static final double kArbitraryFeedForward = 0.05; //(placeholder)
+  private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
+  private static final double kD = 0.0; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain)
+  private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
+  private static final double kP = 0.1; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point)
+  private static final double kArbitraryFeedForward = 0.062; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
 
-  private static final double CURRENT_LIMIT = 20; //it limits when the feature is activited (in amps)
-  private static final double THRESHOLD_CURRENT = 30; //it tells what the threshold should be for the limit to be activited (in amps)
+  private static final double CURRENT_LIMIT = 40.0; //it limits when the feature is activited (in amps)
+  private static final double THRESHOLD_CURRENT = 0.0; //it tells what the threshold should be for the limit to be activited (in amps)
   private static final double THRESHOLD_TIME = 0.2; //time in seconds of when the limiting should happen after the threshold has been overreached
 
   private static final double TIME_UNITS_OF_VELOCITY = 0.1; //in seconds 
@@ -55,20 +55,20 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(30.1 * 2) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(30.1 * 1.5) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
   private TalonFXHelper elevatorMotor;
   
   //private double position; //height in inches
-  private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  private SupplyCurrentLimitConfiguration talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
   private static ElevatorSim elevatorSim;
   private static TalonFXSimCollection elevatorMotorSim;
   private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)
-  private static final double MIN_HEIGHT_INCHES = 0;
-  private static final double MAX_HEIGHT_INCHES = 30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
+  private static final double MIN_HEIGHT_INCHES = -30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
+  private static final double MAX_HEIGHT_INCHES = 0; 
 
   private boolean kSensorPhase = false;
 
@@ -149,12 +149,21 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
   }
 
+  @Log
   private double getEncoderPositionInTicks(){
     return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
 
   public void setEncoderPosZero(){
     elevatorMotor.setSelectedSensorPosition(0);
+  }
+
+  public void setMotorBrake(){
+    elevatorMotor.setNeutralMode(NeutralMode.Brake);
+  }
+
+  public void setMotorCoast(){
+    elevatorMotor.setNeutralMode(NeutralMode.Coast);
   }
 
   //@Config()

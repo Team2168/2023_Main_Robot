@@ -52,6 +52,8 @@ public final class Constants {
   public static final class ElevatorMotors{
     public static final int ELEVATOR_MOTOR = 14; 
     public static final double UPDATE_TIME = 0.02;
+    public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
+    public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
   }
 
   public static class OperatorConstants {
