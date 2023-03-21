@@ -16,14 +16,15 @@ import com.revrobotics.CANSparkMaxLowLevel.PeriodicFrame;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class HandWheels extends SubsystemBase {
+public class HandWheels extends SubsystemBase implements Loggable {
   private static HandWheels instance = null;
   private CANSparkMax intakeLeftMotor;
   private CANSparkMax intakeRightMotor;
-  private DigitalInput input;
+  private DigitalInput handLineBreak;
   private boolean leftInvert = false;
   private boolean rightInvert = true;
 
@@ -35,7 +36,7 @@ public class HandWheels extends SubsystemBase {
     intakeLeftMotor = new CANSparkMax(Constants.CANDevices.INTAKE_LEFT_MOTOR, MotorType.kBrushed);
     intakeRightMotor = new CANSparkMax(Constants.CANDevices.INTAKE_RIGHT_MOTOR, MotorType.kBrushed);
 
-    input = new DigitalInput(Constants.DIO.HAND_CHANNEL);
+    handLineBreak = new DigitalInput(Constants.DIO.HAND_CHANNEL);
 
     intakeLeftMotor.restoreFactoryDefaults();
     intakeRightMotor.restoreFactoryDefaults();
@@ -75,14 +76,14 @@ public class HandWheels extends SubsystemBase {
 
   }
 
-  @Log(name = "Intake Percent Output: ", tabName = "IntakeTab", methodName = "getSpeed()", width = 2, height = 2, rowIndex = 1, columnIndex = 1)
-  public double getSpeed() {
+  @Log(name = "percent output", rowIndex = 2, columnIndex = 1)
+  public double getPercentOutput() {
     return intakeLeftMotor.get(); // speed (-1.0 - 1.0) according to javadoc comment
   }
 
-  @Config(name = "IsGamePieceInHand: ")
+  @Log(name = "IsGamePieceInHand: ", rowIndex = 1, columnIndex = 1)
   public boolean isGamePieceInHand() {
-    return !input.get();
+    return !handLineBreak.get();
   }
 
   @Override
