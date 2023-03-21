@@ -57,7 +57,7 @@ public class ResetTurretToApriltag extends CommandBase {
     } else if (turnTurretToHighNode == true) {
       Pose3d middleToHighNodeTransform = lime.getApriltagDimensionsFromFidicualId().transformBy(
           new Transform3d(lime.getApriltagDimensionsFromFidicualId(),
-              new Pose3d(lime.getApriltagDimensionsFromFidicualId().getX() + 0.381,
+              new Pose3d(lime.getApriltagDimensionsFromFidicualId().getX() + 0.4,
                   lime.getApriltagDimensionsFromFidicualId().getY() + 0.3048,
                   lime.getApriltagDimensionsFromFidicualId().getZ(),
                   lime.getApriltagDimensionsFromFidicualId().getRotation()))
