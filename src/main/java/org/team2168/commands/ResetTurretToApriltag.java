@@ -69,6 +69,7 @@ public class ResetTurretToApriltag extends CommandBase {
       finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
       turret.setRotationDegrees(finalAngle);
+      
     }
 
   }
