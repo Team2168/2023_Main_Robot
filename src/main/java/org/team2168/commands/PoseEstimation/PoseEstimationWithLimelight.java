@@ -83,7 +83,9 @@ public class PoseEstimationWithLimelight extends CommandBase {
   @Override
   public void execute() {
 
+    getPoseDisplayedField2d();
     if (lime.hasTarget()) {
+      lime.getBotPoseTranslation();
       poseEstimator.addVisionMeasurement(
           new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
               Rotation2d.fromDegrees((lime.botPoseArray[5]))),

@@ -8,6 +8,8 @@ import org.team2168.Constants.Joysticks;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.Limelight.SetPipeline;
+import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
 import org.team2168.commands.Turret.DriveTurretWithJoystick;
 import org.team2168.commands.Turret.SetTurretToAngle;
 import org.team2168.commands.Turret.ZeroTurret;
@@ -93,6 +95,8 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
 
     oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+    oi.operatorJoystick.ButtonLeftBumper().whileTrue(new PoseEstimationWithLimelight(limelight, drivetrain));
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, 2));
 
     
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
@@ -101,7 +105,7 @@ public class RobotContainer {
   }
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
+   * Use this to pass the autonomous command to  the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */

@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -94,6 +95,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   leftMotor2 = new TalonFXHelper(CANDevices.DRIVETRAIN_LEFT_MOTOR_2);
   rightMotor1 = new TalonFXHelper(CANDevices.DRIVETRAIN_RIGHT_MOTOR_1);
   rightMotor2 = new TalonFXHelper(CANDevices.DRIVETRAIN_RIGHT_MOTOR_2);
+  SmartDashboard.putData("Field", Constants.FieldMetrics.field);
 
   pidgey = new PigeonHelper(CANDevices.PIGEON_IMU);
 
@@ -218,6 +220,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public void periodic() {
     // This method will be called once per scheduler run
     Rotation2d rot;
+    Constants.FieldMetrics.field.setRobotPose(getPose());
 
     rot = pidgey.getRotation2d();
     odometry.update(rot, getLeftEncoderDistance(), getRightEncoderDistance());
