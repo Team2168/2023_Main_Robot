@@ -19,11 +19,13 @@ import java.security.KeyFactory;
 
 import org.team2168.Constants;
 import org.team2168.Constants.ElevatorMotors;
+import org.team2168.Constants.PneumaticDevices;
 import org.team2168.utils.TalonFXHelper;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
@@ -80,6 +82,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
+    carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
 
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
@@ -153,7 +156,7 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
   }
 
-  @Log
+  @Log(name = "Encoder Position in Ticks")
   private double getEncoderPositionInTicks(){
     return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
@@ -230,7 +233,7 @@ public class Elevator extends SubsystemBase {
   }
 
   @Log(name = "is Lock extended?")
-  public boolean getLockExtension(){
+  public boolean isLockExtented(){
     return carriageLock.get();
   }
 
