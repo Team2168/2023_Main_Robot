@@ -38,9 +38,9 @@ public class Elevator extends SubsystemBase {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
   private static final double kD = 0.0; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain)
-  private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
+  private static final double kF = ((1023 * 0.75) / 21777.07); //feedforward: constant output added on which counteracts forces (0.035)
   private static final double kP = 0.1; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point)
-  private static final double kArbitraryFeedForward = 0.062; //(placeholder)
+  private static final double kArbitraryFeedForward = 0.035; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
@@ -107,6 +107,10 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
+    elevatorMotor.configForwardSoftLimitEnable(true);
+    elevatorMotor.configReverseSoftLimitEnable(true);
+    elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
+    elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)
