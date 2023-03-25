@@ -134,13 +134,13 @@ public class RobotContainer {
     // oi.operatorJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, 10, 0));
     // oi.operatorJoystick.ButtonLeftDPad().onTrue(new DriveElevatorToPosition(elevator, 0, 0));
 
-    oi.operatorJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorHeights.RESTING_POS_IN, 0.0));
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorHeights.RESTING_POS_IN));
     oi.operatorJoystick.ButtonRightBumper().onTrue(new RotateArm(arm,Constants.ArmPositions.RESTING_POS_DEGREES));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
     // cancelling on release.
     
-    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0, 0));
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
     oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
 
     oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
