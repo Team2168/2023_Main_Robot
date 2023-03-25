@@ -18,6 +18,12 @@ public class Paths {
     public final Trajectory path_left_leave_community_blue;
     public final Trajectory path_left_leave_community_red;
     public final Trajectory path_4_m_forward;
+    public final Trajectory path_score_leave_blue_1;
+    public final Trajectory path_score_leave_blue_2;
+    public final Trajectory path_score_leave_blue_3;
+    public final Trajectory path_score_leave_red_1;
+    public final Trajectory path_score_leave_red_2;
+    public final Trajectory path_score_leave_red_3;
 
     private static Paths instance = null;
 
@@ -25,8 +31,14 @@ public class Paths {
         System.out.println("******* Begin generating autos *******");
 
         path_example = getTrajectory("example_path", true);
-        path_left_leave_community_blue = getTrajectory("Left community", true);
-        path_left_leave_community_red = getTrajectory("Right community", true);
+        path_left_leave_community_blue = getTrajectory("loading wall blue", true);
+        path_left_leave_community_red = getTrajectory("loading wall red", true);
+        path_score_leave_blue_1 = getTrajectory("score_leave_commun_1_blue", false);
+        path_score_leave_blue_2 = getTrajectory("score_leave_commun_2_blue", false);
+        path_score_leave_blue_3 = getTrajectory("score_leave_commun_3_blue", false);
+        path_score_leave_red_1 = getTrajectory("score_leave_commun_1_red", false);
+        path_score_leave_red_2 = getTrajectory("score_leave_commun_2_red", false);
+        path_score_leave_red_3 = getTrajectory("score_leave_commun_3_red", false);
         path_4_m_forward = getTrajectory("FWD_1_M", false);
 
         System.out.println("******* Finish generating autos *******");
