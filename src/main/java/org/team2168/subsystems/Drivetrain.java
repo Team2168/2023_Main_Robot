@@ -261,6 +261,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
    *
    * @return gyro heading from -180.0 to 180.0 degrees. Positive counterclockwise
    */
+  @Log
   public double getHeading() {
     return pidgey.getRotation2d().getDegrees();
   }
