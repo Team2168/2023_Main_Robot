@@ -195,9 +195,10 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public void enableBaseCameraSettings() {
-    camMode.setNumber(0);
+    setCamMode(0);
     setLedMode(0);
     setPipeline(1);
+    enableVision(true);
     isLimelightEnabled = true;
   }
 
@@ -208,6 +209,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   public void enableVision(boolean turnOn) {
 
     isLimelightEnabled = true;
+    init();
   }
 
   public void setCamMode(int camValue) {
@@ -287,10 +289,12 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public Pose3d getPoseInTargetSpace() {
-    return new Pose3d(new Translation3d(botPoseTargetSpaceArray[0], botPoseTargetSpaceArray[1], botPoseTargetSpaceArray[2]),
+    return new Pose3d(
+        new Translation3d(botPoseTargetSpaceArray[0], botPoseTargetSpaceArray[1], botPoseTargetSpaceArray[2]),
         new Rotation3d(botPoseTargetSpaceArray[3], botPoseTargetSpaceArray[4], botPoseTargetSpaceArray[5]));
   }
 
+  @Log(name = "Current ApriltagID")
   public double getAprilTagID() {
     return tid.getDouble(0.0);
   }
@@ -325,12 +329,12 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   @Log(name = "Average Contour Data: ", rowIndex = 5, columnIndex = 4)
   public double getAvgContourCornerData() {
-     double average;
+    double average;
     getRawContourCornerData();
     average = ((contourEntries[0] + contourEntries[1] + contourEntries[2] + contourEntries[3]) /
         contourEntries.length);
-     return average;
-   }
+    return average;
+  }
 
   private void init() {
     tv = networkTable.getEntry("tv");
@@ -371,7 +375,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public Pose2d getPose2d() {
-    return new Pose2d(botPoseArray[0], botPoseArray[1],
+    return new Pose2d(botPoseArray[0], botPoseArray[2],
         new Rotation2d(Units.degreesToRadians(botPoseArray[5])));
   }
 
@@ -399,12 +403,17 @@ public class Limelight extends SubsystemBase implements Loggable {
   public void periodic() {
     // This method will be called once per scheduler run\
 
+    getBotPoseTranslation();
+    getBotPoseInTargetSpace();
+    getCameraViewTranslation();
+    getTargetPoseTranslation();
+    getTargetPoseInRobotSpace();
+    getBotPoseInTargetSpace();
+
     if (!isLimelightEnabled) {
       pauseLimelight();
-    } else {
-
-      enableBaseCameraSettings();
     }
+    setPipeline((int) pipeline.getDouble(0.0));
 
     var apriltagId = (int) Math.round(getAprilTagID());
 

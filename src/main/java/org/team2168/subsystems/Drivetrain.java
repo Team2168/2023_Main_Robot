@@ -25,6 +25,7 @@ import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -76,6 +77,8 @@ public class Drivetrain extends SubsystemBase implements Loggable {
 
     private double setPointPosition_sensorUnits;
     private double setPointHeading_sensorUnits;
+
+    private Field2d field = Constants.FieldMetrics.field;
   
   /**
    * Invert Directions for Left and Right
@@ -220,7 +223,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public void periodic() {
     // This method will be called once per scheduler run
     Rotation2d rot;
-    Constants.FieldMetrics.field.setRobotPose(getPose());
+    field.setRobotPose(Limelight.getInstance().getPose2d());
 
     rot = pidgey.getRotation2d();
     odometry.update(rot, getLeftEncoderDistance(), getRightEncoderDistance());

@@ -10,7 +10,9 @@ import org.team2168.subsystems.Turret;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -44,8 +46,8 @@ public class ResetTurretToApriltag extends CommandBase {
     // make code that checks what apriltag I.D we are at based on pose with switch
     // case, or if else.
     if (turnTurretToHighNode == false) {
-      diffX = poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX();
-      diffY = poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY();
+      diffX = Math.abs(poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX());
+      diffY = Math.abs(poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY());
 
       Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
 
@@ -54,22 +56,17 @@ public class ResetTurretToApriltag extends CommandBase {
       finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
       turret.setRotationDegrees(finalAngle);
+
     } else if (turnTurretToHighNode == true) {
-      Pose3d middleToHighNodeTransform = lime.getApriltagDimensionsFromFidicualId().transformBy(
-          new Transform3d(lime.getApriltagDimensionsFromFidicualId(),
-              new Pose3d(lime.getApriltagDimensionsFromFidicualId().getX() + 0.4,
-                  lime.getApriltagDimensionsFromFidicualId().getY() + 0.3048,
-                  lime.getApriltagDimensionsFromFidicualId().getZ(),
-                  lime.getApriltagDimensionsFromFidicualId().getRotation()))
+      Pose3d middleToHighNodeTransform = lime.getAprilTagPoseRelativeToLimelight().plus(
+          new Transform3d(new Translation3d(0.66, 0.3048, 0.0), new Rotation3d(0.0, 0.0, 0.0)));
 
-      );
-
-      diffX = poseEstimator.getPose().getX() - middleToHighNodeTransform.getX();
-      diffY = poseEstimator.getPose().getY() - middleToHighNodeTransform.getY();
+      diffX = Math.abs(poseEstimator.getPose().getX() - middleToHighNodeTransform.getX());
+      diffY = Math.abs(poseEstimator.getPose().getY() - middleToHighNodeTransform.getY());
       finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
       turret.setRotationDegrees(finalAngle);
-      
+
     }
 
   }

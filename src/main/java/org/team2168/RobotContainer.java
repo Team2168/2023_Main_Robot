@@ -96,7 +96,7 @@ public class RobotContainer {
 
     oi.operatorJoystick.ButtonRightStick().toggleOnTrue(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
     oi.operatorJoystick.ButtonLeftBumper().whileTrue(new PoseEstimationWithLimelight(limelight, drivetrain));
-    oi.operatorJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, 2));
+    oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, 2));
 
     
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());

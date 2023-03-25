@@ -24,12 +24,15 @@ public class SetPipeline extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limelight.enableBaseCameraSettings();
+    // limelight.enableBaseCameraSettings();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    // limelight.enableBaseCameraSettings();
+    limelight.setLedMode(0);
+    limelight.enableBaseCameraSettings();
     limelight.setPipeline(pipeline);
     isPipelineSet = true;
   }
