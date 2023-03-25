@@ -18,10 +18,9 @@ public class DriveElevatorToPosition extends CommandBase {
   private static double speedInInches;
   private static double errorTolerance = 0.5;
 
-  public DriveElevatorToPosition(Elevator elevator, double in, double speed) {
+  public DriveElevatorToPosition(Elevator elevator, double in) {
     this.elevator = elevator;
     inches = in;
-    speedInInches = speed;
 
     addRequirements(elevator);
   }
