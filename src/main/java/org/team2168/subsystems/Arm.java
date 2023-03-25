@@ -83,7 +83,7 @@ public class Arm extends SubsystemBase {
   private static final int kPIDLoopIdx = 0;
   private static final int kTimeoutMs = 30;
   private static boolean kSensorPhase = false;
-  private static TalonFXInvertType kMotorInvert = TalonFXInvertType.Clockwise;
+  private static TalonFXInvertType kMotorInvert = TalonFXInvertType.CounterClockwise;
 
   private static final double ACCELERATION_LIMIT = 18000; // should start as a little bit more than the accel //TODO: update value after testing
   private static final double CRUISE_VELOCITY_LIMIT = 16000; // should be a bit less than max possible velocity //TODO: update value after testing
