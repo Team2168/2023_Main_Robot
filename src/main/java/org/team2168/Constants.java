@@ -39,7 +39,7 @@ public final class Constants {
   }
 
   public static final class DIO {
-  public static final int HAND_CHANNEL = 1;
+  public static final int HAND_CHANNEL = 2;
   }
   public static final class Joysticks {
     public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
