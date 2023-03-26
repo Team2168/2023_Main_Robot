@@ -19,12 +19,15 @@ import java.security.KeyFactory;
 
 import org.team2168.Constants;
 import org.team2168.Constants.ElevatorMotors;
+import org.team2168.Constants.PneumaticDevices;
 import org.team2168.utils.TalonFXHelper;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -71,6 +74,8 @@ public class Elevator extends SubsystemBase {
   private static final double MIN_HEIGHT_INCHES = -30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
   private static final double MAX_HEIGHT_INCHES = 0; 
 
+  private Solenoid carriageLock;
+
   private boolean kSensorPhase = false;
 
   static Elevator instance = null;
@@ -78,6 +83,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
+    carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
 
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
@@ -134,6 +140,7 @@ public class Elevator extends SubsystemBase {
     return instance;
   }
 
+
   public static double degreesToTicks(double degrees){
     return (degrees / 360 * TICKS_PER_REV);
   }
@@ -150,7 +157,7 @@ public class Elevator extends SubsystemBase {
     return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
   }
 
-  @Log
+  @Log(name = "Encoder Position in Ticks")
   private double getEncoderPositionInTicks(){
     return elevatorMotor.getSelectedSensorPosition(kPIDLoopIdx);
   }
@@ -188,6 +195,14 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
+  public void extendLock(){
+    carriageLock.set(true);
+  }
+
+  public void retractLock(){
+    carriageLock.set(false);
+  }
+
   @Log(name = "Positiion (inches)", rowIndex = 3, columnIndex = 2)
   public double getPositionIn(){
     return ticksToInches(elevatorMotor.getSelectedSensorPosition());
@@ -216,6 +231,11 @@ public class Elevator extends SubsystemBase {
   @Log(name = "Error", rowIndex = 3, columnIndex = 5)
   public double getControllerError(){
     return ticksToDegrees(elevatorMotor.getClosedLoopError()); //this method returns the current error position
+  }
+
+  @Log(name = "is Lock extended?")
+  public boolean isLockExtented(){
+    return carriageLock.get();
   }
 
   @Override
