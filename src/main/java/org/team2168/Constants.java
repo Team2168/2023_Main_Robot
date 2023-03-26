@@ -26,8 +26,8 @@ public final class Constants {
   }
 
   public static final class PneumaticsModules {
-    public static final int INTAKE_CLAMP = 9;
-    public static final int INTAKE_OPEN = 8;
+    public static final int INTAKE_CLAMP = 3;
+    public static final int INTAKE_OPEN = 7;
   
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }

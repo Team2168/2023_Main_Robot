@@ -8,7 +8,9 @@ import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.Autos;
 import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.HandCommands.OpenAndRunIntake;
+import org.team2168.commands.HandCommands.OpenIntake;
 import org.team2168.commands.HandCommands.RunIntake;
+import org.team2168.commands.HandCommands.ClampIntake;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.HandPneumatic;
 import org.team2168.subsystems.HandWheels;
@@ -65,8 +67,10 @@ public class RobotContainer {
 
     // m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     oi.testJoystick.ButtonA().onTrue(new RunIntake(hand, 0.5));
+
+    oi.testJoystick.ButtonB().onFalse(new ClampIntake(handPneumatic));
     // controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
-    
+    oi.testJoystick.ButtonB().onTrue(new OpenIntake(handPneumatic));
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
