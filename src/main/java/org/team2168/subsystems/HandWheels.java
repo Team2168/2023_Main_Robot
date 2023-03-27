@@ -71,14 +71,19 @@ public class HandWheels extends SubsystemBase implements Loggable {
     return instance;
   }
 
-  public void set(double speed) {
-    intakeLeftMotor.set(speed);
+  public void set(double volts) {
+    intakeLeftMotor.setVoltage(volts);
 
   }
 
-  @Log(name = "percent output", rowIndex = 2, columnIndex = 1)
-  public double getPercentOutput() {
-    return intakeLeftMotor.get(); // speed (-1.0 - 1.0) according to javadoc comment
+  @Log(name = "output", rowIndex = 2, columnIndex = 1)
+  public double getOutput() {
+    return intakeLeftMotor.getAppliedOutput(); // speed (-1.0 - 1.0) according to javadoc comment
+  }
+
+  @Log(name = "voltage", rowIndex = 2, columnIndex = 1)
+  public double getVoltage() {
+    return intakeLeftMotor.getBusVoltage(); // speed (-1.0 - 1.0) according to javadoc comment
   }
 
   @Log(name = "IsGamePieceInHand: ", rowIndex = 1, columnIndex = 1)

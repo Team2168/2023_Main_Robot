@@ -39,6 +39,7 @@ private HandPneumatic handPneumatic;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // handPneumatic.isIntakeClamped();
     return hand.isGamePieceInHand();
   }
 }

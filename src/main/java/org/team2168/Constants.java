@@ -7,11 +7,15 @@ package org.team2168;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
 /**
- * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
- * constants. This class should not be used for any other purpose. All constants should be declared
+ * The Constants class provides a convenient place for teams to hold robot-wide
+ * numerical or boolean
+ * constants. This class should not be used for any other purpose. All constants
+ * should be declared
  * globally (i.e. public static). Do not put anything functional in this class.
  *
- * <p>It is advised to statically import this class (or one of its inner classes) wherever the
+ * <p>
+ * It is advised to statically import this class (or one of its inner classes)
+ * wherever the
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
@@ -28,25 +32,26 @@ public final class Constants {
   public static final class PneumaticsModules {
     public static final int INTAKE_CLAMP = 3;
     public static final int INTAKE_OPEN = 7;
-  
+
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
 
   public static final class MotorSpeeds {
-    public static final double FORWARD_INTAKE_VELOCITY = 0.55; //placeholder in rpm to ticks per hundred ms
+    public static final double FORWARD_INTAKE_VELOCITY = 12.0; // placerholder voltage
     public static final double STOP_SPEED = 0.0;
-    public static final double REVERSE_INTAKE_VELOCITY = -0.55; //placeholder in rpm to ticks per hundred ms
+    public static final double REVERSE_INTAKE_VELOCITY = -12.0; // placeholder voltage
   }
 
   public static final class DIO {
-  public static final int HAND_CHANNEL = 2;
+    public static final int HAND_CHANNEL = 2;
   }
+
   public static final class Joysticks {
-    public static final int DRIVER_JOYSTICK = 0; //these constants are placeholders. 
-    public static final int OPERATOR_JOYSTICK = 1;//these constants are placeholders. 
-    public static final int BUTTON_BOX_1 = 4;//these constants are placeholders. 
-    public static final int BUTTON_BOX_2 = 8;//these constants are placeholders. 
-    public static final int DRIVER_OPERATOR_E_BACKUP = 2;//these constants are placeholders. 
-    public static final int PID_TEST_JOYSTICK = 5;//these constants are placeholders. 
-}
+    public static final int DRIVER_JOYSTICK = 0; // these constants are placeholders.
+    public static final int OPERATOR_JOYSTICK = 1;// these constants are placeholders.
+    public static final int BUTTON_BOX_1 = 4;// these constants are placeholders.
+    public static final int BUTTON_BOX_2 = 8;// these constants are placeholders.
+    public static final int DRIVER_OPERATOR_E_BACKUP = 2;// these constants are placeholders.
+    public static final int PID_TEST_JOYSTICK = 5;// these constants are placeholders.
+  }
 }

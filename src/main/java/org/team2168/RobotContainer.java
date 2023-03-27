@@ -66,11 +66,13 @@ public class RobotContainer {
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
     // m_driverController.a().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
-    oi.testJoystick.ButtonA().onTrue(new RunIntake(hand, 0.5));
+    // oi.testJoystick.ButtonA().onTrue(new RunIntake(hand, 0.5));
 
     oi.testJoystick.ButtonB().onFalse(new ClampIntake(handPneumatic));
     // controller.ButtonLeftBumper().whileTrue(new OpenAndRunIntake(hand, handPneumatic));
     oi.testJoystick.ButtonB().onTrue(new OpenIntake(handPneumatic));
+    oi.testJoystick.ButtonX().whileTrue(new RunIntake(hand, 10));
+    
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
 
