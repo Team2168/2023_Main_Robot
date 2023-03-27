@@ -25,9 +25,11 @@ import org.team2168.utils.TalonFXHelper;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -74,7 +76,7 @@ public class Elevator extends SubsystemBase {
   private static final double MIN_HEIGHT_INCHES = -30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
   private static final double MAX_HEIGHT_INCHES = 0; 
 
-  private Solenoid carriageLock;
+  private DoubleSolenoid carriageLock;
 
   private boolean kSensorPhase = false;
 
@@ -83,7 +85,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
-    //carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
+    carriageLock = new DoubleSolenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK_OPEN, PneumaticDevices.CARRIAGE_LOCK_CLOSE);
 
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
@@ -196,11 +198,11 @@ public class Elevator extends SubsystemBase {
   }
 
   public void extendLock(){
-    carriageLock.set(true);
+    carriageLock.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retractLock(){
-    carriageLock.set(false);
+    carriageLock.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Log(name = "Positiion (inches)", rowIndex = 3, columnIndex = 2)
@@ -234,9 +236,16 @@ public class Elevator extends SubsystemBase {
   }
 
   @Log(name = "is Lock extended?")
-  public boolean isLockExtented(){
-    return carriageLock.get();
+  public boolean isLockExtended(){
+    return !carriageLock.isFwdSolenoidDisabled();
   }
+
+  @Log(name = "is Lock retracted?")
+  public boolean isLockRetracted(){
+    return !carriageLock.isRevSolenoidDisabled();
+  }
+
+
 
   @Override
   public void periodic() {
