@@ -264,12 +264,12 @@ public class Limelight extends SubsystemBase implements Loggable {
 
   @Log(name = "Average Contour Data: ", rowIndex = 5, columnIndex = 4)
   public double getAvgContourCornerData() {
-    double average;
+     double average;
     getRawContourCornerData();
     average = ((contourEntries[0] + contourEntries[1] + contourEntries[2] + contourEntries[3]) /
         contourEntries.length);
-    return average;
-  }
+     return average;
+   }
 
   private void init() {
     tv = networkTable.getEntry("tv");
