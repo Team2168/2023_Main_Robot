@@ -37,9 +37,10 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Elevator extends SubsystemBase {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
-  private static final double kD = 0.0; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain)
-  private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
-  private static final double kP = 0.1; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point)
+  private static final double kD = 0.8; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
+  private static final double kF = 0.12; // 0.12 works - ted
+  // private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
+  private static final double kP = 0.5; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point) (0.5 works - ted)
   private static final double kArbitraryFeedForward = 0.062; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
@@ -58,8 +59,8 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = 1800; 
+  private static final double CRUISE_VELOCITY_LIMIT = 1000; 
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
@@ -102,7 +103,7 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
     elevatorMotor.configMotionAcceleration(ACCELERATION_LIMIT);
     elevatorMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
-    elevatorMotor.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs);
+    elevatorMotor.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs); // 15 works - ted
 
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);

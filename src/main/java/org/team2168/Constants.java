@@ -61,8 +61,8 @@ public final class Constants {
   }
 
   public static class PneumaticDevices{
-    public static final int CARRIAGE_LOCK = 7; //this constant is a placeholder
-
+    public static final int CARRIAGE_LOCK_OPEN = 2; //this constant is a placeholder
+    public static final int CARRIAGE_LOCK_CLOSE = 0; // THESE CONSTANTS MAY BE REVERSED
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
 
