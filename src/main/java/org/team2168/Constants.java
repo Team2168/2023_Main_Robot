@@ -5,6 +5,7 @@
 package org.team2168;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 
@@ -21,12 +22,6 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-    public static final class ElevatorMotors {
-        public static final int ELEVATOR_MOTOR = 14;
-        public static final double UPDATE_TIME = 0.02;
-    }
-
     public static final class ElevatorHeights {
       public static final double ZERO_POS_IN = 0.0;
       public static final double RESTING_POS_IN = 30.0;
@@ -40,6 +35,22 @@ public final class Constants {
       public static final double RESTING_POS_DEGREES = -27.11;
       
     }
+    // Reasonable baseline values for a RAMSETE follower in units of meters and seconds
+    public static final double kRamseteB = 2.0; // replace these for 2022
+    public static final double kRamseteZeta = 0.7;
+
+    public static final double kPDriveVel = 2.9277;
+
+    public static final double kMaxSpeedMetersPerSecond = 3.0;  // taken from sysID
+    public static final double kMaxAccelerationMetersPerSecondSquared = 1.8;
+
+
+  public static final class ElevatorMotors{
+    public static final int ELEVATOR_MOTOR = 14; 
+    public static final double UPDATE_TIME = 0.02;
+    public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
+    public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
+  }
 
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
@@ -49,8 +60,10 @@ public final class Constants {
   public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
   public static final int WIRST_FORWARD_CHANNEL = 3;
   public static final int WIRST_REVERSE_CHANNEL = 6;
+    public static final int CARRIAGE_LOCK_OPEN = 2; //this constant is a placeholder
+    public static final int CARRIAGE_LOCK_CLOSE = 0; // THESE CONSTANTS MAY BE REVERSED
+    public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
-
   public static final double LOOP_TIMESTEP_S = 0.02;
 
   public static final class RobotMetrics{
