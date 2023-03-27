@@ -83,7 +83,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
-    carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
+    //carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
 
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
