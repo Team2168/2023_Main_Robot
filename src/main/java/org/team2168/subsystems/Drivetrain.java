@@ -234,6 +234,11 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   @Config(name = "are the brakes to be engaged?", width = 1)
   public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
     areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
+    if (toAmBrakesEnabled) {
+        setMotorsBrake();
+    } else {
+        setMotorsCoast();
+    }
   }
 
   /**
@@ -257,6 +262,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
    *
    * @return gyro heading from -180.0 to 180.0 degrees. Positive counterclockwise
    */
+  @Log
   public double getHeading() {
     return pidgey.getRotation2d().getDegrees();
   }
