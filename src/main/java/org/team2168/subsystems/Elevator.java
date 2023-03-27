@@ -25,9 +25,11 @@ import org.team2168.utils.TalonFXHelper;
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -37,10 +39,11 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Elevator extends SubsystemBase {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
-  private static final double kD = 0.0; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain)
-  private static final double kF = ((1023 * 0.75) / 21777.07); //feedforward: constant output added on which counteracts forces (0.035)
-  private static final double kP = 0.1; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point)
-  private static final double kArbitraryFeedForward = 0.035; //(placeholder)
+  private static final double kD = 0.8; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
+  private static final double kF = 0.12; // 0.12 works - ted
+  // private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
+  private static final double kP = 0.5; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point) (0.5 works - ted)
+  private static final double kArbitraryFeedForward = 0.12; //(placeholder)
 
   private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
@@ -58,8 +61,8 @@ public class Elevator extends SubsystemBase {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.3) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = 1800; 
+  private static final double CRUISE_VELOCITY_LIMIT = 1000; 
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
@@ -73,7 +76,7 @@ public class Elevator extends SubsystemBase {
   private static final double MIN_HEIGHT_INCHES = -30.1; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
   private static final double MAX_HEIGHT_INCHES = 0; 
 
-  private Solenoid carriageLock;
+  private DoubleSolenoid carriageLock;
 
   private boolean kSensorPhase = false;
 
@@ -82,7 +85,7 @@ public class Elevator extends SubsystemBase {
   /** Creates a new Elevator. */
   public Elevator() {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
-    carriageLock = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK);
+    carriageLock = new DoubleSolenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK_OPEN, PneumaticDevices.CARRIAGE_LOCK_CLOSE);
 
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
@@ -102,7 +105,7 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
     elevatorMotor.configMotionAcceleration(ACCELERATION_LIMIT);
     elevatorMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
-    elevatorMotor.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs);
+    elevatorMotor.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs); // 15 works - ted
 
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
@@ -199,11 +202,11 @@ public class Elevator extends SubsystemBase {
   }
 
   public void extendLock(){
-    carriageLock.set(true);
+    carriageLock.set(DoubleSolenoid.Value.kForward);
   }
 
   public void retractLock(){
-    carriageLock.set(false);
+    carriageLock.set(DoubleSolenoid.Value.kReverse);
   }
 
   @Log(name = "Positiion (inches)", rowIndex = 3, columnIndex = 2)
@@ -237,9 +240,16 @@ public class Elevator extends SubsystemBase {
   }
 
   @Log(name = "is Lock extended?")
-  public boolean isLockExtented(){
-    return carriageLock.get();
+  public boolean isLockExtended(){
+    return !carriageLock.isFwdSolenoidDisabled();
   }
+
+  @Log(name = "is Lock retracted?")
+  public boolean isLockRetracted(){
+    return !carriageLock.isRevSolenoidDisabled();
+  }
+
+
 
   @Override
   public void periodic() {
