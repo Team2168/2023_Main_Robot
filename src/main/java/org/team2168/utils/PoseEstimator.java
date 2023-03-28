@@ -47,12 +47,18 @@ public class PoseEstimator {
     }
 
     public void update() {
-        poseEstimator.addVisionMeasurement(
-                lime.getPose2d(),
-                Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs())
-                        - Units.millisecondsToSeconds(lime.getCapturedLatencyTime()));
+        if (lime.hasTarget()) {
+            poseEstimator.addVisionMeasurement(
+                    lime.getPose2d(),
+                    Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs())
+                            - Units.millisecondsToSeconds(lime.getCapturedLatencyTime()));
 
-        poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(), drive.getRightEncoderDistance());
+            poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(),
+                    drive.getRightEncoderDistance());
+        } else if (!lime.hasTarget()) {
+            poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(),
+                    drive.getRightEncoderDistance(), drive.getPose());
+        }
     }
 
     public void setVisionDeviations(Matrix<N3, N1> newVisionDeviations) {
