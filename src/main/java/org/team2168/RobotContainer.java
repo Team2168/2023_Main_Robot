@@ -19,6 +19,7 @@ import org.team2168.commands.drivetrain.ToggleBrakes;
 import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.commands.elevator.DriveElevatorToZero;
 import org.team2168.commands.elevator.ExtendLock;
+import org.team2168.commands.elevator.RetractLock;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.Constants.Joysticks;
@@ -50,7 +51,7 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
-  private final Elevator elevator = new Elevator();
+  private final Elevator elevator = Elevator.getInstance();
 
 
 
@@ -121,12 +122,13 @@ public class RobotContainer {
 
     oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
     
-    // oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
+    // oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN));
     // oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, 5));
-    // //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
+    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN,));
+    // oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, oi.getTestJoystickX()));
 
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
 
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
   }
