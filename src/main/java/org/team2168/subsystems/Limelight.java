@@ -25,11 +25,18 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
 
-  public double[] botPoseArray = new double[6];
-  public double[] targetPoseArray = new double[6];
-  public double[] targetPoseRobotSpaceArray = new double[6];
-  public double[] botPoseTargetSpaceArray = new double[6];
-  public double[] cameraViewArray = new double[6];
+  // public double[] botPoseArray = new double[6];
+  // public double[] targetPoseArray = new double[6];
+  // public double[] targetPoseRobotSpaceArray = new double[6];
+  // public double[] botPoseTargetSpaceArray = new double[6];
+  // public double[] cameraViewArray = new double[6];
+
+  public static double[] botpose;
+  public static double[] targetpose;
+  public static double[] targetposeRobotspaceArray;
+  public static double[] botposeTargetspace;
+  public static double[] camerapose;
+
   // standard entries
 
   private static boolean isLimelightEnabled;
@@ -256,8 +263,7 @@ public class Limelight extends SubsystemBase implements Loggable {
   // deal with this problem of null pointer exception.
   public double[] getBotPoseTranslation() {
     // double[] botPoseArray = new double[6];
-    botPose.getDoubleArray(botPoseArray);
-    return botPoseArray;
+    return botpose;
   }
 
   // public double[] botPoseArrayTwo = new double[2];
@@ -266,32 +272,26 @@ public class Limelight extends SubsystemBase implements Loggable {
 
     // double[] cameraViewArray = new double[6];
 
-    cameraPoseTargetSpace.getDoubleArray(cameraViewArray);
-    return cameraViewArray;
+    return camerapose;
   }
 
   public double[] getTargetPoseTranslation() {
     // double[] targetPoseArray = new double[6];
-    targetPoseCameraSpace.getDoubleArray(targetPoseArray);
-    return targetPoseArray;
+    return targetpose;
   }
 
   public double[] getTargetPoseInRobotSpace() {
-    // double[] targetPoseRobotSpaceArray = new double[6];
-    targetPoseRobotSpace.getDoubleArray(targetPoseRobotSpaceArray);
-    return targetPoseRobotSpaceArray;
+    return targetposeRobotspaceArray;
   }
 
   public double[] getBotPoseInTargetSpace() {
-    // double[] botPoseTargetSpaceArray = new double[6];
-    botPoseTargetSpace.getDoubleArray(botPoseTargetSpaceArray);
-    return botPoseTargetSpaceArray;
+    return botposeTargetspace;
   }
 
   public Pose3d getPoseInTargetSpace() {
     return new Pose3d(
-        new Translation3d(botPoseTargetSpaceArray[0], botPoseTargetSpaceArray[1], botPoseTargetSpaceArray[2]),
-        new Rotation3d(botPoseTargetSpaceArray[3], botPoseTargetSpaceArray[4], botPoseTargetSpaceArray[5]));
+        new Translation3d(botposeTargetspace[0], botposeTargetspace[1], botposeTargetspace[2]),
+        new Rotation3d(botposeTargetspace[3], botposeTargetspace[4], botposeTargetspace[5]));
   }
 
   @Log(name = "Current ApriltagID")
@@ -365,25 +365,30 @@ public class Limelight extends SubsystemBase implements Loggable {
     tid = networkTable.getEntry("tid");
     cl = networkTable.getEntry("cl");
     cameraPoseRobotSpace = networkTable.getEntry("camerapose_robotspace");
+
+    targetposeRobotspaceArray = targetPoseRobotSpace.getDoubleArray(new double[6]);
+    botpose = botPose.getDoubleArray(new double[6]);
+    targetpose = targetPoseCameraSpace.getDoubleArray(new double[6]);
+    camerapose = cameraPoseTargetSpace.getDoubleArray(new double[6]);
+    botposeTargetspace = botPoseTargetSpace.getDoubleArray(new double[6]);
   }
 
   public Pose3d getPose3d() {
-    return new Pose3d(botPoseArray[0], botPoseArray[1], botPoseArray[2],
-        new Rotation3d(Units.degreesToRadians(botPoseArray[3]), Units.degreesToRadians(botPoseArray[4]),
-            Units.degreesToRadians(botPoseArray[5])));
+    return new Pose3d(botpose[0], botpose[1], botpose[2],
+        new Rotation3d(Units.degreesToRadians(botpose[3]), Units.degreesToRadians(botpose[4]),
+            Units.degreesToRadians(botpose[5])));
 
   }
 
   public Pose2d getPose2d() {
-    return new Pose2d(botPoseArray[0], botPoseArray[2],
-        new Rotation2d(Units.degreesToRadians(botPoseArray[5])));
+    return getPose3d().toPose2d();
   }
 
   public Pose3d getCameraTransformFromBotPose() {
-    return getPose3d().transformBy(new Transform3d(new Translation3d(cameraViewArray[0], cameraViewArray[1],
-        cameraViewArray[2]),
-        new Rotation3d(Units.degreesToRadians(cameraViewArray[3]),
-            Units.degreesToRadians(cameraViewArray[4]), Units.degreesToRadians(cameraViewArray[5]))));
+    return getPose3d().transformBy(new Transform3d(new Translation3d(camerapose[0], camerapose[1],
+        camerapose[2]),
+        new Rotation3d(Units.degreesToRadians(camerapose[3]),
+            Units.degreesToRadians(camerapose[4]), Units.degreesToRadians(camerapose[5]))));
   }
 
   public Pose3d getTagTransformFromBotPose() {
@@ -395,8 +400,8 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public Pose3d getAprilTagPoseRelativeToLimelight() {
-    return new Pose3d(new Translation3d(targetPoseArray[0], targetPoseArray[1], targetPoseArray[2]),
-        new Rotation3d(targetPoseArray[3], targetPoseArray[4], targetPoseArray[5]));
+    return new Pose3d(new Translation3d(targetpose[0], targetpose[1], targetpose[2]),
+        new Rotation3d(targetpose[3], targetpose[4], targetpose[5]));
   }
 
   @Override
