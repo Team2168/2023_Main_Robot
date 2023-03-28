@@ -48,8 +48,7 @@ public class PoseEstimator {
 
     public void update() {
         poseEstimator.addVisionMeasurement(
-                new Pose2d(new Translation2d(lime.botPoseArray[0], lime.botPoseArray[2]),
-                        Rotation2d.fromDegrees(lime.botPoseArray[5])),
+                lime.getPose2d(),
                 Timer.getFPGATimestamp() - Units.millisecondsToSeconds(lime.getLatencyMs())
                         - Units.millisecondsToSeconds(lime.getCapturedLatencyTime()));
 
