@@ -15,7 +15,6 @@ public class RetractLock extends CommandBase {
   public RetractLock(Elevator carriageLock) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.carriageLock = carriageLock;
-    addRequirements(carriageLock); 
   }
 
   // Called when the command is initially scheduled.

@@ -28,6 +28,7 @@ import org.team2168.subsystems.Arm;
 import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.commands.elevator.DriveElevatorToZero;
 import org.team2168.commands.elevator.ExtendLock;
+import org.team2168.commands.elevator.RetractLock;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
 import org.team2168.commands.Turret.*;
@@ -56,7 +57,7 @@ import io.github.oblarg.oblog.annotations.Log;
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   static RobotContainer instance = null;
-  public final Elevator elevator = new Elevator();
+  public final Elevator elevator = Elevator.getInstance();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
   private final Turret turret = Turret.getInstance();
@@ -119,13 +120,14 @@ public class RobotContainer {
     //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
     // oi.testJoystick.ButtonA().whileTrue(new RotateArm(arm, -45));
     // oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
-    oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
-    oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
-    drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
+    // oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
+    // oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
+    oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
+    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
+    oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
 
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
-    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     new Trigger(m_exampleSubsystem::exampleCondition)
@@ -158,6 +160,7 @@ public class RobotContainer {
     // //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
 
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
 
     // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
     // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,

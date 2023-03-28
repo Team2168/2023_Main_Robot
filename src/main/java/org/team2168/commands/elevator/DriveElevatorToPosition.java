@@ -13,14 +13,13 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveElevatorToPosition extends CommandBase {
   /** Creates a new DriveElevatorToPosition. */
 
-  private Elevator elevator;
-  private static double inches;
-  private static double errorTolerance = 0.5;
+  Elevator elevator;
+  double inches;
+  double errorTolerance = 0.5;
 
   public DriveElevatorToPosition(Elevator elevator, double in) {
     this.elevator = elevator;
     inches = in;
-
     addRequirements(elevator);
   }
 
@@ -35,6 +34,7 @@ public class DriveElevatorToPosition extends CommandBase {
   public void execute() {
     //elevator.setSpeedVelocity(speedInInches);
     elevator.setPosition(inches);
+    System.out.println("commanded pos: " + inches);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,6 +47,7 @@ public class DriveElevatorToPosition extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println((elevator.getPositionIn() >= (inches - errorTolerance) && elevator.getPositionIn() <= (inches + errorTolerance)));
     return (elevator.getPositionIn() >= (inches - errorTolerance) && elevator.getPositionIn() <= (inches + errorTolerance));
   }
 }

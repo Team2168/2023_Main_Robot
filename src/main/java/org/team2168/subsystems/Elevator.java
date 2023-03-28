@@ -33,10 +33,11 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.simulation.ElevatorSim;
 import edu.wpi.first.wpilibj.simulation.EncoderSim;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
-public class Elevator extends SubsystemBase {
+public class Elevator extends SubsystemBase implements Loggable {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
   private static final double kD = 0.8; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
@@ -105,15 +106,15 @@ public class Elevator extends SubsystemBase {
     elevatorMotor.config_kD(kPIDLoopIdx, kD, kTimeoutMs);
     elevatorMotor.configMotionAcceleration(ACCELERATION_LIMIT);
     elevatorMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
-    elevatorMotor.configAllowableClosedloopError(0, kPIDLoopIdx, kTimeoutMs); // 15 works - ted
+    elevatorMotor.configAllowableClosedloopError(0, 15, kTimeoutMs); // 15 works - ted
 
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-    elevatorMotor.configForwardSoftLimitEnable(true);
-    elevatorMotor.configReverseSoftLimitEnable(true);
-    elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
-    elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
+    // elevatorMotor.configForwardSoftLimitEnable(true);
+    // elevatorMotor.configReverseSoftLimitEnable(true);
+    // elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
+    // elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)
@@ -164,7 +165,7 @@ public class Elevator extends SubsystemBase {
   }
 
   public static double ticksToInches(double ticks){
-    return (ticks / TICKS_PER_REV) /GEAR_RATIO * INCHES_PER_REV;
+    return ((ticks / TICKS_PER_REV) /GEAR_RATIO) * INCHES_PER_REV;
   }
 
   @Log(name = "Encoder Position in Ticks")
@@ -193,16 +194,16 @@ public class Elevator extends SubsystemBase {
   public void setPosition(double inches){
     //this.position = position;
 
-    elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+    elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches));
   }
 
   //@Config()
   public void setPercentOutput(double percentOutput) {
-    elevatorMotor.set(ControlMode.PercentOutput, percentOutput, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+    elevatorMotor.set(ControlMode.PercentOutput, percentOutput);
   }
 
   public void setToZero(){
-    elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
+    elevatorMotor.set(ControlMode.PercentOutput, 0);
   }
 
   public void extendLock(){

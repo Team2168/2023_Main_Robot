@@ -190,11 +190,17 @@ public class Arm extends SubsystemBase {
 
   /**
    * The speed to set the arm to
-   * @param speed the speed to set the arm to (degrees/second)
+   * @param vel the speed to set the arm to (degrees/second)
    */
-  public void setSpeed(double speed) {
-    armMotor.set(ControlMode.Velocity, speed);
+  public void setVelocity(double vel) {
+    armMotor.set(ControlMode.Velocity, vel);
   }
+
+  public void setPercentOutput(double speed) {
+    armMotor.set(ControlMode.PercentOutput, speed);
+  }
+
+
 
   /**
    * @return the current error position (degrees)

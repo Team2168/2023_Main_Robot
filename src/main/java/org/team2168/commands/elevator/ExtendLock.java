@@ -16,7 +16,6 @@ public class ExtendLock extends CommandBase {
   public ExtendLock(Elevator carriageLock) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.carriageLock = carriageLock;
-    addRequirements(carriageLock);
     }
 
   // Called when the command is initially scheduled.
