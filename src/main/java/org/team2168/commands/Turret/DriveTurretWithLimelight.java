@@ -76,6 +76,13 @@ public class DriveTurretWithLimelight extends CommandBase {
     }
   
     turret.setRotationDegrees(driveLimeTurn);
+
+   if (limelight.hasTarget()) {
+      targetPos = currentPos + (avg_limeXPos * LIME_KP);
+    }
+    else {
+      //targetPos = turret.amountFromZeroToRotate(Drivetrain.getInstance().getHubHeadingFromRobot());
+    } 
   }
 
   // Called once the command ends or is interrupted.
