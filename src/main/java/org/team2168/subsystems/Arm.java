@@ -8,6 +8,7 @@ import org.team2168.Constants;
 import org.team2168.utils.TalonFXHelper;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.SupplyCurrentLimitConfiguration;
 import com.ctre.phoenix.motorcontrol.TalonFXFeedbackDevice;
@@ -99,12 +100,14 @@ public class Arm extends SubsystemBase {
   private static final double kI;
   private static final double kD;
   private static final double kF;
+  private static final double kArbitraryFeedForward;
 
   static{
     kP = 0.1;
     kI = 0.0;
     kD = 0.0; // when P is oscillating, lower P and make D gain 1.6 times P.
     kF = 0.052; // 1023 / (((estimated speed_rpm based on the fact our gear ratio won't allow our motor to go at max velocity / 60) / 10) * 2048)
+    kArbitraryFeedForward = 0.05;
   }
 
   private static final double kV = 0.05;
@@ -116,7 +119,7 @@ public class Arm extends SubsystemBase {
     //arm config
     armMotor.configFactoryDefault();
     armMotor.configNeutralDeadband(NEUTRAL_DEADBAND);
-    armMotor.setNeutralMode(NeutralMode.Brake);
+    armMotor.setNeutralMode(NeutralMode.Coast);
 
     armMotor.configSelectedFeedbackSensor(TalonFXFeedbackDevice.IntegratedSensor, kPIDLoopIdx, kTimeoutMs);
     armMotor.setSensorPhase(kSensorPhase);
@@ -185,7 +188,7 @@ public class Arm extends SubsystemBase {
   public void setRotationDegrees(double degrees) {
     var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
     setpoint = demand;
-    armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand));
+    armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   /**
@@ -193,11 +196,11 @@ public class Arm extends SubsystemBase {
    * @param vel the speed to set the arm to (degrees/second)
    */
   public void setVelocity(double vel) {
-    armMotor.set(ControlMode.Velocity, vel);
+    armMotor.set(ControlMode.Velocity, vel, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   public void setPercentOutput(double speed) {
-    armMotor.set(ControlMode.PercentOutput, speed);
+    armMotor.set(ControlMode.PercentOutput, speed, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
 

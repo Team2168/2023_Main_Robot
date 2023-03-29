@@ -34,14 +34,14 @@ public class DriveElevator extends CommandBase {
   @Override
   public void execute() {
     //elevator.setPercentOutput(elevatorPercentOutput);
-  if (elevator.isInRange()) {
+  // if (elevator.isInRange()) {
     elevator.setPercentOutput(elevatorOutput.getAsDouble());
-  }
-  else {
-    elevator.setPercentOutput(0.0);
-    System.out.println("not in range");
-    System.out.println("position: " + elevator.getPositionIn());
-  }
+  // }
+  // else {
+  //   elevator.setPercentOutput(0.0);
+  //   System.out.println("not in range");
+  //   System.out.println("position: " + elevator.getPositionIn());
+  // }
 }
 
   // Called once the command ends or is interrupted.
