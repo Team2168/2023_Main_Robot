@@ -4,9 +4,12 @@
 
 package org.team2168.commands;
 
+import org.team2168.Constants;
 import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Turret;
+import org.team2168.utils.FindClosestPose;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
@@ -21,44 +24,55 @@ public class ResetTurretToApriltag extends CommandBase {
   public Limelight lime;
   public Turret turret;
   public PoseEstimationWithLimelight poseEstimator;
+  public Drivetrain drive;
   public boolean turnTurretToHighNode;
   double diffX;
   double diffY;
   double finalAngle;
+  public Pose3d apriltagPose;
 
   public ResetTurretToApriltag(Limelight lime, Turret turret, PoseEstimationWithLimelight poseEstimator,
-      boolean turnTurretToHighNode) {
+      boolean turnTurretToHighNode, Drivetrain drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.lime = lime;
     this.turret = turret;
     this.turnTurretToHighNode = turnTurretToHighNode;
     this.poseEstimator = poseEstimator;
+    this.drive = drive;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    lime.enableBaseCameraSettings();
+    lime.enableVision(true);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    if (lime.hasTarget()) {
+      apriltagPose = lime.getAprilTagPoseRelativeToLimelight();
+    } else if (!lime.hasTarget()) {
+      apriltagPose = FindClosestPose.findClosest(Constants.AprilTagPoses.apriltagPoses, drive.getPose());
+    }
     // make code that checks what apriltag I.D we are at based on pose with switch
-    // case, or if else.
+    // case, or if else since the limelight won't look at an I.D.
     if (turnTurretToHighNode == false) {
-      diffX = Math.abs(poseEstimator.getPose().getX() - lime.getApriltagDimensionsFromFidicualId().getX());
-      diffY = Math.abs(poseEstimator.getPose().getY() - lime.getApriltagDimensionsFromFidicualId().getY());
+      diffX = Math.abs(poseEstimator.getPose().getX() - apriltagPose.getX());
+      diffY = Math.abs(poseEstimator.getPose().getY() - apriltagPose.getY());
 
-      Pose2d relativePose = poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
+      // Pose2d relativePose =
+      // poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
 
-      Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
+      // Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
 
       finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
       turret.setRotationDegrees(finalAngle);
 
     } else if (turnTurretToHighNode == true) {
-      Pose3d middleToHighNodeTransform = lime.getAprilTagPoseRelativeToLimelight().plus(
+      Pose3d middleToHighNodeTransform = apriltagPose.plus(
           new Transform3d(new Translation3d(0.66, 0.3048, 0.0), new Rotation3d(0.0, 0.0, 0.0)));
 
       diffX = Math.abs(poseEstimator.getPose().getX() - middleToHighNodeTransform.getX());
@@ -69,6 +83,15 @@ public class ResetTurretToApriltag extends CommandBase {
 
     }
 
+    for (int i = 0; i < Constants.AprilTagPoses.apriltagPoses.size(); i++) {
+
+      double pose_x = poseEstimator.getPose().getX();
+      double pose_y = poseEstimator.getPose().getY();
+
+      // add a subtracting algorithm, use a 2 dimensional array/vector to compare x
+      // and y values;
+
+    }
   }
 
   // Called once the command ends or is interrupted.
