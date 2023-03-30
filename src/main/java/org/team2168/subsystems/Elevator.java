@@ -44,9 +44,9 @@ public class Elevator extends SubsystemBase implements Loggable {
   private static final double kF = 0.035; // 0.12 works - ted
   // private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
   private static final double kP = 0.5; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point) (0.5 works - ted)
-  private static final double kArbitraryFeedForward = 0.0; //(placeholder)
+  private static final double kArbitraryFeedForward = 0.04; //(placeholder)
 
-  private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
+  private static final int kTimeoutMs = 1000; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
 
   private static final double CURRENT_LIMIT = 40.0; //it limits when the feature is activited (in amps)
@@ -62,8 +62,8 @@ public class Elevator extends SubsystemBase implements Loggable {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(0.8); //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.45); //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(3.2); //(TODO:placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(1.8); //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
@@ -98,7 +98,7 @@ public class Elevator extends SubsystemBase implements Loggable {
     elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
     elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
     elevatorMotor.configPeakOutputForward(kPeakOutput, kTimeoutMs);
-    elevatorMotor.configPeakOutputReverse(kPeakOutput, kTimeoutMs);
+    elevatorMotor.configPeakOutputReverse(-kPeakOutput, kTimeoutMs);
 
     //sets the gains
     elevatorMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
