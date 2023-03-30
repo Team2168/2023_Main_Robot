@@ -122,7 +122,9 @@ public class RobotContainer {
     // oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
     // oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     // oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
+    oi.testJoystick.ButtonY().onTrue(new RotateArm(arm, 0));
     oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
+    oi.testJoystick.ButtonX().onTrue(new RotateArm(arm, 60.0));
     oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
     oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
 

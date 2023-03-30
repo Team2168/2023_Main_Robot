@@ -66,15 +66,15 @@ public class Arm extends SubsystemBase {
   private static final double NEUTRAL_DEADBAND = 0.001;
 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = 9.16; //TODO: update value, teeth/diameter
+  private static final double GEAR_RATIO = 18.32; //TODO: update value, teeth/diameter
   private static final double TICKS_PER_ROTATION = TICKS_PER_REV * GEAR_RATIO;
 
   private static final double TICKS_PER_SECOND = TICKS_PER_REV;
   private static final double TICKS_PER_100_MS = TICKS_PER_REV/ 10.0;
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
-  private static final double MIN_ROTATION_TICKS = degreesToTicks(-120); 
-  private static final double MAX_ROTATION_TICKS = degreesToTicks(0); //TODO: update number  
+  private static final double MIN_ROTATION_TICKS = degreesToTicks(0); //-120
+  private static final double MAX_ROTATION_TICKS = degreesToTicks(100); //0 //TODO: update number  
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
@@ -86,8 +86,8 @@ public class Arm extends SubsystemBase {
   private static boolean kSensorPhase = false;
   private static TalonFXInvertType kMotorInvert = TalonFXInvertType.CounterClockwise;
 
-  private static final double ACCELERATION_LIMIT = 18000; // should start as a little bit more than the accel //TODO: update value after testing
-  private static final double CRUISE_VELOCITY_LIMIT = 16000; // should be a bit less than max possible velocity //TODO: update value after testing
+  private static final double ACCELERATION_LIMIT = 3200; // should start as a little bit more than the accel //TODO: update value after testing
+  private static final double CRUISE_VELOCITY_LIMIT = 2000; // should be a bit less than max possible velocity //TODO: update value after testing
   private static final double ALLOWABLE_ERROR = 15.0;
   public static Arm getInstance() {
     if (instance == null)
@@ -155,15 +155,15 @@ public class Arm extends SubsystemBase {
     armMotorSim = armMotor.getSimCollection();
   }
 
-  private static double ticksToDegrees(double ticks) {
+  public static double ticksToDegrees(double ticks) {
     return (ticks/TICKS_PER_ROTATION)*360;
   }
 
-  private static double degreesToTicks(double degrees) {
+  public static double degreesToTicks(double degrees) {
     return (degrees/360)*TICKS_PER_ROTATION;
   }
 
-  private static double ticksPer100msToDegreesPerSecond(double ticks) {
+  public static double ticksPer100msToDegreesPerSecond(double ticks) {
     return ticksToDegrees(ticks) * 10.0;
   }
 
@@ -186,7 +186,7 @@ public class Arm extends SubsystemBase {
    * @param degrees the desired destination (degrees)
    */
   public void setRotationDegrees(double degrees) {
-    var demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
+    double demand = MathUtil.clamp(degrees, MIN_ROTATION_DEGREES, MAX_ROTATION_DEGREES);
     setpoint = demand;
     armMotor.set(ControlMode.MotionMagic, degreesToTicks(demand), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
