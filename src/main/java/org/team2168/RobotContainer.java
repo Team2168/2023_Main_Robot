@@ -119,6 +119,8 @@ public class RobotContainer {
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
+    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
 
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
@@ -161,8 +163,13 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonX().onTrue(new HPStationIntake(elevator, arm));
     oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm));
 
+    oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
+    oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
+
     oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
+    oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
   }
 
   /**

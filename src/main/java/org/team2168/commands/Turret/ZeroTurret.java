@@ -26,7 +26,7 @@ import org.team2168.subsystems.Turret;
   
       turret = t;
       this.lime = lime;
-      targetPositionDegrees = 140.0;
+      targetPositionDegrees = 0.0;
       // Use addRequirements() here to declare subsystem dependencies.
   
       addRequirements(t, lime);

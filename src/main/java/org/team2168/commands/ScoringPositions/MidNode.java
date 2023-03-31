@@ -9,19 +9,25 @@ import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.Elevator;
 
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class MidNode extends ParallelCommandGroup {
+public class MidNode extends SequentialCommandGroup {
   /** Creates a new MidConeNode. */
   Elevator elevator;
   Arm arm;
   public MidNode(Elevator elevator, Arm arm) {
     this.elevator = elevator;
     this.arm = arm;
-    addCommands(new DriveElevatorToPosition(elevator, -2.5),
-    new RotateArm(arm, 90.0));
+    addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(0.75),
+    Commands.parallel(new RotateArm(arm, 90.0),
+    Commands.sequence(
+      new WaitCommand(0.5),
+      new DriveElevatorToPosition(elevator, -2.5))));
   }
 }

@@ -29,6 +29,7 @@ public class ToggleWrist extends CommandBase {
   @Override
   public void execute() {
     wrist.toggleWrist();
+    System.out.println("command is running");
   }
 
   // Called once the command ends or is interrupted.
@@ -38,11 +39,12 @@ public class ToggleWrist extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(startingValue == DoubleSolenoid.Value.kForward)
-      return wrist.isRetracted();
-    if(startingValue == DoubleSolenoid.Value.kReverse)
-      return wrist.isExtended();
-    else
-      return true;
+    // if(startingValue == DoubleSolenoid.Value.kForward)
+    //   return wrist.isRetracted();
+    // if(startingValue == DoubleSolenoid.Value.kReverse)
+    //   return wrist.isExtended();
+    // else
+    //   return true;
+    return false;
   }
 }
