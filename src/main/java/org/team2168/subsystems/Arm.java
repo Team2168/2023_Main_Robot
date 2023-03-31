@@ -74,7 +74,7 @@ public class Arm extends SubsystemBase {
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
   private static final double MIN_ROTATION_TICKS = degreesToTicks(0); //-120
-  private static final double MAX_ROTATION_TICKS = degreesToTicks(100); //0 //TODO: update number  
+  private static final double MAX_ROTATION_TICKS = degreesToTicks(130); //0 //TODO: update number  
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
@@ -137,6 +137,11 @@ public class Arm extends SubsystemBase {
     armMotor.configMotionAcceleration(ACCELERATION_LIMIT);
     armMotor.configMotionCruiseVelocity(CRUISE_VELOCITY_LIMIT);
     armMotor.configAllowableClosedloopError(0, ALLOWABLE_ERROR, kTimeoutMs);
+
+    armMotor.configForwardSoftLimitEnable(true);
+    armMotor.configReverseSoftLimitEnable(true);
+    armMotor.configForwardSoftLimitThreshold(MAX_ROTATION_TICKS);
+    armMotor.configReverseSoftLimitThreshold(MIN_ROTATION_TICKS);
     
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(ENABLE_CURRENT_LIMIT, CONTINUOUS_CURRENT_LIMIT, 
       TRIGGER_THRESHOLD_LIMIT, TRIGGER_THRESHOLD_TIME);

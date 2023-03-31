@@ -42,9 +42,9 @@ public class Turret extends SubsystemBase implements Loggable {
 
   // 2022 values
 
-  // The Minimum and Maximum rotation ticks of the turret are 90 degrees in both directions
-  private static final int MIN_ROTATION_TICKS = -19188; // originally -19188 and 19188 for 
-  private static final int MAX_ROTATION_TICKS = 19188; 
+  // The Minimum and Maximum rotation ticks of the turret are 120 degrees in both directions
+  private static final int MIN_ROTATION_TICKS = -1000; // originally -19188 and 19188
+  private static final int MAX_ROTATION_TICKS = 59483; 
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);

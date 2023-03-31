@@ -66,6 +66,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     //makes Drivetrain able to be pushed only when the field is not real
+    m_robotContainer.elevator.extendLock();
     if (!DriverStation.isFMSAttached()) {
       m_robotContainer.drivetrain.setMotorsCoast();
     }
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.drivetrain.setMotorsBrakeAutos();
+    m_robotContainer.elevator.retractLock();
     limelight.setPipeline(1);
     limelight.setLedMode(0);
 
@@ -109,6 +111,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     compressor.enableDigital();
+    m_robotContainer.elevator.retractLock();
     m_robotContainer.drivetrain.setMotorsBrake();
 
   }

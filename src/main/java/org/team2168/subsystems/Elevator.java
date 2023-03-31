@@ -75,7 +75,7 @@ public class Elevator extends SubsystemBase implements Loggable {
   private static TalonFXSimCollection elevatorMotorSim;
   private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)
   private static final double MIN_HEIGHT_INCHES = -25.0; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
-  private static final double MAX_HEIGHT_INCHES = 0; 
+  private static final double MAX_HEIGHT_INCHES = 0.5; 
 
   private DoubleSolenoid carriageLock;
 
@@ -112,10 +112,10 @@ public class Elevator extends SubsystemBase implements Loggable {
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-    // elevatorMotor.configForwardSoftLimitEnable(true);
-    // elevatorMotor.configReverseSoftLimitEnable(true);
-    // elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
-    // elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
+    elevatorMotor.configForwardSoftLimitEnable(true);
+    elevatorMotor.configReverseSoftLimitEnable(true);
+    elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
+    elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)

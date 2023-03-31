@@ -6,39 +6,43 @@ package org.team2168.commands.Turret;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-
-  import org.team2168.subsystems.Turret;
+import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.Turret;
   import org.team2168.utils.Util;
   
   
   public class ZeroTurret extends CommandBase {
   
     Turret turret;
+    Limelight lime;
     Double targetPositionDegrees;
     Double acceptableErrorDegrees = 0.5;
+    double angleOffset = 140.0;
   
     private double error;
   
     /** Creates a new SetTurretToAngle. */
-    public ZeroTurret(Turret t) {
+    public ZeroTurret(Turret t, Limelight lime) {
   
       turret = t;
-      targetPositionDegrees = 0.0;
+      this.lime = lime;
+      targetPositionDegrees = 140.0;
       // Use addRequirements() here to declare subsystem dependencies.
   
-      addRequirements(t);
+      addRequirements(t, lime);
     }
   
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      error = turret.getEncoderPosition() - targetPositionDegrees;
+      error = Turret.ticksToDegrees(turret.getEncoderPosition()) - (targetPositionDegrees);
     }
   
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-      turret.setRotationDegrees(targetPositionDegrees);
+      turret.setRotationDegrees(targetPositionDegrees + angleOffset);
+      lime.pauseLimelight();
     }
   
     // Called once the command ends or is interrupted.
@@ -50,10 +54,11 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
     // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-      double currentError = turret.getEncoderPosition() - targetPositionDegrees;
-      error = Util.runningAverage(currentError, error, 0.85);
+      // double currentError = turret.getEncoderPosition() - targetPositionDegrees;
+      // error = Util.runningAverage(currentError, error, 0.85);
   
-      return Math.abs(error) < acceptableErrorDegrees;
+      // return Math.abs(error) < acceptableErrorDegrees;
+      return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition())) < 0.5;
   
     }
   }
