@@ -74,7 +74,7 @@ public class Arm extends SubsystemBase {
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
   private static final double MIN_ROTATION_TICKS = degreesToTicks(0); //-120
-  private static final double MAX_ROTATION_TICKS = degreesToTicks(130); //0 //TODO: update number  
+  private static final double MAX_ROTATION_TICKS = degreesToTicks(120); //0 //TODO: update number  
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
