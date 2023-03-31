@@ -44,6 +44,8 @@ public final class Constants {
         public static final Pose3d tag6 = new Pose3d(new Translation3d(1.027, 4.424, 0.462), new Rotation3d(0.0, 0.0, 0.0));
         public static final Pose3d tag7 = new Pose3d(new Translation3d(1.027, 2.748, 0.462), new Rotation3d(0.0, 0.0, 0.0));
         public static final Pose3d tag8 = new Pose3d(new Translation3d(1.027, 1.071, 0.462), new Rotation3d(0.0, 0.0, 0.0));
+
+        public static final Pose3d[] tagArray = {tag1, tag2, tag3, tag4, tag5, tag6, tag7, tag8};
     }
 
     public static final class ArmPositions {

@@ -90,78 +90,45 @@ public class DriveTurretWithLimelight extends CommandBase {
       targetPos = currentPos + (avg_limeXPos * LIME_KP);
     }
     else {
-      //targetPos = turret.amountFromZeroToRotate(Drivetrain.getInstance().getHubHeadingFromRobot());
+      targetPos = turret.amountFromZeroToRotate(Drivetrain.getInstance().getHubHeadingFromRobot());
     } 
 
     DriverStation.Alliance driverstationColor = DriverStation.getAlliance();
 
-    /*if (driverstationColor == DriverStation.Alliance.Blue){
-      if (AprilTagPoses.tag1.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag1.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag1.getY();
+    if (driverstationColor == DriverStation.Alliance.Blue){
+      for(int i = 0; i <= 3; i++){
+        if(AprilTagPoses.tagArray[i].getY() >= 0){
+          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tagArray[i].getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tagArray[i].getY();
 
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-      else if(AprilTagPoses.tag2.getY() > 0) {
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag2.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag2.getY();
+          angle = Math.atan(DifferenceY/DifferenceX);
+        }
+        else{
+          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.tagArray[i].getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.tagArray[i].getY();
 
-        angle = Math.atan(DifferenceY/DifferenceX);
-        
-      }
-      else if(AprilTagPoses.tag3.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag3.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag3.getY();
-
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-      else if(AprilTagPoses.tag4.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag4.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag4.getY();
-
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-      else{
-
+          angle = Math.atan(DifferenceY/DifferenceX);
+        }
       }
     }
     else if(driverstationColor == DriverStation.Alliance.Red){
-      if (AprilTagPoses.tag5.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag5.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag5.getY();
+      for(int i = 4; i <= 7; i++){
+        if(AprilTagPoses.tagArray[i].getY() >= 0){
+          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tagArray[i].getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tagArray[i].getY();
 
-        angle = Math.atan(DifferenceY/DifferenceX);
+          angle = Math.atan(DifferenceY/DifferenceX);
+        }
+        else{
+          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.tagArray[i].getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.tagArray[i].getY();
+
+          angle = Math.atan(DifferenceY/DifferenceX);
+        }
       }
-      else if(AprilTagPoses.tag6.getY() > 0) {
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag6.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag6.getY();
+    }
 
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-      else if(AprilTagPoses.tag7.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag7.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag7.getY();
-
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-      else if(AprilTagPoses.tag8.getY() > 0){
-        DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tag8.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tag8.getY();
-
-        angle = Math.atan(DifferenceY/DifferenceX);   
-      }
-      else{
-        DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.tag1.getX();
-        DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.tag1.getY();
-
-        angle = Math.atan(DifferenceY/DifferenceX);
-      }
-    }*/
-
-    //make an array for loop so it can decide the exact tag and so we don't need 10 million if statements (make for loop and make an array/list to organize and make things more efficent)
     //make an alightrhrom to find which apriltag is the most near by us
-    //make the else() statement better to account for negative results
-    
   }
 
   // Called once the command ends or is interrupted.

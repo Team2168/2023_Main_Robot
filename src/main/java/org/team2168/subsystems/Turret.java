@@ -220,6 +220,15 @@ public class Turret extends SubsystemBase implements Loggable {
     return (turretMotor.getSelectedSensorPosition() / TICKS_PER_REV * 360 / GEAR_RATIO);
   }
 
+  /*@Log(name = "", rowIndex = , columnIndex = )
+  public double getDrivetrainAngle(){
+    DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tagArray[i].getX();
+    DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tagArray[i].getY();
+
+    angle = Math.atan(DifferenceY/DifferenceX);
+    return angle;
+  }*/
+
   @Override
   public void simulationPeriodic() {
     // Affect motor outputs by main system battery voltage dip 
