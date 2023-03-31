@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Launch ClosestNumbers",
+      "request": "launch",
+      "mainClass": "org.team2168.utils.ClosestNumbers",
+      "projectName": "2023_Main_Robot"
+    },
+    {
+      "type": "java",
       "name": "Launch FindClosestPose",
       "request": "launch",
       "mainClass": "org.team2168.utils.FindClosestPose",

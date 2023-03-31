@@ -13,8 +13,11 @@ import java.util.List;
 
 import org.team2168.Constants;
 
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /** Add your docs here. */
@@ -23,7 +26,7 @@ public class FindClosestPose {
     public static List<Pose3d> list = Constants.AprilTagPoses.apriltagPoses;
 
     public static void main(String args[]) {
-    
+        System.out.println(findClosest(list, new Pose2d(new Translation2d(3.47, 7.42), new Rotation2d())));
 
     }
 
@@ -33,11 +36,11 @@ public class FindClosestPose {
      * @param targetNumber
      * @return
      */
-    public static Pose3d findClosest(List<Pose3d> array, Pose2d wantedPose) {
+    public static Pose3d findClosest(List<Pose3d> array, Pose2d currentPose) {
 
         Pose3d finaL = new Pose3d();
-        double targetNumber = Math.round(wantedPose.getY());
-        double secondTargetNumber = Math.round(wantedPose.getX());
+        double targetNumber = Math.round(currentPose.getY());
+        double secondTargetNumber = Math.round(currentPose.getX());
 
         List<Double> list = new ArrayList<Double>();
         List<Double> xList = new ArrayList<Double>();
@@ -53,8 +56,6 @@ public class FindClosestPose {
 
             Collections.sort(list);
             Collections.sort(xList);
-            System.out.println(list);
-            System.out.println(xList);
             double formatX = limitDecimalPlaces(Math.abs(-list.get(0) + targetNumber), 3);
             double formatY = limitDecimalPlaces(list.get(0) + targetNumber, 3);
             double secondFormatX = limitDecimalPlaces(Math.abs(-xList.get(0) + secondTargetNumber), 3);
@@ -62,12 +63,10 @@ public class FindClosestPose {
 
             for (int j = 0; j < list.size(); j++) {
                 for (int u = j; u < xList.size(); u++) {
-                    if (formatX == array.get(j).getY()) {
-                        if (secondFormatX == array.get(u).getX()) {
-                            return finaL = array.get(u);
-                        }
+                    if ((formatX == array.get(j).getY()) || (secondFormatX == array.get(u).getX())) {
+                        return finaL = array.get(u);
 
-                    } else if (formatY == array.get(j).getY()) {
+                    } else if ((formatY == array.get(j).getY()) || (secondFormatY == array.get(u).getY())) {
                         if (secondFormatY == array.get(u).getX()) {
                             return finaL = array.get(u);
                         }
