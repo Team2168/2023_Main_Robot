@@ -2,27 +2,27 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands;
+package org.team2168.commands.Arm;
+
+import org.team2168.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.team2168.subsystems.LEDs;
 
+public class BumpArm extends CommandBase {
+  /** Creates a new BumpArm. */
+  private Arm arm;
+  private double degrees;
 
-public class TurnYellowOn extends CommandBase {
-  /** Creates a new TurnYellowOn. */
+  /**
+   * Bumps the arm's position
+   * @param arm the Arm subsystem
+   * @param degrees the amount to bump the arm (degrees)
+   */
+  public BumpArm(Arm arm, double degrees) {
+    this.arm = arm;
+    this.degrees = degrees;
 
-  private LEDs leds;
-  private boolean redIsOn;
-  private boolean blueIsOn;
-  private boolean greenIsOn;
-
-  public TurnYellowOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
-    this.leds = leds;
-    this.redIsOn = redIsOn;
-    this.blueIsOn = blueIsOn;
-    this.greenIsOn = greenIsOn;
-
-    addRequirements(leds);
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -32,7 +32,9 @@ public class TurnYellowOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.setLED(true, false, true);
+    var setpoint = arm.getSetpoint() + degrees;
+    arm.setRotationDegrees(setpoint);
+    
   }
 
   // Called once the command ends or is interrupted.

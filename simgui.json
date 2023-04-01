@@ -4,7 +4,42 @@
       "window": {
         "visible": true
     "Other Devices": {
+      "Talon FX[14]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[14]/Fwd Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[14]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[14]/Rev Limit": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[0]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[8]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[10]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[0]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -14,7 +49,17 @@
           "open": true
         }
       },
+      "Talon FX[18]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[8]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[18]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -24,7 +69,27 @@
           "open": true
         }
       },
+      "Talon FX[19]": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon FX[9]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[19]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[1]/Integrated Sensor": {
         "header": {
           "open": true
         }
@@ -33,16 +98,24 @@
         "header": {
           "open": true
         }
+      },
+      "Talon FX[10]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
   "NTProvider": {
     "types": {
-      "/FMSInfo": "FMSInfo",
-      "/LiveWindow/Ungrouped/DigitalInput[1]": "Digital Input",
-      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
-      "/LiveWindow/Ungrouped/Talon FX [8]": "Motor Controller",
-      "/LiveWindow/Ungrouped/Talon FX [9]": "Motor Controller"
+      "/FMSInfo": "FMSInfo"
+    }
+  },
+  "NetworkTables": {
+    "transitory": {
+      "Shuffleboard": {
+        "open": true
+      }
     }
   }
 }

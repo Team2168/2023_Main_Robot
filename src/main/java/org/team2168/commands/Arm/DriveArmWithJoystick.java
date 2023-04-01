@@ -2,28 +2,23 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands;
+package org.team2168.commands.Arm;
+
+import java.util.function.DoubleSupplier;
+
+import org.team2168.subsystems.Arm;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import org.team2168.subsystems.LEDs;;
 
-public class TurnGreenOn extends CommandBase {
-
-  private LEDs leds;
-  private boolean redIsOn;
-  private boolean blueIsOn;
-  private boolean greenIsOn;
-
-  /** Creates a new TurnGreenOn. */
-  public TurnGreenOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
-    this.leds = leds;
-    this.redIsOn = redIsOn;
-    this.blueIsOn = blueIsOn;
-    this.greenIsOn = greenIsOn;
-
-    addRequirements(leds);
-
+public class DriveArmWithJoystick extends CommandBase {
+  /** Creates a new DriveArmWithJoystick. */
+  Arm arm;
+  DoubleSupplier speed;
+  public DriveArmWithJoystick(Arm arm, DoubleSupplier speed) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.arm = arm;
+    this.speed = speed;
+    addRequirements(arm);
   }
 
   // Called when the command is initially scheduled.
@@ -33,16 +28,18 @@ public class TurnGreenOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.setLED(false, false, true);
+    arm.setSpeed(speed.getAsDouble());
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    arm.setSpeed(0.0);
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

@@ -23,9 +23,9 @@ public class LEDs extends SubsystemBase {
 
   /** Creates a constructor */
   public LEDs() {
-    redLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.RED_LED); //these are placeholders (see constants)
-    blueLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.BLUE_LED); //these are placeholders                 
-    greenLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.GREEN_LED); //these are placeholders
+    redLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.RED_LED); //these are placeholders (see constants)
+    blueLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.BLUE_LED); //these are placeholders                 
+    greenLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.GREEN_LED); //these are placeholders
   }
 
   //these commands turn on and off the different colored LEDs (if its true, the light will be on, if its false, the light will be off)
@@ -65,17 +65,17 @@ public class LEDs extends SubsystemBase {
 
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
 
-  @Log
+  @Log()
   public boolean getRedState(){
     return redLED.get();
   }
 
-  @Log
+  @Log()
   public boolean getGreenState(){
     return greenLED.get();
   }
 
-  @Log
+  @Log()
   public boolean getBlueState(){
     return blueLED.get();
   }
