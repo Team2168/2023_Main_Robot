@@ -4,6 +4,9 @@
 
 package org.team2168.subsystems;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -16,6 +19,8 @@ public class Limelight extends SubsystemBase implements Loggable {
   private static Limelight instance = null;
   private NetworkTable networkTable;
   // standard entries
+
+  public static double[] targetpose;
 
   private static boolean isLimelightEnabled;
   private static NetworkTableEntry tv;
@@ -298,6 +303,11 @@ public class Limelight extends SubsystemBase implements Loggable {
     targetPoseRobotSpace = networkTable.getEntry("targetpose_robotspace");
     botPoseTargetSpace = networkTable.getEntry("botpose_targetspace");
     tid = networkTable.getEntry("tid");
+  }
+
+  public Pose3d getAprilTagPoseRelativeToLimelight() {
+    return new Pose3d(new Translation3d(targetpose[0], targetpose[1], targetpose[2]),
+        new Rotation3d(targetpose[3], targetpose[4], targetpose[5]));
   }
 
   @Override

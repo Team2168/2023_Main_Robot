@@ -4,12 +4,15 @@
 
 package org.team2168.commands.Turret;
 
+import org.team2168.Constants;
 import org.team2168.Constants.AprilTagPoses;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Turret;
+import org.team2168.utils.FindClosestPose;
 import org.team2168.utils.Util;
 
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -19,11 +22,13 @@ public class DriveTurretWithLimelight extends CommandBase {
 
   private Turret turret;
   private Limelight limelight;
+  private Drivetrain drivetrain;
   
   private double errorToleranceAngle = 0.1;
   private double limeXPos;
   private double limeYPos;
   private double avg_limeXPos;
+  public Pose3d apriltagPose;
   double DifferenceX;
   double DifferenceY;
   double angle;
@@ -85,27 +90,32 @@ public class DriveTurretWithLimelight extends CommandBase {
   
     turret.setRotationDegrees(driveLimeTurn);
 
-   if (limelight.hasTarget()) {
+  //  if (limelight.hasTarget()) {
+  //     targetPos = currentPos + (avg_limeXPos * LIME_KP);
+  //   }
+  //   else {
+  //     //targetPos = turret.amountFromZeroToRotate(drivetrain.getInstance().getHubHeadingFromRobot());
+  //   } 
 
-      targetPos = currentPos + (avg_limeXPos * LIME_KP);
+    if (limelight.hasTarget()) {
+      apriltagPose = limelight.getAprilTagPoseRelativeToLimelight();
+    } else {
+      apriltagPose = FindClosestPose.findClosest(Constants.AprilTagPoses.apriltagPoses, drivetrain.getPose());
     }
-    else {
-      targetPos = turret.amountFromZeroToRotate(Drivetrain.getInstance().getHubHeadingFromRobot());
-    } 
 
     DriverStation.Alliance driverstationColor = DriverStation.getAlliance();
 
     if (driverstationColor == DriverStation.Alliance.Blue){
       for(int i = 0; i <= 3; i++){
-        if(AprilTagPoses.tagArray[i].getY() >= 0){
-          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tagArray[i].getX();
-          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tagArray[i].getY();
+        if(AprilTagPoses.apriltagPoses.get(i).getY() >= 0){
+          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.apriltagPoses.get(i).getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.apriltagPoses.get(i).getY();
 
           angle = Math.atan(DifferenceY/DifferenceX);
         }
         else{
-          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.tagArray[i].getX();
-          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.tagArray[i].getY();
+          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.apriltagPoses.get(i).getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.apriltagPoses.get(i).getY();
 
           angle = Math.atan(DifferenceY/DifferenceX);
         }
@@ -113,22 +123,20 @@ public class DriveTurretWithLimelight extends CommandBase {
     }
     else if(driverstationColor == DriverStation.Alliance.Red){
       for(int i = 4; i <= 7; i++){
-        if(AprilTagPoses.tagArray[i].getY() >= 0){
-          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.tagArray[i].getX();
-          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.tagArray[i].getY();
+        if(AprilTagPoses.apriltagPoses.get(i).getY() >= 0){
+          DifferenceX = Drivetrain.getInstance().getPose().getX() - AprilTagPoses.apriltagPoses.get(i).getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() - AprilTagPoses.apriltagPoses.get(i).getY();
 
           angle = Math.atan(DifferenceY/DifferenceX);
         }
         else{
-          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.tagArray[i].getX();
-          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.tagArray[i].getY();
+          DifferenceX = Drivetrain.getInstance().getPose().getX() + AprilTagPoses.apriltagPoses.get(i).getX();
+          DifferenceY = Drivetrain.getInstance().getPose().getY() + AprilTagPoses.apriltagPoses.get(i).getY();
 
           angle = Math.atan(DifferenceY/DifferenceX);
         }
       }
     }
-
-    //make an alightrhrom to find which apriltag is the most near by us
   }
 
   // Called once the command ends or is interrupted.
