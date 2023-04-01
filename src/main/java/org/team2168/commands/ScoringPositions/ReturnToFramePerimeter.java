@@ -6,6 +6,7 @@ package org.team2168.commands.ScoringPositions;
 
 import org.team2168.commands.Arm.RotateArm;
 import org.team2168.commands.Turret.DriveTurretWithLimelight;
+import org.team2168.commands.Turret.SetTurretToAngle;
 import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.commands.elevator.ExtendLock;
 import org.team2168.subsystems.Arm;
@@ -33,10 +34,10 @@ public class ReturnToFramePerimeter extends ParallelCommandGroup {
     this.turret = turret;
     this.limelight = limelight;
 
-    addCommands(new DriveTurretWithLimelight(turret, limelight),
+    addCommands(new SetTurretToAngle(turret, -115.0),
     Commands.sequence(new WaitCommand(1.0),
       Commands.parallel(new DriveElevatorToPosition(elevator, 0.5),
-      new RotateArm(arm, 30.0)),
+      new RotateArm(arm, 25.0)),
       new ExtendLock(elevator)
     ));
   }

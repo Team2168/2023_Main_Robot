@@ -17,7 +17,7 @@ import org.team2168.subsystems.Turret;
     Limelight lime;
     Double targetPositionDegrees;
     Double acceptableErrorDegrees = 0.5;
-    double angleOffset = 140.0;
+    double angleOffset = 120.0;
   
     private double error;
   
@@ -35,7 +35,7 @@ import org.team2168.subsystems.Turret;
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-      error = Turret.ticksToDegrees(turret.getEncoderPosition()) - (targetPositionDegrees);
+      error = Turret.ticksToDegrees(turret.getEncoderPosition()) - (targetPositionDegrees - 115.0);
     }
   
     // Called every time the scheduler runs while the command is scheduled.
@@ -58,7 +58,7 @@ import org.team2168.subsystems.Turret;
       // error = Util.runningAverage(currentError, error, 0.85);
   
       // return Math.abs(error) < acceptableErrorDegrees;
-      return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition())) < 0.5;
+      return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition()) - angleOffset) < 0.5 ;
   
     }
   }

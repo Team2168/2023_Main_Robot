@@ -152,8 +152,8 @@ public class RobotContainer {
     oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
     oi.driverJoystick.ButtonA().onTrue(new ZeroTurret(turret, limelight));
 
-    oi.operatorJoystick.ButtonRightTrigger().onTrue(new SetPipeline(limelight, 0));
-    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new SetPipeline(limelight, 1));
+    oi.driverJoystick.ButtonB().onTrue(new SetPipeline(limelight, 0));
+    oi.driverJoystick.ButtonX().onTrue(new SetPipeline(limelight, 1));
 
     oi.operatorJoystick.ButtonLeftBumper().onTrue(new ReturnToFramePerimeter(elevator, arm, turret, limelight));
     oi.operatorJoystick.ButtonRightBumper().onTrue(new ToggleWrist(wrist));

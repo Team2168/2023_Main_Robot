@@ -25,7 +25,7 @@ public class GroundIntake extends SequentialCommandGroup {
     this.arm = arm;
 
     addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(1.5),
-      Commands.parallel(new RotateArm(arm, 80.0),
+      Commands.parallel(new RotateArm(arm, 57.5),
         Commands.sequence(new WaitCommand(0.3),
           new DriveElevatorToPosition(elevator, -20.0)))
     );

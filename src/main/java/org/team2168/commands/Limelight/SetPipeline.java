@@ -18,7 +18,7 @@ public class SetPipeline extends CommandBase {
     // Use addRequirements() here to declare subsystem dependencies.
     this.limelight = limelight;
     this.pipeline = pipeline;
-    addRequirements(limelight);
+    // addRequirements(limelight);
   }
 
   // Called when the command is initially scheduled.
