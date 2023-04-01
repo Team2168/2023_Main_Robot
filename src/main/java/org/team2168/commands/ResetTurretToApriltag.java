@@ -82,16 +82,6 @@ public class ResetTurretToApriltag extends CommandBase {
       turret.setRotationDegrees(finalAngle);
 
     }
-
-    for (int i = 0; i < Constants.AprilTagPoses.apriltagPoses.size(); i++) {
-
-      double pose_x = poseEstimator.getPose().getX();
-      double pose_y = poseEstimator.getPose().getY();
-
-      // add a subtracting algorithm, use a 2 dimensional array/vector to compare x
-      // and y values;
-
-    }
   }
 
   // Called once the command ends or is interrupted.
