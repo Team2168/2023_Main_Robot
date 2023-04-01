@@ -29,7 +29,6 @@ public class Robot extends TimedRobot {
   private Limelight limelight;
   private static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   private Drivetrain drivetrain;
-  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -39,7 +38,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = RobotContainer.getInstance();
     limelight = Limelight.getInstance();
     compressor.enableDigital();
   }
@@ -67,6 +66,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     //makes Drivetrain able to be pushed only when the field is not real
+    m_robotContainer.elevator.extendLock();
     if (!DriverStation.isFMSAttached()) {
       m_robotContainer.drivetrain.setMotorsCoast();
     }
@@ -74,7 +74,6 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain.setMotorsBrake();
     }
     m_robotContainer.drivetrain.zeroHeading();
-    m_robotContainer.elevator.setMotorBrake();
   }
 
   @Override
@@ -85,6 +84,7 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.drivetrain.setMotorsBrakeAutos();
+    m_robotContainer.elevator.retractLock();
     limelight.setPipeline(1);
     limelight.setLedMode(0);
 
@@ -111,6 +111,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     compressor.enableDigital();
+    m_robotContainer.elevator.retractLock();
     m_robotContainer.drivetrain.setMotorsBrake();
 
   }

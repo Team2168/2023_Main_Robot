@@ -41,12 +41,12 @@ public class Elevator extends SubsystemBase implements Loggable {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
   private static final double kD = 0.8; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
-  private static final double kF = 0.12; // 0.12 works - ted
+  private static final double kF = 0.035; // 0.12 works - ted
   // private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
   private static final double kP = 0.5; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point) (0.5 works - ted)
-  private static final double kArbitraryFeedForward = 0.12; //(placeholder)
+  private static final double kArbitraryFeedForward = 0.04; //(placeholder)
 
-  private static final int kTimeoutMs = 30; //how long it takes for the config to configure in Ms
+  private static final int kTimeoutMs = 1000; //how long it takes for the config to configure in Ms
   private static final int kPIDLoopIdx = 0; //constant for id purposes
 
   private static final double CURRENT_LIMIT = 40.0; //it limits when the feature is activited (in amps)
@@ -62,8 +62,8 @@ public class Elevator extends SubsystemBase implements Loggable {
 
   private static final double kPeakOutput = 1.0;
   private static final double NEUTRAL_DEADBAND = 0.001; 
-  private static final double ACCELERATION_LIMIT = inchesToTicks(0.8) * TIME_UNITS_OF_VELOCITY; //(TODO:placeholder)
-  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(0.45) * TIME_UNITS_OF_VELOCITY; //(TODO: placeholder)
+  private static final double ACCELERATION_LIMIT = inchesToTicks(3.2); //(TODO:placeholder)
+  private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(1.8); //(TODO: placeholder)
 
   private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
@@ -75,7 +75,7 @@ public class Elevator extends SubsystemBase implements Loggable {
   private static TalonFXSimCollection elevatorMotorSim;
   private static final double CARRIAGE_MASS_KG = 4.5; //(placeholder)
   private static final double MIN_HEIGHT_INCHES = -25.0; //+11.9 (30.1 inches is the distance from top of frame to top of moving piece)
-  private static final double MAX_HEIGHT_INCHES = 0; 
+  private static final double MAX_HEIGHT_INCHES = 0.5; 
 
   private DoubleSolenoid carriageLock;
 
@@ -88,6 +88,7 @@ public class Elevator extends SubsystemBase implements Loggable {
     elevatorMotor = new TalonFXHelper(ElevatorMotors.ELEVATOR_MOTOR); //these are placeholder constant values
     carriageLock = new DoubleSolenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.CARRIAGE_LOCK_OPEN, PneumaticDevices.CARRIAGE_LOCK_CLOSE);
 
+    elevatorMotor.configFactoryDefault();
     elevatorMotor.configNeutralDeadband(NEUTRAL_DEADBAND);    
     elevatorMotor.setNeutralMode(NeutralMode.Brake);
 
@@ -97,7 +98,7 @@ public class Elevator extends SubsystemBase implements Loggable {
     elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
     elevatorMotor.configNominalOutputForward(0, kTimeoutMs);
     elevatorMotor.configPeakOutputForward(kPeakOutput, kTimeoutMs);
-    elevatorMotor.configPeakOutputReverse(kPeakOutput, kTimeoutMs);
+    elevatorMotor.configPeakOutputReverse(-kPeakOutput, kTimeoutMs);
 
     //sets the gains
     elevatorMotor.config_kF(kPIDLoopIdx, kF, kTimeoutMs);
@@ -111,10 +112,10 @@ public class Elevator extends SubsystemBase implements Loggable {
     elevatorMotor.configForwardLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen); //this is subject to change
     elevatorMotor.configReverseLimitSwitchSource(LimitSwitchSource.FeedbackConnector, LimitSwitchNormal.NormallyOpen);
 
-    // elevatorMotor.configForwardSoftLimitEnable(true);
-    // elevatorMotor.configReverseSoftLimitEnable(true);
-    // elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
-    // elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
+    elevatorMotor.configForwardSoftLimitEnable(true);
+    elevatorMotor.configReverseSoftLimitEnable(true);
+    elevatorMotor.configForwardSoftLimitThreshold(inchesToTicks(MAX_HEIGHT_INCHES));
+    elevatorMotor.configReverseSoftLimitThreshold(inchesToTicks(MIN_HEIGHT_INCHES));
     talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, CURRENT_LIMIT, THRESHOLD_CURRENT, THRESHOLD_TIME);
 
     //puts limis on the input (configs)
@@ -122,8 +123,6 @@ public class Elevator extends SubsystemBase implements Loggable {
 
     elevatorMotor.setInverted(kInvertType);
     elevatorMotor.configClosedLoopStatusFrameRates();
-
-    elevatorMotor.configFactoryDefault();
    
     elevatorSim = new ElevatorSim(
     DCMotor.getFalcon500(1), 
@@ -187,23 +186,23 @@ public class Elevator extends SubsystemBase implements Loggable {
 
   //Config()
   public void setSpeedVelocity(double speed) {
-    elevatorMotor.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY); //the "speed" parameter is the rate of the movement per second (in inches)
+    elevatorMotor.set(ControlMode.Velocity, inchesToTicks(speed) * TIME_UNITS_OF_VELOCITY, DemandType.ArbitraryFeedForward, kArbitraryFeedForward); //the "speed" parameter is the rate of the movement per second (in inches)
   }
 
   //@Config()
   public void setPosition(double inches){
     //this.position = position;
 
-    elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches));
+    elevatorMotor.set(ControlMode.MotionMagic, inchesToTicks(inches), DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   //@Config()
   public void setPercentOutput(double percentOutput) {
-    elevatorMotor.set(ControlMode.PercentOutput, percentOutput);
+    elevatorMotor.set(ControlMode.PercentOutput, percentOutput, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   public void setToZero(){
-    elevatorMotor.set(ControlMode.PercentOutput, 0);
+    elevatorMotor.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, kArbitraryFeedForward);
   }
 
   public void extendLock(){

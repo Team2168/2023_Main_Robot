@@ -14,6 +14,7 @@ public class RotateArm extends CommandBase {
   private Arm arm;
   private double degrees;
   private double errorTolerance = 1.0;
+  private double angleOffset = 28.0;
 
   /**
    * Rotates the arm to a position
@@ -41,7 +42,9 @@ public class RotateArm extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    arm.setRotationDegrees(degrees);
+    // System.out.println(degrees);
+    // System.out.println((arm.getControllerError() < errorTolerance));
+    arm.setRotationDegrees(degrees - angleOffset);
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +56,7 @@ public class RotateArm extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (arm.getControllerError() < errorTolerance);
+    return false;
+    // return (Arm.ticksToDegrees(arm.getEncoderPosition()) < (errorTolerance + degrees) && Arm.ticksToDegrees(arm.getEncoderPosition()) > (-errorTolerance + degrees));
   }
 }

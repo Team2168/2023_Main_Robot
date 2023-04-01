@@ -76,9 +76,9 @@ public final class Constants {
   public static final class PneumaticDevices {
   public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
   public static final int WIRST_FORWARD_CHANNEL = 3;
-  public static final int WIRST_REVERSE_CHANNEL = 6;
-    public static final int CARRIAGE_LOCK_OPEN = 2; //this constant is a placeholder
-    public static final int CARRIAGE_LOCK_CLOSE = 0; // THESE CONSTANTS MAY BE REVERSED
+  public static final int WIRST_REVERSE_CHANNEL = 7;
+    public static final int CARRIAGE_LOCK_OPEN = 0; //this constant is a placeholder
+    public static final int CARRIAGE_LOCK_CLOSE = 2; // THESE CONSTANTS MAY BE REVERSED
     public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
   public static final double LOOP_TIMESTEP_S = 0.02;

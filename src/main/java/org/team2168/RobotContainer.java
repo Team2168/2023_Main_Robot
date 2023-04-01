@@ -12,6 +12,12 @@ import org.team2168.commands.ExampleCommand;
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
+import org.team2168.commands.Limelight.SetPipeline;
+import org.team2168.commands.ScoringPositions.GroundIntake;
+import org.team2168.commands.ScoringPositions.HPStationIntake;
+import org.team2168.commands.ScoringPositions.MidNode;
+import org.team2168.commands.ScoringPositions.ReturnToFramePerimeter;
+import org.team2168.commands.ScoringPositions.StowGamePieces;
 import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.auto.LeftLeaveCommunity;
@@ -113,6 +119,8 @@ public class RobotContainer {
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
+    elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
 
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
@@ -122,9 +130,11 @@ public class RobotContainer {
     // oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
     // oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
     // oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
-    oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
-    oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
-    oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
+    // oi.testJoystick.ButtonY().onTrue(new RotateArm(arm, 0));
+    // oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
+    // oi.testJoystick.ButtonX().onTrue(new RotateArm(arm, 60.0));
+    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
+    // oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
 
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
@@ -137,42 +147,29 @@ public class RobotContainer {
     // cancelling on release.
     // m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
     // oi.driverJoystick.ButtonA().onTrue(new AdjustOnChargeStation(drivetrain));
-    oi.driverJoystick.ButtonA().onTrue(new DriveTurretWithLimelight(turret, limelight));
 
-    oi.driverJoystick.ButtonLeftStick().onTrue(new ToggleBrakes(drivetrain));
-
-    // oi.operatorJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
-    oi.operatorJoystick.ButtonY().onTrue(new OpenWrist(wrist));
-    oi.operatorJoystick.ButtonX().onTrue(new CloseWrist(wrist));
-
-    // oi.operatorJoystick.ButtonRightBumper().whileTrue(new DriveElevator(elevator, () -> oi.operatorJoystick.getLeftStickRaw_Y()));
-    // oi.operatorJoystick.ButtonUpDPad().onTrue(new DriveElevatorToPosition(elevator, 20, 0));
-    // oi.operatorJoystick.ButtonDownDPad().onTrue(new DriveElevatorToPosition(elevator, 10, 0));
-    // oi.operatorJoystick.ButtonLeftDPad().onTrue(new DriveElevatorToPosition(elevator, 0, 0));
-
-    oi.operatorJoystick.ButtonRightBumper().onTrue(new DriveElevatorToPosition(elevator, Constants.ElevatorHeights.RESTING_POS_IN));
-    oi.operatorJoystick.ButtonRightBumper().onTrue(new RotateArm(arm,Constants.ArmPositions.RESTING_POS_DEGREES));
+    oi.driverJoystick.ButtonLeftStick().onTrue(new DriveTurretWithLimelight(turret, limelight));
     oi.driverJoystick.ButtonLeftBumper().onTrue(new ToggleBrakes(drivetrain));
-    
-    // oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
-    // oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, 5));
-    // //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
+    oi.driverJoystick.ButtonA().onTrue(new ZeroTurret(turret, limelight));
 
-    oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.operatorJoystick.ButtonRightTrigger().onTrue(new SetPipeline(limelight, 0));
+    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new SetPipeline(limelight, 1));
+
+    oi.operatorJoystick.ButtonLeftBumper().onTrue(new ReturnToFramePerimeter(elevator, arm, turret, limelight));
+    oi.operatorJoystick.ButtonRightBumper().onTrue(new ToggleWrist(wrist));
+
+    oi.operatorJoystick.ButtonA().onTrue(new GroundIntake(elevator, arm));
+    oi.operatorJoystick.ButtonY().onTrue(new StowGamePieces(elevator, arm));
+    oi.operatorJoystick.ButtonX().onTrue(new HPStationIntake(elevator, arm));
+    oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm));
+
+    oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
+    oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
+
     oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
-
-    // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
-    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
-    // cancelling on release.
-    
-    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
-    oi.operatorJoystick.ButtonB().toggleOnTrue(new ZeroTurret(turret));
-
-    oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
-    oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
-    oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
-    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+    oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
+    oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
   }
 
   /**
