@@ -53,7 +53,7 @@ public class ResetTurretToApriltag extends CommandBase {
   public void execute() {
     if (lime.hasTarget()) {
       apriltagPose = lime.getAprilTagPoseRelativeToLimelight();
-    } else  {
+    } else {
       apriltagPose = FindClosestPose.findClosest(Constants.AprilTagPoses.apriltagPoses, drive.getPose());
     }
     // make code that checks what apriltag I.D we are at based on pose with switch
