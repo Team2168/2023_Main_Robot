@@ -21,8 +21,8 @@ public class FindClosestPose {
     public static List<Pose3d> list = Constants.AprilTagPoses.apriltagPoses;
 
     public static void main(String args[]) {
-        System.out.println(findClosest(list, new Pose2d(new Translation2d(3.26, 6.91), Rotation2d.fromDegrees(-17.28))));
-
+        System.out
+                .println(findClosest(list, new Pose2d(new Translation2d(3.26, 6.91), Rotation2d.fromDegrees(-17.28))));
     }
 
     /**
@@ -50,27 +50,18 @@ public class FindClosestPose {
 
             if (currentPose.getX() > 8.25) {
                 for (int j = 0; j < list.size(); j++) {
-
                     if ((formatX == array.get(j).getY())) {
-
                         return finaL = array.get(j);
-
                     } else if ((formatY == array.get(j).getY())) {
-
                         return finaL = array.get(j);
 
                     }
-
                 }
             } else {
                 for (int n = list.size() - 1; n > 0; n--) {
-
                     if ((formatX == array.get(n).getY())) {
-
                         return finaL = array.get(n);
-
                     } else if ((formatY == array.get(n).getY())) {
-
                         return finaL = array.get(n);
 
                     }
