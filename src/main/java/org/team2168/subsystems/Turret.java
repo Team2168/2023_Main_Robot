@@ -52,7 +52,7 @@ public class Turret extends SubsystemBase implements Loggable {
   private static final double TOTAL_ROTATION_DEGREES = Math.abs(MIN_ROTATION_DEGREES) + Math.abs(MAX_ROTATION_DEGREES);
 
   private static final double ACCELERATION = degreesPerSecondToTicksPer100ms(360 * 0.2);
-  private static final double CRUISE_VELOCITY = degreesPerSecondToTicksPer100ms(360.0 * 0.5);
+  private static final double CRUISE_VELOCITY = degreesPerSecondToTicksPer100ms(360.0 * 0.3);
 
 
   public static final double kV = 0.005;

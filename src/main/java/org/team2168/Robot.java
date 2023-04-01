@@ -74,6 +74,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.drivetrain.setMotorsBrake();
     }
     m_robotContainer.drivetrain.zeroHeading();
+    m_robotContainer.elevator.extendLock();
   }
 
   @Override
