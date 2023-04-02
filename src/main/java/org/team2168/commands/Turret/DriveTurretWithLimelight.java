@@ -51,6 +51,8 @@ public class DriveTurretWithLimelight extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    limelight.enableBaseCameraSettings();
+    limelight.setPipeline(0);
     currentPos = turret.getEncoderPosition();
     forwardSoftLimit = Turret.getForwardSoftLimit();
     reverseSoftLimit = Turret.getReverseSoftLimit();

@@ -22,6 +22,7 @@ import org.team2168.commands.auto.DoNothing;
 import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.auto.LeftLeaveCommunity;
 import org.team2168.commands.auto.MidCS;
+import org.team2168.commands.auto.ScoreLowHardCode;
 import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
 import org.team2168.commands.auto.pathplanner.ScoreLow;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
@@ -102,6 +103,7 @@ public class RobotContainer {
     autoChooser.addOption("4 m forward", new FourMetersPathplanner(drivetrain));
     autoChooser.addOption("Drive forward", new DriveForward(drivetrain));
     autoChooser.addOption("Score Low", new ScoreLow(drivetrain));
+    autoChooser.addOption("SL Hard Code", new ScoreLowHardCode(drivetrain));
 
     SmartDashboard.putData(autoChooser);
   }

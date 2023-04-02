@@ -25,7 +25,7 @@ public class HPStationIntake extends SequentialCommandGroup {
     this.arm = arm;
 
     addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(1.5),
-    Commands.parallel(new DriveElevatorToPosition(elevator, 0.0),
-    new RotateArm(arm, 105.0)));
+    Commands.parallel(new DriveElevatorToPosition(elevator, 0.25),
+    new RotateArm(arm, 90.0)));
   }
 }

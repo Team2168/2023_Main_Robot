@@ -25,9 +25,9 @@ public class MidNode extends SequentialCommandGroup {
     this.elevator = elevator;
     this.arm = arm;
     addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(0.75),
-    Commands.parallel(new RotateArm(arm, 90.0),
+    Commands.parallel(new RotateArm(arm, 95.0),
     Commands.sequence(
       new WaitCommand(0.5),
-      new DriveElevatorToPosition(elevator, -2.5))));
+      new DriveElevatorToPosition(elevator, -3.0))));
   }
 }
