@@ -164,7 +164,7 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonA().onTrue(new GroundIntake(elevator, arm));
     oi.operatorJoystick.ButtonY().onTrue(new StowGamePieces(elevator, arm));
     oi.operatorJoystick.ButtonX().onTrue(new HPStationIntake(elevator, arm));
-    oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm));
+    oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm, turret, limelight));
 
     oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
     oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
@@ -173,6 +173,8 @@ public class RobotContainer {
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
     oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
     oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
+
+    oi.testJoystick.ButtonStart().onTrue(new AdjustOnChargeStation(drivetrain));
   }
 
   /**

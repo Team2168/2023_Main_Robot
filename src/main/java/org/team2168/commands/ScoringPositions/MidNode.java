@@ -5,9 +5,12 @@
 package org.team2168.commands.ScoringPositions;
 
 import org.team2168.commands.Arm.RotateArm;
+import org.team2168.commands.Turret.ZeroTurret;
 import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.subsystems.Arm;
 import org.team2168.subsystems.Elevator;
+import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.Turret;
 
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -21,13 +24,16 @@ public class MidNode extends SequentialCommandGroup {
   /** Creates a new MidConeNode. */
   Elevator elevator;
   Arm arm;
-  public MidNode(Elevator elevator, Arm arm) {
+  Turret turret;
+  public MidNode(Elevator elevator, Arm arm, Turret turret, Limelight limelight) {
     this.elevator = elevator;
     this.arm = arm;
+    this.turret = turret;
     addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(0.75),
     Commands.parallel(new RotateArm(arm, 95.0),
     Commands.sequence(
       new WaitCommand(0.5),
-      new DriveElevatorToPosition(elevator, -3.0))));
+      new DriveElevatorToPosition(elevator, -1.5).withTimeout(1.0),
+      new ZeroTurret(turret, limelight))));
   }
 }
