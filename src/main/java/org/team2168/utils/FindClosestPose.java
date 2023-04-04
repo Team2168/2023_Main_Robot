@@ -4,39 +4,41 @@
 
 package org.team2168.utils;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import org.team2168.Constants;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
+import java.util.*;
 
 /** Add your docs here. */
 public class FindClosestPose {
 
     public static List<Pose3d> list = Constants.AprilTagPoses.apriltagPoses;
+    private static Pose2d pose = new Pose2d(6.48305939385093, 4.3837593983745803, Rotation2d.fromDegrees(0.2384756393));
 
     public static void main(String args[]) {
-        System.out
-                .println(findClosest(list, new Pose2d(new Translation2d(3.26, 6.91), Rotation2d.fromDegrees(-17.28))));
+        System.out.println(findClosest(Constants.AprilTagPoses.apriltagPoses, pose));
+        System.out.println(getLineOfHeading(pose, pose.getRotation().getDegrees()));
+        
+
     }
 
     /**
      * 
      * @param array       List of apriltag poses to track
      * @param currentPose current pose of the robot
-     * @return
+     * @return the appropiate apriltag Pose3d the algorithm thinks we tracked based
+     *         on robot odometry
      */
     public static Pose3d findClosest(List<Pose3d> array, Pose2d currentPose) {
 
         Pose3d finaL = new Pose3d();
         double targetNumber = currentPose.getY();
 
-        List<Double> list = new ArrayList<Double>();
+        List<Double> list = new ArrayList<>();
 
         try {
             for (int i = 0; i < array.size(); i++) {
@@ -80,4 +82,14 @@ public class FindClosestPose {
         double factor = Math.pow(10, n);
         return Math.round(num * factor) / factor;
     }
+
+    public static double getLineOfHeading(Pose2d currentPose, double x) {
+        double m = Math.tan(currentPose.getRotation().getDegrees());
+
+        System.out.println(m);
+        System.out.println("y = " + m + "x + " + currentPose.getY());
+        return (m * x) + currentPose.getY();
+
+    }
+
 }

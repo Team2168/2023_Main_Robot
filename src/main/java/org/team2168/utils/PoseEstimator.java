@@ -18,6 +18,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Timer;
+import java.util.*;
 
 /** Add your docs here. */
 public class PoseEstimator {
@@ -27,6 +28,7 @@ public class PoseEstimator {
     public Matrix<N3, N1> stateStandardDeviations;
     public Matrix<N3, N1> visionStandardDeviations;
     private DifferentialDrivePoseEstimator poseEstimator;
+    private Map<Integer, Pose2d> storedPoses = new HashMap<>();
 
     public PoseEstimator(Limelight lime, Drivetrain drive, Matrix<N3, N1> stateStandardDeviations,
             Matrix<N3, N1> visionStandardDeviations) {
@@ -55,9 +57,13 @@ public class PoseEstimator {
 
             poseEstimator.update(drive.getRotation2d(), drive.getLeftEncoderDistance(),
                     drive.getRightEncoderDistance());
+
+            for (int i = 0; i < 10; i++) {
+                storedPoses.put(i, poseEstimator.getEstimatedPosition());
+            }
         } else if (!lime.hasTarget()) {
             poseEstimator.resetPosition(drive.getRotation2d(), drive.getLeftEncoderDistance(),
-                    drive.getRightEncoderDistance(), drive.getPose());
+                    drive.getRightEncoderDistance(), storedPoses.get(3));
         }
     }
 
