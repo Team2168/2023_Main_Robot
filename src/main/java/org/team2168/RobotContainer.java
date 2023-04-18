@@ -174,7 +174,8 @@ public class RobotContainer {
     oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
     oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
 
-    oi.testJoystick.ButtonStart().onTrue(new AdjustOnChargeStation(drivetrain));
+    oi.testJoystick.ButtonStart().onTrue(new SetPipeline(limelight, 3));
+    oi.testJoystick.ButtonBack().onTrue(new SetPipeline(limelight, 4));
   }
 
   /**
