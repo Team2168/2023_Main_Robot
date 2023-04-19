@@ -158,7 +158,8 @@ public class Limelight extends SubsystemBase implements Loggable {
   }
 
   public void enableBaseCameraSettings() {
-    camMode.setNumber(0);
+    enableVision(true);
+    camMode.setNumber(1);
     setLedMode(0);
     setPipeline(1);
     isLimelightEnabled = true;
@@ -171,7 +172,7 @@ public class Limelight extends SubsystemBase implements Loggable {
 
  
    public void enableVision(boolean turnOn) {
-
+    camMode.setNumber(turnOn ? 0 : 1);
     isLimelightEnabled = true;
    }
 
@@ -308,7 +309,7 @@ public class Limelight extends SubsystemBase implements Loggable {
       pauseLimelight();
     } else {
 
-      enableBaseCameraSettings();
+      enableVision(true);
     }
 
   }
