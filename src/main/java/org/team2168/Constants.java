@@ -45,19 +45,13 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static final class FieldMetrics {
-    public static final double MARKER_SIZE_MM = 152.4;
-    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
-    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
-  }
-
   public static final class PneumaticDevices {
     public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
     public static final int WIRST_FORWARD_CHANNEL = 3;
     public static final int WIRST_REVERSE_CHANNEL = 6;
-    public static final int RED_LED = 6; //these values are placeholders, and they need to be replaced.
-    public static final int BLUE_LED = 7;
-    public static final int GREEN_LED = 8;
+    public static final int RED_LED = 15; //these values are placeholders, and they need to be replaced.
+    public static final int BLUE_LED = 14;
+    public static final int GREEN_LED = 13;
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }

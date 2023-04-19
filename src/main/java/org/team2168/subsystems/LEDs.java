@@ -4,7 +4,7 @@
 
 package org.team2168.subsystems;
 
-import org.team2168.Constants.Pneumatics;
+import org.team2168.Constants.PneumaticDevices;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

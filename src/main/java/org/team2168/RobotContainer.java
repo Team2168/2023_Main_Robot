@@ -10,7 +10,7 @@ import org.team2168.commands.DriveElevator;
 import org.team2168.commands.DriveElevatorToPosition;
 import org.team2168.commands.DriveElevatorToZero;
 import org.team2168.commands.ExampleCommand;
-import org.team2168.commands.SetEachLED;
+import org.team2168.commands.led.SetEachLED;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.LEDs;
 
@@ -37,7 +37,6 @@ import org.team2168.commands.Turret.*;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Turret;
 import org.team2168.OI;
->>>>>>> main
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.subsystems.Wrist;
@@ -67,7 +66,7 @@ public class RobotContainer {
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
 
-  private final LEDs leds = leds.getInstance();
+  private final LEDs leds = LEDs.getInstance();
 
   private final Turret turret = Turret.getInstance();
   
@@ -89,12 +88,6 @@ public class RobotContainer {
       return instance;
    }
 
-  public static RobotContainer getInstance() {
-    if (instance == null){
-      instance = new RobotContainer();
-    }
-    return instance;
-  }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -181,6 +174,10 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
     oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+
+    oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, true, true, false));
+    oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, true, true));
+    oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, false, true));
 
   }
 
