@@ -8,7 +8,6 @@ import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.elevator.DriveElevator;
 import org.team2168.commands.ExampleCommand;
-import org.team2168.commands.SetEachLED;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.LEDs;
 
@@ -39,6 +38,7 @@ import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.commands.elevator.DriveElevatorToZero;
 import org.team2168.commands.elevator.ExtendLock;
 import org.team2168.commands.elevator.RetractLock;
+import org.team2168.commands.leds.SetEachLED;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
 import org.team2168.commands.Turret.*;

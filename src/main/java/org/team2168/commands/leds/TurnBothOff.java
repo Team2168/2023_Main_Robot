@@ -2,13 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands;
+package org.team2168.commands.leds;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
 
 
-public class TurnPurpleOn extends CommandBase {
+public class TurnBothOff extends CommandBase {
   /** Creates a new TurnYellowOn. */
 
   private LEDs leds;
@@ -16,7 +16,7 @@ public class TurnPurpleOn extends CommandBase {
   private boolean blueIsOn;
   private boolean greenIsOn;
 
-  public TurnPurpleOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
+  public TurnBothOff(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
     this.leds = leds;
     this.redIsOn = redIsOn;
     this.blueIsOn = blueIsOn;
@@ -32,7 +32,7 @@ public class TurnPurpleOn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.setLED(true, true, false);
+    leds.setLED(false, false, false);
   }
 
   // Called once the command ends or is interrupted.

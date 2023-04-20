@@ -45,16 +45,16 @@ public final class Constants {
     public static final double kMaxAccelerationMetersPerSecondSquared = 1.8;
 
 
-  public static final class ElevatorMotors{
-    public static final int ELEVATOR_MOTOR = 14; 
-    public static final double UPDATE_TIME = 0.02;
-    public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
-    public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
+    public static final class ElevatorMotors{
+      public static final int ELEVATOR_MOTOR = 14; 
+      public static final double UPDATE_TIME = 0.02;
+      public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
+      public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
   }
 
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-  }
+    public static class OperatorConstants {
+      public static final int kDriverControllerPort = 0;
+    }
 
   public static class Pneumatics {
     public static final int RED_LED = 6; //these values are placeholders, and they need to be replaced.
@@ -67,26 +67,27 @@ public final class Constants {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
     public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
-        public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
-        public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
-        public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
-        public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
-        public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
-        public static final double TOP_NODE_LENGTH_IN = 39.75;
+    public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
+    public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
+    public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
+    public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
+    public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
+    public static final double TOP_NODE_LENGTH_IN = 39.75;
   
-  public static final class PneumaticDevices {
-  public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
-  public static final int WIRST_FORWARD_CHANNEL = 3;
-  public static final int WIRST_REVERSE_CHANNEL = 7;
-    public static final int CARRIAGE_LOCK_OPEN = 0; //this constant is a placeholder
-    public static final int CARRIAGE_LOCK_CLOSE = 2; // THESE CONSTANTS MAY BE REVERSED
-    public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
+    public static final class PneumaticDevices {
+      public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
+      public static final int WIRST_FORWARD_CHANNEL = 3;
+      public static final int WIRST_REVERSE_CHANNEL = 7;
+      public static final int CARRIAGE_LOCK_OPEN = 0; //this constant is a placeholder
+      public static final int CARRIAGE_LOCK_CLOSE = 2; // THESE CONSTANTS MAY BE REVERSED
+      public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
   public static final double LOOP_TIMESTEP_S = 0.02;
 
-  public static final class RobotMetrics{
-    public static final double ARM_LENGTH = 39.5; 
-  }
+    public static final class RobotMetrics{
+      public static final double ARM_LENGTH = 39.5; 
+    }
+
     public static class CANDevices {
         public static final int DRIVETRAIN_LEFT_MOTOR_1 = 18; // uses placeholder value
         public static final int DRIVETRAIN_LEFT_MOTOR_2 = 19; // uses placeholder value
