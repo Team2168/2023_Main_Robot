@@ -3,12 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.team2168;
-
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.elevator.DriveElevator;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.led.SetEachLED;
+import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.LEDs;
+
+
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
@@ -51,9 +55,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.team2168.utils.F310;
+
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,12 +66,17 @@ import io.github.oblarg.oblog.annotations.Log;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   static RobotContainer instance = null;
   public final Elevator elevator = Elevator.getInstance();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  private final LEDs leds = LEDs.getInstance();
+
   private final Turret turret = Turret.getInstance();
   
 
@@ -80,12 +90,14 @@ public class RobotContainer {
   @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
+
   public static RobotContainer getInstance() {
     if (instance == null){
           instance = new RobotContainer();
       }
       return instance;
    }
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -118,6 +130,21 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+
+    // leds.setDefaultCommand(new SetEachLED(leds, false, false, false));
+
+    // oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, false, false, true));
+    // oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, false, false));
+    // oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, true, true));
+    // oi.testJoystick.ButtonY().onTrue(new SetEachLED(leds, true, false, true));
+
+
+
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+ 
+    // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
@@ -174,7 +201,20 @@ public class RobotContainer {
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
     oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
     oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
-  }
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
+
+
+    oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
+    oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
+    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+
+    oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, true, true, false));
+    oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, true, true));
+    oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, false, true));
+
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
