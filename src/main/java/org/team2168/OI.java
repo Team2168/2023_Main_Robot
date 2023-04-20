@@ -61,10 +61,10 @@ public class OI {
      */
 
     private double[][] operatorJoystickInterpolation = {
-        {-1.00, -1.00},
-        {-0.05,  0.00},  //set neutral deadband to 5%
-        {+0.05,  0.00},
-        {+1.00, +1.00}  
+        {-1.00, -0.2},
+        {-0.05,  0.0},  //set neutral deadband to -10%
+        {+0.05,  0.0},
+        {+1.00, +0.2}  
     };
     /**
      * A double list used for the test joystick to interpolate 
@@ -115,9 +115,23 @@ public class OI {
         return gunStyleYInterpolator.interpolate(driverJoystick.getLeftStickRaw_Y());
     }
 
-    public double getOperatorJoystickY() {
+    public double getLeftOperatorJoystickY() {
         return operatorJoystickInterpolator.interpolate(operatorJoystick.getLeftStickRaw_Y());
     }
+
+    public double getLeftOperatorJoystickX() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getLeftStickRaw_X());
+    }
+
+    public double getRightOperatorJoystickY() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getRightStickRaw_Y());
+    }
+
+    public double getRightOperatorJoystickX() {
+        return operatorJoystickInterpolator.interpolate(operatorJoystick.getRightStickRaw_X());
+    }
+
+
 
     public double getTestJoystickX() {
         return testJoystickXInterpolator.interpolate(testJoystick.getLeftStickRaw_X());

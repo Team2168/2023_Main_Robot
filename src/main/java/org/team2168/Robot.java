@@ -4,9 +4,13 @@
 
 package org.team2168;
 
+import edu.wpi.first.wpilibj.DriverStation;
 
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
+import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -23,7 +27,8 @@ public class Robot extends TimedRobot {
 
   private RobotContainer m_robotContainer;
   private Limelight limelight;
-  
+  private static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
+  private Drivetrain drivetrain;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -33,8 +38,9 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    m_robotContainer = RobotContainer.getInstance();
     limelight = Limelight.getInstance();
+    compressor.enableDigital();
   }
 
   /**
@@ -55,9 +61,21 @@ public class Robot extends TimedRobot {
     Logger.updateEntries();
   }
 
-  /** This function is called once each time the robot enters Disabled mode. */
+  /** This function is called once each ti
+   * me the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    //makes Drivetrain able to be pushed only when the field is not real
+    m_robotContainer.elevator.extendLock();
+    if (!DriverStation.isFMSAttached()) {
+      m_robotContainer.drivetrain.setMotorsCoast();
+    }
+    else {
+    m_robotContainer.drivetrain.setMotorsBrake();
+    }
+    m_robotContainer.drivetrain.zeroHeading();
+    m_robotContainer.elevator.extendLock();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -66,10 +84,12 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_robotContainer.drivetrain.setMotorsBrakeAutos();
+    m_robotContainer.elevator.retractLock();
     limelight.setPipeline(1);
     limelight.setLedMode(0);
 
-    // schedule the autonomous command (example)
+    // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }
@@ -81,16 +101,19 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    limelight.enableBaseCameraSettings();
+    limelight.setPipeline(1);
+    limelight.setLedMode(0);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
-    limelight.enableBaseCameraSettings();
-    limelight.setPipeline(1);
-    limelight.setLedMode(0);
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    compressor.enableDigital();
+    m_robotContainer.elevator.retractLock();
+    m_robotContainer.drivetrain.setMotorsBrake();
 
   }
 
