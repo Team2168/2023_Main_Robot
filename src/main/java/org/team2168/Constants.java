@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     public static final class ElevatorHeights {
       public static final double ZERO_POS_IN = 0.0;
       public static final double RESTING_POS_IN = 30.0;
@@ -63,6 +64,7 @@ public final class Constants {
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
+
   public static final class FieldMetrics {
     public static final double MARKER_SIZE_MM = 152.4;
     public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
@@ -73,6 +75,7 @@ public final class Constants {
     public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
     public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
     public static final double TOP_NODE_LENGTH_IN = 39.75;
+  }
   
     public static final class PneumaticDevices {
       public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
@@ -132,4 +135,4 @@ public final class Constants {
         public static final int PID_TEST_JOYSTICK = 5;// these constants are placeholders.
     }
 }
-}
+
