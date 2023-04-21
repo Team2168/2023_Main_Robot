@@ -18,6 +18,9 @@ public class LEDs extends SubsystemBase {
   private Solenoid redLED;
   private Solenoid blueLED;
   private Solenoid greenLED;
+  private Solenoid redLEDTwo;
+  private Solenoid blueLEDTwo;
+  private Solenoid greenLEDTwo;
 
   static LEDs instance = null;
 
@@ -26,6 +29,9 @@ public class LEDs extends SubsystemBase {
     redLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.RED_LED); //these are placeholders (see constants)
     blueLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.BLUE_LED); //these are placeholders                 
     greenLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.GREEN_LED); //these are placeholders
+    redLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.RED_LED_TWO); //these are placeholders (see constants)
+    blueLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.BLUE_LED_TWO); //these are placeholders                 
+    greenLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.GREEN_LED_TWO); //these are placeholders
   }
 
   //these commands turn on and off the different colored LEDs (if its true, the light will be on, if its false, the light will be off)
@@ -33,14 +39,17 @@ public class LEDs extends SubsystemBase {
 
   public void redOnOff(boolean isOn){
     redLED.set(isOn);
+    redLEDTwo.set(isOn);
   }
 
   public void blueOnOff(boolean isOn){
     blueLED.set(isOn);
+    blueLEDTwo.set(isOn);
   }
 
   public void greenOnOff(boolean isOn){
     greenLED.set(isOn);
+    greenLEDTwo.set(isOn);
   }
 
   public void yellowOnOff(boolean isOn){

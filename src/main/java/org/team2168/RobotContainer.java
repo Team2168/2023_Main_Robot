@@ -8,7 +8,7 @@ import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.elevator.DriveElevator;
 import org.team2168.commands.ExampleCommand;
-import org.team2168.commands.led.SetEachLED;
+import org.team2168.commands.led.*;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.LEDs;
 
@@ -150,6 +150,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
     elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+    leds.setDefaultCommand(new LEDRainbow(leds, 0));
 
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));

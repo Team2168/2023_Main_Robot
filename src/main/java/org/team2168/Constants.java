@@ -60,9 +60,16 @@ public final class Constants {
     public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
     public static final int WIRST_FORWARD_CHANNEL = 3;
     public static final int WIRST_REVERSE_CHANNEL = 7;
-    public static final int RED_LED = 15; //these values are placeholders, and they need to be replaced.
-    public static final int BLUE_LED = 14;
-    public static final int GREEN_LED = 13;
+    public static final int RED_LED = 14; //these values are placeholders, and they need to be replaced.
+    public static final int BLUE_LED = 13;
+    public static final int GREEN_LED = 12;
+
+    public static final int RED_LED_TWO = 10; //these values are placeholders, and they need to be replaced.
+    public static final int BLUE_LED_TWO = 9;
+    public static final int GREEN_LED_TWO = 8;
+
+    public static final int CARRIAGE_LOCK_OPEN = 4;
+    public static final int CARRIAGE_LOCK_CLOSE = 5;
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
