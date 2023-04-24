@@ -78,7 +78,6 @@ public class RobotContainer {
   public final Elevator elevator = Elevator.getInstance();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
-  public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final Turret turret = Turret.getInstance();
   
 
@@ -120,9 +119,7 @@ public class RobotContainer {
     SmartDashboard.putData(autoChooser);
   }
 
-  public void configureAutoRoutines() {
-    autoChooser.setDefaultOption("do nothing", new DoNothing());
-  }
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
