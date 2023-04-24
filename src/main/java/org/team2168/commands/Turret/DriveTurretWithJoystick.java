@@ -34,10 +34,17 @@ public class DriveTurretWithJoystick extends CommandBase {
     (Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio())) > Turret.getReverseSoftLimit()){
       turret.setSpeed(speed.getAsDouble());
     }
+    else if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio()) > Turret.getForwardSoftLimit()) &&
+    (speed.getAsDouble() < 0.0)) {
+      turret.setSpeed(speed.getAsDouble()); // assures if our turret gets knocked out of its soft limits it can get back where to its supposed to be
+    }
+    else if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio()) < Turret.getReverseSoftLimit()) &&
+    (speed.getAsDouble() > 0.0)) {
+      turret.setSpeed(speed.getAsDouble());
+    }
     else {
       turret.setSpeed(0.0);
     }
-    
   }
 
   // Called once the command ends or is interrupted.

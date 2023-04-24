@@ -31,6 +31,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 import io.github.oblarg.oblog.Loggable;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import io.github.oblarg.oblog.Loggable;
+import io.github.oblarg.oblog.annotations.Config;
 import io.github.oblarg.oblog.annotations.Log;
 
 public class Drivetrain extends SubsystemBase implements Loggable {
@@ -50,10 +56,10 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   private static final double CONTINUOUS_CURRENT_LIMIT = 35; // amps
   private static final double TRIGGER_THRESHOLD_LIMIT = 40; // amp
   private static final double TRIGGER_THRESHOLD_TIME = 0.2; // s
-  private final static double NEUTRALDEADBAND = 0.001;
   private final static double NEUTRAL_DEADBAND = 0.001;
 
-  private SupplyCurrentLimitConfiguration talonCurrentLimit;
+  // if drivetrain exceeds 60 amps for more than 1 second, the motor will be limited to drawing 40 amps
+  private SupplyCurrentLimitConfiguration talonCurrentLimit = new SupplyCurrentLimitConfiguration(true, 40.0, 60.0, 1);
 
   /**
    * Config Objects for motor controllers
@@ -75,11 +81,14 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public static final double kV = 0.0;
   public static final double kA = 0.0;
 
-    private double setPointPosition_sensorUnits;
-    private double setPointHeading_sensorUnits;
 
     private Field2d field = Constants.FieldMetrics.field;
   
+  private double setPointPosition_sensorUnits;
+  private double setPointHeading_sensorUnits;
+
+  private boolean areTheBrakesToBeBrakesEnabled;
+
   /**
    * Invert Directions for Left and Right
    */
@@ -91,7 +100,6 @@ public class Drivetrain extends SubsystemBase implements Loggable {
         instance = new Drivetrain();
     return instance;
 }
-  
   public Drivetrain() {
  // Instantiate motor objects
   leftMotor1 = new TalonFXHelper(CANDevices.DRIVETRAIN_LEFT_MOTOR_1);
@@ -177,8 +185,6 @@ public class Drivetrain extends SubsystemBase implements Loggable {
 		// rightConfig.slot1.integralZone = Constants.Drivetrain.kGains_Turning.kIzone;
 		// rightConfig.slot1.closedLoopPeakOutput = Constants.Drivetrain.kGains_Turning.kPeakOutput;
   
-    leftConfig.neutralDeadband = NEUTRALDEADBAND;
-		rightConfig.neutralDeadband = NEUTRALDEADBAND;
     leftConfig.neutralDeadband = NEUTRAL_DEADBAND;
 		rightConfig.neutralDeadband = NEUTRAL_DEADBAND;
 
@@ -196,8 +202,6 @@ public class Drivetrain extends SubsystemBase implements Loggable {
 		rightConfig.slot3.closedLoopPeriod = closedLoopTimeMs;
 
       // /* Motion Magic Configs */ // need new configs for 2023
-      // rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
-      // rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
       rightConfig.motionAcceleration = (int) (inchesPerSecToTicksPer100ms(8.0*12.0)); //(distance units per 100 ms) per second
       rightConfig.motionCruiseVelocity = (int) (inchesPerSecToTicksPer100ms(10.0*12.0));
 
@@ -236,6 +240,21 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.configAllSettings(leftConfig);
   }
 
+  @Log(name = "Is are get brakes brakes enabed", columnIndex = 1, rowIndex = 0)
+  public boolean areTheBrakesToBeBrakesEnabled() {
+    return areTheBrakesToBeBrakesEnabled;
+  }
+
+  @Config(name = "are the brakes to be engaged?", width = 1)
+  public void setAreTheBrakesToBeBrakesEnabled(boolean toAmBrakesEnabled) {
+    areTheBrakesToBeBrakesEnabled = toAmBrakesEnabled;
+    if (toAmBrakesEnabled) {
+        setMotorsBrake();
+    } else {
+        setMotorsCoast();
+    }
+  }
+
   /**
    * Gets the odometry pose
    *
@@ -257,6 +276,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
    *
    * @return gyro heading from -180.0 to 180.0 degrees. Positive counterclockwise
    */
+  @Log
   public double getHeading() {
     return pidgey.getRotation2d().getDegrees();
   }
@@ -528,12 +548,18 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     tankDrive(leftVolts / Constants.Drivetrain.MAX_VOLTAGE, rightVolts / Constants.Drivetrain.MAX_VOLTAGE);
   }
 
-  public void arcadeDrive(double xSpeed, double zRotation) {
-    tankDrive(xSpeed + zRotation, xSpeed - zRotation);
-  }
-
+ 
   public DifferentialDriveWheelSpeeds drive(ChassisSpeeds chassisSpeeds) {
     return Constants.Drivetrain.kDriveKinematics.toWheelSpeeds(chassisSpeeds);
+  }
+  /**
+   * Creates arcade drive which commands a drivetrain speed for both wheels, and commands a rotation speed which
+   * is added/subtracted for both wheels, in opposite directions
+   * @param xSpeed forward speed of the drivetrain, which is a percentage of the maximum output
+   * @param zRotation percentage of output to add/subtract in opposite directions for each side of the drivetrain
+   */
+  public void arcadeDrive(double xSpeed, double zRotation) {
+    tankDrive(xSpeed + zRotation, xSpeed - zRotation);
   }
   
   /**
@@ -545,6 +571,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Coast);
     rightMotor1.setNeutralMode(NeutralMode.Brake);
     rightMotor2.setNeutralMode(NeutralMode.Coast);
+    areTheBrakesToBeBrakesEnabled = true;
   }
 
   /** 
@@ -555,6 +582,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Brake);
     rightMotor1.setNeutralMode(NeutralMode.Brake);
     rightMotor2.setNeutralMode(NeutralMode.Brake);
+    areTheBrakesToBeBrakesEnabled = true;
   }
 
   /**
@@ -566,6 +594,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     leftMotor2.setNeutralMode(NeutralMode.Coast);
     rightMotor1.setNeutralMode(NeutralMode.Coast);
     rightMotor2.setNeutralMode(NeutralMode.Coast);
+    areTheBrakesToBeBrakesEnabled = false;
   }
 
  /** 

@@ -2,25 +2,28 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands.Turret;
+package org.team2168.commands.Wrist;
 
-import java.util.function.DoubleSupplier;
-
-import org.team2168.subsystems.Turret;
+import org.team2168.subsystems.Wrist;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class DriveTurret extends CommandBase {
+public class BumpWrist extends CommandBase {
+  /** Creates a new BumpWrist. */
 
-  double speed;
-  Turret turret;
-  /** Creates a new DriveTurret. */
-  public DriveTurret(Turret t, double s) {
-    turret = t;
-    speed = s;
-    // Use addRequirements() here to declare subsystem dependencies.
+  private Wrist wrist;
+  private double degrees;
+  
+  /**
+   * Bumps the wrist's position
+   * @param wrist the Wrist subsystem
+   * @param degrees the amount to bump the wrist (degrees)
+   */
+  public BumpWrist(Wrist wrist, double degrees) {
+    this.wrist = wrist;
+    this.degrees = degrees;
 
-    addRequirements(t);
+    addRequirements(wrist);
   }
 
   // Called when the command is initially scheduled.
@@ -30,18 +33,17 @@ public class DriveTurret extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    turret.setSpeed(speed);
+    var setpoint = wrist.getSetpoint() + degrees;
+    wrist.setRotationDegrees(setpoint);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    turret.setSpeed(0.0);
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

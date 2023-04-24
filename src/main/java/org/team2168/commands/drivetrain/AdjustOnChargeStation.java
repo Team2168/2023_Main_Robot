@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class AdjustOnChargeStation extends CommandBase {
   /** Creates a new AdjustOnChargeStation. */
   Drivetrain drivetrain;
-  double pitchErrorTolerance = 0.5;
+  double pitchErrorTolerance = 2.5;
   double maxChargingStationDeg = 15.0;
   double lowestSpeed = 0.08;
   double highestSpeed = 0.25;
@@ -21,7 +21,7 @@ public class AdjustOnChargeStation extends CommandBase {
   PIDController pid;
 
   //gains
-  private static final double P = 0.007;
+  private static final double P = 0.005;
   private static final double I = 0.0;
   private static final double D = 0.0;
   private static final double MAX_INTEGRAL = 1.0;
@@ -44,12 +44,12 @@ public class AdjustOnChargeStation extends CommandBase {
   public void execute() {
     if (drivetrain.getPitch() > pitchErrorTolerance) {
       // drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, -highestSpeed, -lowestSpeed), 0.0);
-      drivetrain.arcadeDrive(pid.calculate(drivetrain.getPitch()), 0.0);
+      drivetrain.arcadeDrive(-pid.calculate(drivetrain.getPitch()), 0.0);
       balancedLoops = 0;
     }
     else if (drivetrain.getPitch() < -pitchErrorTolerance) {
       // drivetrain.arcadeDrive(MathUtil.clamp(0.25*drivetrain.getPitch()/maxChargingStationDeg, lowestSpeed, highestSpeed), 0.0);
-      drivetrain.arcadeDrive(pid.calculate(drivetrain.getPitch()), 0.0);
+      drivetrain.arcadeDrive(-pid.calculate(drivetrain.getPitch()), 0.0);
       balancedLoops = 0;
     }
     else {
