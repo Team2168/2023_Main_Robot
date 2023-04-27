@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.LEDs;
 
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -29,6 +30,7 @@ public class Robot extends TimedRobot {
   private Limelight limelight;
   private static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   private Drivetrain drivetrain;
+  private LEDs leds;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -40,6 +42,7 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = RobotContainer.getInstance();
     limelight = Limelight.getInstance();
+    leds = LEDs.getInstance();
     compressor.enableDigital();
   }
 
@@ -52,6 +55,12 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
+
+    if (limelight.getCurrentPipeline() == 3) {
+      leds.setLED(true, true, false);
+    } else if (limelight.getCurrentPipeline() == 4) {
+      leds.setLED(true, false, true);
+    }
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

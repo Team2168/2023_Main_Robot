@@ -150,6 +150,16 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
     elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+
+
+    // if (limelight.getCurrentPipeline() == 3) {
+    //   leds.setDefaultCommand(new TurnPurpleOn(leds, true, true, false));
+    // } else if (limelight.getCurrentPipeline() == 4) {
+    //   leds.setDefaultCommand(new TurnYellowOn(leds, true, false, true));
+    // } else {
+    //   leds.setDefaultCommand(new LEDRainbow(leds, 0));
+    // }
+    
     leds.setDefaultCommand(new LEDRainbow(leds, 0));
 
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
