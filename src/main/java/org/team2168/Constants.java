@@ -58,8 +58,9 @@ public final class Constants {
 
   public static final class PneumaticDevices {
     public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
-    public static final int WIRST_FORWARD_CHANNEL = 3;
+    public static final int WIRST_FORWARD_CHANNEL = 6;
     public static final int WIRST_REVERSE_CHANNEL = 7;
+    
     public static final int RED_LED = 14; //these values are placeholders, and they need to be replaced.
     public static final int BLUE_LED = 13;
     public static final int GREEN_LED = 12;

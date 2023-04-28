@@ -160,7 +160,7 @@ public class RobotContainer {
     //   leds.setDefaultCommand(new LEDRainbow(leds, 0));
     // }
     
-    leds.setDefaultCommand(new LEDRainbow(leds, 0));
+    leds.setDefaultCommand(new LEDRainbow(leds, limelight, 0));
 
     //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
     //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
@@ -212,6 +212,12 @@ public class RobotContainer {
     oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
     oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
     oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
+
+    oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
+    oi.testJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue));
+    oi.testJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
+
     
     oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
 

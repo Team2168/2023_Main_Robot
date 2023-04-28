@@ -56,11 +56,12 @@ public class Robot extends TimedRobot {
   @Override
   public void robotPeriodic() {
 
-    if (limelight.getCurrentPipeline() == 3) {
-      leds.setLED(true, true, false);
-    } else if (limelight.getCurrentPipeline() == 4) {
-      leds.setLED(true, false, true);
-    }
+    // if (limelight.getCurrentPipeline() == 3) {
+    //   leds.setLED(true, true, false);
+    // } else if (limelight.getCurrentPipeline() == 4) {
+    //   leds.setLED(true, false, true);
+    // } else {
+    // }
     // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
