@@ -162,21 +162,6 @@ public class RobotContainer {
     
     leds.setDefaultCommand(new LEDRainbow(leds, limelight, 0));
 
-    //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
-    //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    //oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, 5));
-    //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
-    // oi.testJoystick.ButtonA().whileTrue(new RotateArm(arm, -45));
-    // oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
-    // oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
-    // oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
-    // oi.testJoystick.ButtonY().onTrue(new RotateArm(arm, 0));
-    // oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
-    // oi.testJoystick.ButtonX().onTrue(new RotateArm(arm, 60.0));
-    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
-    // oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
-
-
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
@@ -207,17 +192,6 @@ public class RobotContainer {
 
     oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
     oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
-
-    oi.testJoystick.ButtonX().onTrue(new RetractLock(elevator));
-    oi.testJoystick.ButtonY().onTrue(new ExtendLock(elevator));
-    oi.testJoystick.ButtonA().onTrue(new OpenWrist(wrist));
-    oi.testJoystick.ButtonB().onTrue(new CloseWrist(wrist));
-
-    oi.testJoystick.ButtonLeftTrigger().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
-    oi.testJoystick.ButtonRightTrigger().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
-    oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue));
-    oi.testJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
-
     
     oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
 
@@ -226,11 +200,6 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
     oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
-
-    // oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, true, true, false));
-    // oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, true, true));
-    // oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, false, true));
-
 }
 
   /**

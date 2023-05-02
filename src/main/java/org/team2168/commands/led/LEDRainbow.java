@@ -33,26 +33,13 @@ public class LEDRainbow extends CommandBase {
   public void execute() {
     ++timecount;
     if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue) {
-       System.out.println("Checking for Pipeline 3");
+       // System.out.println("Checking for Pipeline 3");
        LED.setLED(true, true, false);
     } else if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue) {
-       System.out.println("Checking for Pipeline 4");
+       // System.out.println("Checking for Pipeline 4");
        LED.setLED(true, false, true);
-    }  else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4 && timecount >= 0 && timecount <= 5) { 
-       LED.setLED(true, false, false);
-      } else if (timecount >= 5 && timecount <= 10) {
-        LED.setLED(true, false, true);
-        } else if (timecount >= 10 && timecount <= 15) {
-          LED.setLED(false, false, true);
-          } else if (timecount >= 15 && timecount <= 20) {
-            LED.setLED(false, true, true);
-            } else if (timecount >= 20 && timecount <= 25) {
-              LED.setLED(false, true, false);
-              } else if (timecount >= 25 && timecount <= 30) {
-                LED.setLED(true, true, false);
-                } else if (timecount > 30) {
-                  timecount = 0;
-                  }
+    }  else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4) { 
+      LED.rainbowLED(); }
 }
 
 

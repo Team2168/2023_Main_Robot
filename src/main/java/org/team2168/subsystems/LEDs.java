@@ -22,6 +22,8 @@ public class LEDs extends SubsystemBase {
   private Solenoid blueLEDTwo;
   private Solenoid greenLEDTwo;
 
+  public double timecount = 0;
+
   static LEDs instance = null;
 
   /** Creates a constructor */
@@ -72,6 +74,23 @@ public class LEDs extends SubsystemBase {
     greenOnOff(greenOn);
   }
 
+  public void rainbowLED() {
+
+    if (timecount >= 0 && timecount <= 5) {
+    setLED(true, false, false);
+  } else if (timecount >= 5 && timecount <= 10) {
+    setLED(true, false, true);
+    } else if (timecount >= 10 && timecount <= 15) {
+      setLED(false, false, true);
+      } else if (timecount >= 15 && timecount <= 20) {
+        setLED(false, true, true);
+        } else if (timecount >= 20 && timecount <= 25) {
+          setLED(false, true, false);
+          } else if (timecount >= 25 && timecount <= 30) {
+            setLED(true, true, false);
+            } 
+  }
+
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
 
   @Log()
@@ -89,6 +108,8 @@ public class LEDs extends SubsystemBase {
     return blueLED.get();
   }
 
+
+
   public static LEDs getInstance(){
     if (instance == null){
       instance = new LEDs();
@@ -98,6 +119,13 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
+    ++timecount;
+
+    if (timecount > 30) {
+      timecount = 0;
+    }
+
+
     // This method will be called once per scheduler run
   }
 }
