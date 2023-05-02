@@ -33,22 +33,15 @@ public class LEDRainbow extends CommandBase {
   public void execute() {
     ++timecount;
     if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue) {
-       // System.out.println("Checking for Pipeline 3");
-       LED.setLED(true, true, false);
-    } else if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue) {
-       // System.out.println("Checking for Pipeline 4");
-       LED.setLED(true, false, true);
+       LED.setLED(true, true, false); } 
+       else if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue) {
+       LED.setLED(true, false, true); }
        else if (limelight.getCurrentPipeline() == Limelight.Pipeline.APRIL_TAGS.pipelineValue) {
-        LED.setLED(false, true, false)
-       }
+       LED.setLED(false, true, false); }
        else if (limelight.getCurrentPipeline() == Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue) {
-        LED.setLED(false, false, true)
-       }
-    }  else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4) { 
-      LED.rainbowLED(); }
-}
-
-
+       LED.setLED(false, false, true); }
+       else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4) { 
+       LED.rainbowLED(); }}
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}
