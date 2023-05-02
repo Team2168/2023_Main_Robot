@@ -190,8 +190,8 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonX().onTrue(new HPStationIntake(elevator, arm));
     oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm, turret, limelight));
 
-    oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
-    oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
+   
+    oi.operatorJoystick.ButtonStart().onTrue(new ToggleWrist(wrist));
     
     oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
 
@@ -200,6 +200,11 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
     oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+
+    oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
+    oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
+    oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+
 }
 
   /**

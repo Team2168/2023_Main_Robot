@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.WNE_Wrist;
+import org.team2168.subsystems.Wrist;
 import org.team2168.subsystems.LEDs;
 
 import edu.wpi.first.wpilibj.Compressor;
@@ -31,7 +33,7 @@ public class Robot extends TimedRobot {
   private static Compressor compressor = new Compressor(PneumaticsModuleType.REVPH);
   private Drivetrain drivetrain;
   private LEDs leds;
-
+  private WNE_Wrist wrist;
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -43,6 +45,7 @@ public class Robot extends TimedRobot {
     m_robotContainer = RobotContainer.getInstance();
     limelight = Limelight.getInstance();
     leds = LEDs.getInstance();
+    wrist = WNE_Wrist.getInstance();
     compressor.enableDigital();
   }
 
@@ -98,7 +101,7 @@ public class Robot extends TimedRobot {
     m_robotContainer.elevator.retractLock();
     limelight.setPipeline(1);
     limelight.setLedMode(0);
-
+    wrist.extend();
     // schedule the autonomous command
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -121,6 +124,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+    wrist.extend();
     compressor.enableDigital();
     m_robotContainer.elevator.retractLock();
     m_robotContainer.drivetrain.setMotorsBrake();

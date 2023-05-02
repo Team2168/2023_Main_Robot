@@ -22,13 +22,13 @@ public class ToggleWrist extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    wrist.toggleWrist();
     startingValue = wrist.getWristState();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    wrist.toggleWrist();
     System.out.println("command is running");
   }
 
@@ -42,9 +42,9 @@ public class ToggleWrist extends CommandBase {
     // if(startingValue == DoubleSolenoid.Value.kForward)
     //   return wrist.isRetracted();
     // if(startingValue == DoubleSolenoid.Value.kReverse)
-    //   return wrist.isExtended();
+    //   return wrist.isExtended();s
     // else
     //   return true;
-    return false;
+    return true;
   }
 }
