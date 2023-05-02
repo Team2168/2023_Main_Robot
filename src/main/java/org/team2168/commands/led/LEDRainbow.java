@@ -38,6 +38,12 @@ public class LEDRainbow extends CommandBase {
     } else if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue) {
        // System.out.println("Checking for Pipeline 4");
        LED.setLED(true, false, true);
+       else if (limelight.getCurrentPipeline() == Limelight.Pipeline.APRIL_TAGS.pipelineValue) {
+        LED.setLED(false, true, false)
+       }
+       else if (limelight.getCurrentPipeline() == Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue) {
+        LED.setLED(false, false, true)
+       }
     }  else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4) { 
       LED.rainbowLED(); }
 }
