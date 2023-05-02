@@ -208,13 +208,13 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
     oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
 
-    oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
-    oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
-    oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
-    oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
+    oi.testJoystick.ButtonX().onTrue(new RetractLock(elevator));
+    oi.testJoystick.ButtonY().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonA().onTrue(new OpenWrist(wrist));
+    oi.testJoystick.ButtonB().onTrue(new CloseWrist(wrist));
 
-    oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
-    oi.testJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.testJoystick.ButtonLeftTrigger().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
+    oi.testJoystick.ButtonRightTrigger().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
     oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue));
     oi.testJoystick.ButtonRightBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
 
@@ -227,9 +227,9 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
     oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
 
-    oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, true, true, false));
-    oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, true, true));
-    oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, false, true));
+    // oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, true, true, false));
+    // oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, true, true));
+    // oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, false, true));
 
 }
 

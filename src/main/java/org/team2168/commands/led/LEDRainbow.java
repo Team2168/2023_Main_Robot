@@ -31,13 +31,15 @@ public class LEDRainbow extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (limelight.getCurrentPipeline() == 3) {
-      LED.setLED(true, true, false);
-    } else if (limelight.getCurrentPipeline() == 4) {
-      LED.setLED(true, false, true);
-    } else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4 && timecount >= 0 && timecount <= 5) { 
-      ++timecount;
-        LED.setLED(true, false, false);
+    ++timecount;
+    if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue) {
+       System.out.println("Checking for Pipeline 3");
+       LED.setLED(true, true, false);
+    } else if (limelight.getCurrentPipeline() == Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue) {
+       System.out.println("Checking for Pipeline 4");
+       LED.setLED(true, false, true);
+    }  else if (limelight.getCurrentPipeline() != 3 && limelight.getCurrentPipeline() != 4 && timecount >= 0 && timecount <= 5) { 
+       LED.setLED(true, false, false);
       } else if (timecount >= 5 && timecount <= 10) {
         LED.setLED(true, false, true);
         } else if (timecount >= 10 && timecount <= 15) {
