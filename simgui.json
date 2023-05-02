@@ -1,5 +1,8 @@
 {
   "HALProvider": {
+    "RoboRIO": {
+      "window": {
+        "visible": true
     "Other Devices": {
       "Talon FX[0]": {
         "header": {

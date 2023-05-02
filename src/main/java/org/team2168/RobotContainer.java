@@ -3,12 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.team2168;
-
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.elevator.DriveElevator;
 import org.team2168.commands.ExampleCommand;
+import org.team2168.commands.led.*;
+import org.team2168.subsystems.ExampleSubsystem;
+import org.team2168.subsystems.LEDs;
+
+
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
@@ -51,9 +55,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import org.team2168.utils.F310;
+
 import io.github.oblarg.oblog.Logger;
 import io.github.oblarg.oblog.annotations.Log;
-
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -61,12 +66,17 @@ import io.github.oblarg.oblog.annotations.Log;
  * periodic methods (other than the scheduler calls). Instead, the structure of the robot (including
  * subsystems, commands, and trigger mappings) should be declared here.
  */
+
+
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   static RobotContainer instance = null;
   public final Elevator elevator = Elevator.getInstance();
   public final Drivetrain drivetrain = Drivetrain.getInstance();
   private final ExampleSubsystem m_exampleSubsystem = new ExampleSubsystem();
+
+  private final LEDs leds = LEDs.getInstance();
+
   private final Turret turret = Turret.getInstance();
   
 
@@ -80,12 +90,14 @@ public class RobotContainer {
   @Log(name = "Auto Chooser", width = 2)
   private SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
+
   public static RobotContainer getInstance() {
     if (instance == null){
           instance = new RobotContainer();
       }
       return instance;
    }
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -119,25 +131,36 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
+
+    // leds.setDefaultCommand(new SetEachLED(leds, false, false, false));
+
+    // oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, false, false, true));
+    // oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, false, false));
+    // oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, true, true));
+    // oi.testJoystick.ButtonY().onTrue(new SetEachLED(leds, true, false, true));
+
+
+
+    // Schedule `exampleMethodCommand` when the Xbox controller's B button is pressed,
+    // cancelling on release.
+ 
+    // m_driverController.rightBumper().onFalse(new ClampAndStopIntake(hand));
+
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
     elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
 
-    //oi.testJoystick.ButtonA().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.TOP_CONE_NODE_HEIGHT_IN, 5));
-    //oi.testJoystick.ButtonB().onTrue(new DriveElevatorToZero(elevator));
-    //oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, Constants.FieldMetrics.MIDDLE_CONE_NODE_HEIGHT_IN, 5));
-    //oi.testJoystick.ButtonY().onTrue(new DriveElevator(elevator, 0.7));
-    // oi.testJoystick.ButtonA().whileTrue(new RotateArm(arm, -45));
-    // oi.testJoystick.ButtonB().whileTrue(new RotateArm(arm, 0));
-    // oi.testJoystick.ButtonX().whileTrue(new BumpArm(arm, 5));
-    // oi.testJoystick.ButtonY().whileTrue(new BumpArm(arm, -5));
-    // oi.testJoystick.ButtonY().onTrue(new RotateArm(arm, 0));
-    // oi.testJoystick.ButtonY().onTrue(new DriveElevatorToPosition(elevator, 0));
-    // oi.testJoystick.ButtonX().onTrue(new RotateArm(arm, 60.0));
-    // oi.testJoystick.ButtonX().onTrue(new DriveElevatorToPosition(elevator, -15.0));
-    // oi.testJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getTestJoystickX));
 
+    // if (limelight.getCurrentPipeline() == 3) {
+    //   leds.setDefaultCommand(new TurnPurpleOn(leds, true, true, false));
+    // } else if (limelight.getCurrentPipeline() == 4) {
+    //   leds.setDefaultCommand(new TurnYellowOn(leds, true, false, true));
+    // } else {
+    //   leds.setDefaultCommand(new LEDRainbow(leds, 0));
+    // }
+    
+    leds.setDefaultCommand(new LEDRainbow(leds, limelight, 0));
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
 
@@ -152,11 +175,12 @@ public class RobotContainer {
 
     // oi.driverJoystick.ButtonLeftStick().onTrue(new DriveTurretWithLimelight(turret, limelight));
     // oi.driverJoystick.ButtonLeftStick().onTrue(new ToggleBrakes(drivetrain));
-    oi.driverJoystick.ButtonA().onTrue(new ZeroTurret(turret, limelight));
-
-    oi.driverJoystick.ButtonB().onTrue(new SetPipeline(limelight, 0));
-    oi.driverJoystick.ButtonX().onTrue(new SetPipeline(limelight, 1));
-    oi.driverJoystick.ButtonY().onTrue(new DriveTurretWithLimelight(turret, limelight));
+    oi.driverJoystick.ButtonLeftBumper().onTrue(new ZeroTurret(turret, limelight));
+    oi.driverJoystick.ButtonA().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
+    oi.driverJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.driverJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue));
+    oi.driverJoystick.ButtonY().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
+    oi.driverJoystick.ButtonLeftStick().onTrue(new DriveTurretWithLimelight(turret, limelight));
 
     oi.operatorJoystick.ButtonLeftBumper().onTrue(new ReturnToFramePerimeter(elevator, arm, turret, limelight));
     oi.operatorJoystick.ButtonRightBumper().onTrue(new ToggleWrist(wrist));
@@ -168,12 +192,15 @@ public class RobotContainer {
 
     oi.operatorJoystick.ButtonBack().onTrue(new CloseWrist(wrist));
     oi.operatorJoystick.ButtonStart().onTrue(new OpenWrist(wrist));
+    
+    oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
 
-    oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
-    oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
-    oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
-    oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
-  }
+
+    oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
+    oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
+    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
