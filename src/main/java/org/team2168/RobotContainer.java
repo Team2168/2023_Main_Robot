@@ -201,9 +201,13 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
     oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
 
-    oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
+    oi.testJoystick.ButtonA().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CONE.pipelineValue));
     oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
     oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.testJoystick.ButtonY().onTrue(new SetPipeline(limelight, Limelight.Pipeline.REFLECTIVE_TAPE.pipelineValue));
+    oi.testJoystick.ButtonLeftBumper().onTrue(new SetPipeline(limelight, Limelight.Pipeline.PIPELINE_FIVE.pipelineValue));
+
+
 
 }
 

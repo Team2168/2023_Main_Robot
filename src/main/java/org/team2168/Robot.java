@@ -99,7 +99,7 @@ public class Robot extends TimedRobot {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_robotContainer.drivetrain.setMotorsBrakeAutos();
     m_robotContainer.elevator.retractLock();
-    limelight.setPipeline(1);
+    limelight.setPipeline(Limelight.Pipeline.PIPELINE_FIVE.pipelineValue);
     limelight.setLedMode(0);
     wrist.extend();
     // schedule the autonomous command
@@ -115,7 +115,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() {
     limelight.enableBaseCameraSettings();
-    limelight.setPipeline(1);
+    limelight.setPipeline(Limelight.Pipeline.PIPELINE_FIVE.pipelineValue);
     limelight.setLedMode(0);
     // This makes sure that the autonomous stops running when
     // teleop starts running. If you want the autonomous to
