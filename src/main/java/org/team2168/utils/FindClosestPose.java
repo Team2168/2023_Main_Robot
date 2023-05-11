@@ -14,23 +14,12 @@ import edu.wpi.first.math.util.Units;
 import java.util.*;
 
 /** Add your docs here. */
-public class FindClosestPose {
-
-    public static List<Pose3d> list = Constants.AprilTagPoses.apriltagPoses;
-    private static Pose2d pose = new Pose2d(6.48305939385093, 4.3837593983745803, Rotation2d.fromDegrees(0.2384756393));
-
-    public static void main(String args[]) {
-        System.out.println(findClosest(Constants.AprilTagPoses.apriltagPoses, pose));
-        System.out.println(getLineOfHeading(pose, pose.getRotation().getDegrees()));
-        
-
-    }
-
-    /**
+public class FindClosestPose { 
+ /**
      * 
-     * @param array       List of apriltag poses to track
+     * @param array        List of apriltag poses to track
      * @param currentPose current pose of the robot
-     * @return the appropiate apriltag Pose3d the algorithm thinks we tracked based
+     * @return the estimated apriltag pose (Pose3d) the algorithm thinks we tracked, based
      *         on robot odometry
      */
     public static Pose3d findClosest(List<Pose3d> array, Pose2d currentPose) {
@@ -87,7 +76,6 @@ public class FindClosestPose {
         double m = Math.tan(currentPose.getRotation().getDegrees());
 
         System.out.println(m);
-        System.out.println("y = " + m + "x + " + currentPose.getY());
         return (m * x) + currentPose.getY();
 
     }
