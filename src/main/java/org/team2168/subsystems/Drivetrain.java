@@ -20,6 +20,17 @@ import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
+import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+
+import io.github.oblarg.oblog.Loggable;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
@@ -70,6 +81,9 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public static final double kV = 0.0;
   public static final double kA = 0.0;
 
+
+    private Field2d field = Constants.FieldMetrics.field;
+  
   private double setPointPosition_sensorUnits;
   private double setPointHeading_sensorUnits;
 
@@ -81,19 +95,18 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   TalonFXInvertType leftInvert = TalonFXInvertType.Clockwise; // Same as invert = "true"
   TalonFXInvertType rightInvert = TalonFXInvertType.CounterClockwise; // Same as invert = "false"
 
-
   public static Drivetrain getInstance() {
     if (instance == null)
         instance = new Drivetrain();
     return instance;
 }
-
   public Drivetrain() {
  // Instantiate motor objects
   leftMotor1 = new TalonFXHelper(CANDevices.DRIVETRAIN_LEFT_MOTOR_1);
   leftMotor2 = new TalonFXHelper(CANDevices.DRIVETRAIN_LEFT_MOTOR_2);
   rightMotor1 = new TalonFXHelper(CANDevices.DRIVETRAIN_RIGHT_MOTOR_1);
   rightMotor2 = new TalonFXHelper(CANDevices.DRIVETRAIN_RIGHT_MOTOR_2);
+  SmartDashboard.putData("Field", Constants.FieldMetrics.field);
 
   pidgey = new PigeonHelper(CANDevices.PIGEON_IMU);
 
@@ -214,6 +227,7 @@ public class Drivetrain extends SubsystemBase implements Loggable {
   public void periodic() {
     // This method will be called once per scheduler run
     Rotation2d rot;
+    field.setRobotPose(Limelight.getInstance().getPose2d());
 
     rot = pidgey.getRotation2d();
     odometry.update(rot, getLeftEncoderDistance(), getRightEncoderDistance());
@@ -286,6 +300,13 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     return -pidgey.getRate();
   }
 
+  public double getRoll() {
+    return pidgey.getRoll();
+  }
+
+  public double getYaw() {
+    return pidgey.getYaw();
+  }
   /**
    * Get average encoder distance
    *
@@ -313,6 +334,9 @@ public class Drivetrain extends SubsystemBase implements Loggable {
       return new DifferentialDriveWheelSpeeds(getLeftEncoderRate(), getRightEncoderRate());
   }
 
+  public Rotation2d getRotation2d() {
+    return pidgey.getRotation2d();
+  }
   /**
      * Gets left encoder distance in raw sensor units
      *
@@ -524,6 +548,10 @@ public class Drivetrain extends SubsystemBase implements Loggable {
     tankDrive(leftVolts / Constants.Drivetrain.MAX_VOLTAGE, rightVolts / Constants.Drivetrain.MAX_VOLTAGE);
   }
 
+ 
+  public DifferentialDriveWheelSpeeds drive(ChassisSpeeds chassisSpeeds) {
+    return Constants.Drivetrain.kDriveKinematics.toWheelSpeeds(chassisSpeeds);
+  }
   /**
    * Creates arcade drive which commands a drivetrain speed for both wheels, and commands a rotation speed which
    * is added/subtracted for both wheels, in opposite directions
