@@ -4,6 +4,8 @@
 
 package org.team2168.commands.auto;
 
+import org.team2168.commands.AutoAlignWithPoseEstimation.AutoAlignWithPoseEstimation;
+import org.team2168.commands.AutoAlignWithPoseEstimation.AutoAlignWithPoseEstimation.ScoringArea;
 import org.team2168.commands.ScoringPositions.MidNode;
 import org.team2168.commands.ScoringPositions.ReturnToFramePerimeter;
 import org.team2168.commands.Turret.DriveTurretWithLimelight;
@@ -36,6 +38,7 @@ public class CubeScoreAuto extends SequentialCommandGroup {
             new DriveTurretWithLimelight(turret, lime),
             raceWith(
                 PathUtil.getPathCommand(path.cube_node_path, drive, PathUtil.InitialPathState.DISCARDHEADING),
+                new AutoAlignWithPoseEstimation(drive, lime, ScoringArea.MIDDLE_NODE),
                 new MidNode(elevator, arm, turret, lime)),
             new OpenWrist(wrist),
             new CloseWrist(wrist).withTimeout(0.5),
