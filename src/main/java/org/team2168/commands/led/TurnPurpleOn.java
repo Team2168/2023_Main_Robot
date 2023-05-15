@@ -2,11 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands.leds;
+
+package org.team2168.commands.led;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
 
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class TurnPurpleOn extends CommandBase {
   /** Creates a new TurnYellowOn. */

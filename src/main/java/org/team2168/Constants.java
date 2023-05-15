@@ -53,14 +53,25 @@ public final class Constants {
       public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
   }
 
-    public static class OperatorConstants {
-      public static final int kDriverControllerPort = 0;
-    }
+  public static class OperatorConstants {
+    public static final int kDriverControllerPort = 0;
+  }
 
-  public static class Pneumatics {
-    public static final int RED_LED = 6; //these values are placeholders, and they need to be replaced.
-    public static final int BLUE_LED = 7;
-    public static final int GREEN_LED = 8;
+  public static final class PneumaticDevices {
+    public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
+    public static final int WIRST_FORWARD_CHANNEL = 6;
+    public static final int WIRST_REVERSE_CHANNEL = 7;
+    
+    public static final int RED_LED = 14; //these values are placeholders, and they need to be replaced.
+    public static final int BLUE_LED = 13;
+    public static final int GREEN_LED = 12;
+
+    public static final int RED_LED_TWO = 10; //these values are placeholders, and they need to be replaced.
+    public static final int BLUE_LED_TWO = 9;
+    public static final int GREEN_LED_TWO = 8;
+
+    public static final int CARRIAGE_LOCK_OPEN = 4;
+    public static final int CARRIAGE_LOCK_CLOSE = 5;
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
@@ -77,14 +88,6 @@ public final class Constants {
     public static final double TOP_NODE_LENGTH_IN = 39.75;
   }
   
-    public static final class PneumaticDevices {
-      public static final PneumaticsModuleType WRIST_PNEUMATICS_MODULE_TYPE = PneumaticsModuleType.REVPH;
-      public static final int WIRST_FORWARD_CHANNEL = 3;
-      public static final int WIRST_REVERSE_CHANNEL = 7;
-      public static final int CARRIAGE_LOCK_OPEN = 0; //this constant is a placeholder
-      public static final int CARRIAGE_LOCK_CLOSE = 2; // THESE CONSTANTS MAY BE REVERSED
-      public static final PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
-  }
   public static final double LOOP_TIMESTEP_S = 0.02;
 
     public static final class RobotMetrics{

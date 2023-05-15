@@ -2,38 +2,40 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands.leds;
+package org.team2168.commands.led;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
+import org.team2168.subsystems.Limelight;
 
-public class SetEachLED extends CommandBase {
-  /** Creates a new TurnAllOnOrOff. */
+public class LEDsToPipeline extends CommandBase {
+  /** Creates a new LEDsToPipeline. */
+  private LEDs leds;
+  private Limelight limelight;
 
-  LEDs leds;
-  boolean greenIsOn;
-  boolean redIsOn;
-  boolean blueIsOn;
-
-  public SetEachLED(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
+  public LEDsToPipeline(LEDs leds, Limelight limelight) {
     this.leds = leds;
-    this.greenIsOn = greenIsOn;
-    this.redIsOn = redIsOn;
-    this.blueIsOn = blueIsOn;
+    this.limelight = limelight;
 
-    addRequirements(leds);
+    addRequirements(leds, limelight);
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    limelight.enableBaseCameraSettings();
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    leds.setLED(redIsOn, blueIsOn, greenIsOn);
-    //if some of these were to be combined together it would create purple and yellow (this would make all the other commands unneeded)
+    if(limelight.getCurrentPipeline() == 3){
+      leds.setLED(true, true, false);
+    }
+    else if (limelight.getCurrentPipeline() == 4){
+      leds.setLED(true, false, true);
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -43,6 +45,6 @@ public class SetEachLED extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
   }
 }

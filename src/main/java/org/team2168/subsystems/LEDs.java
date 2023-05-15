@@ -4,7 +4,7 @@
 
 package org.team2168.subsystems;
 
-import org.team2168.Constants.Pneumatics;
+import org.team2168.Constants.PneumaticDevices;
 
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,14 +18,22 @@ public class LEDs extends SubsystemBase {
   private Solenoid redLED;
   private Solenoid blueLED;
   private Solenoid greenLED;
+  private Solenoid redLEDTwo;
+  private Solenoid blueLEDTwo;
+  private Solenoid greenLEDTwo;
+
+  public double timecount = 0;
 
   static LEDs instance = null;
 
   /** Creates a constructor */
   public LEDs() {
-    redLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.RED_LED); //these are placeholders (see constants)
-    blueLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.BLUE_LED); //these are placeholders                 
-    greenLED = new Solenoid(Pneumatics.MODULE_TYPE, Pneumatics.GREEN_LED); //these are placeholders
+    redLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.RED_LED); //these are placeholders (see constants)
+    blueLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.BLUE_LED); //these are placeholders                 
+    greenLED = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.GREEN_LED); //these are placeholders
+    redLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.RED_LED_TWO); //these are placeholders (see constants)
+    blueLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.BLUE_LED_TWO); //these are placeholders                 
+    greenLEDTwo = new Solenoid(PneumaticDevices.MODULE_TYPE, PneumaticDevices.GREEN_LED_TWO); //these are placeholders
   }
 
   //these commands turn on and off the different colored LEDs (if its true, the light will be on, if its false, the light will be off)
@@ -33,14 +41,17 @@ public class LEDs extends SubsystemBase {
 
   public void redOnOff(boolean isOn){
     redLED.set(isOn);
+    redLEDTwo.set(isOn);
   }
 
   public void blueOnOff(boolean isOn){
     blueLED.set(isOn);
+    blueLEDTwo.set(isOn);
   }
 
   public void greenOnOff(boolean isOn){
     greenLED.set(isOn);
+    greenLEDTwo.set(isOn);
   }
 
   public void yellowOnOff(boolean isOn){
@@ -63,22 +74,41 @@ public class LEDs extends SubsystemBase {
     greenOnOff(greenOn);
   }
 
+  public void rainbowLED() {
+
+    if (timecount >= 0 && timecount <= 5) {
+    setLED(true, false, false);
+  } else if (timecount >= 5 && timecount <= 10) {
+    setLED(true, false, true);
+    } else if (timecount >= 10 && timecount <= 15) {
+      setLED(false, false, true);
+      } else if (timecount >= 15 && timecount <= 20) {
+        setLED(false, true, true);
+        } else if (timecount >= 20 && timecount <= 25) {
+          setLED(false, true, false);
+          } else if (timecount >= 25 && timecount <= 30) {
+            setLED(true, true, false);
+            } 
+  }
+
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
 
-  @Log
+  @Log()
   public boolean getRedState(){
     return redLED.get();
   }
 
-  @Log
+  @Log()
   public boolean getGreenState(){
     return greenLED.get();
   }
 
-  @Log
+  @Log()
   public boolean getBlueState(){
     return blueLED.get();
   }
+
+
 
   public static LEDs getInstance(){
     if (instance == null){
@@ -89,6 +119,13 @@ public class LEDs extends SubsystemBase {
 
   @Override
   public void periodic() {
+    ++timecount;
+
+    if (timecount > 30) {
+      timecount = 0;
+    }
+
+
     // This method will be called once per scheduler run
   }
 }

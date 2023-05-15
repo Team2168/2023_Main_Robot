@@ -73,24 +73,24 @@ public class Limelight extends SubsystemBase implements Loggable {
   // pipeline
   private static NetworkTableEntry pipeline;
 
-  // public enum Pipeline {
-  //   PIPELINE_ZERO(0),
-  //   PIPELINE_ONE(1),
-  //   PIPELINE_TWO(2),
-  //   PIPELINE_THREE(3),
-  //   PIPELINE_FOUR(4),
-  //   PIPELINE_FIVE(5),
-  //   PIPELINE_SIX(6),
-  //   PIPELINE_SEVEN(7),
-  //   PIPELINE_EIGHT(8),
-  //   PIPELINE_NINE(9);
+   public enum Pipeline {
+     REFLECTIVE_TAPE(0),
+     APRIL_TAGS(1),
+     TEST_PIPELINE(2),
+     SCAN_FOR_CUBE(3),
+     SCAN_FOR_CONE(4),
+     PIPELINE_FIVE(5),
+     PIPELINE_SIX(6),
+     PIPELINE_SEVEN(7),
+     PIPELINE_EIGHT(8),
+     PIPELINE_NINE(9);
 
-  //   public final int pipelineValue;
+     public final int pipelineValue;
 
-  //   private Pipeline(int pipelineValue) {
-  //     this.pipelineValue = pipelineValue;
-  //   }
-  // }
+    private Pipeline(int pipelineValue) {
+     this.pipelineValue = pipelineValue;
+    }
+   }
 
   // camera stream
   private static NetworkTableEntry stream;

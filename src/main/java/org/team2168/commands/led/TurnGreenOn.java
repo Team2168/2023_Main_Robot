@@ -2,40 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands.leds;
+
+package org.team2168.commands.led;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import org.team2168.subsystems.LEDs;
-import org.team2168.subsystems.Limelight;
 
-public class LEDsToPipeline extends CommandBase {
-  /** Creates a new LEDsToPipeline. */
+import edu.wpi.first.wpilibj2.command.CommandBase;
+
+public class TurnGreenOn extends CommandBase {
+
   private LEDs leds;
-  private Limelight limelight;
+  private boolean redIsOn;
+  private boolean blueIsOn;
+  private boolean greenIsOn;
 
-  public LEDsToPipeline(LEDs leds, Limelight limelight) {
+  /** Creates a new TurnGreenOn. */
+  public TurnGreenOn(LEDs leds, boolean redIsOn, boolean blueIsOn, boolean greenIsOn) {
     this.leds = leds;
-    this.limelight = limelight;
+    this.redIsOn = redIsOn;
+    this.blueIsOn = blueIsOn;
+    this.greenIsOn = greenIsOn;
 
-    addRequirements(leds, limelight);
+    addRequirements(leds);
+
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    limelight.enableBaseCameraSettings();
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(limelight.getCurrentPipeline() == 3){
-      leds.setLED(true, true, false);
-    }
-    else if (limelight.getCurrentPipeline() == 4){
-      leds.setLED(true, false, true);
-    }
+    leds.setLED(false, false, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +46,6 @@ public class LEDsToPipeline extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }
