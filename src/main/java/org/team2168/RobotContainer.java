@@ -8,11 +8,8 @@ import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
 import org.team2168.commands.elevator.DriveElevator;
 import org.team2168.commands.ExampleCommand;
-import org.team2168.commands.led.*;
 import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.LEDs;
-
-
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
@@ -40,6 +37,8 @@ import org.team2168.commands.elevator.DriveElevatorToPosition;
 import org.team2168.commands.elevator.DriveElevatorToZero;
 import org.team2168.commands.elevator.ExtendLock;
 import org.team2168.commands.elevator.RetractLock;
+import org.team2168.commands.led.LEDRainbow;
+import org.team2168.commands.led.SetEachLED;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
 import org.team2168.commands.Turret.*;
@@ -134,6 +133,15 @@ public class RobotContainer {
 
     // leds.setDefaultCommand(new SetEachLED(leds, false, false, false));
 
+
+    //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
+
+    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+    new Trigger(m_exampleSubsystem::exampleCondition)
+        .onTrue(new ExampleCommand(m_exampleSubsystem));
+
+    // leds.setDefaultCommand(new SetEachLED(leds, false, false, false));
+
     // oi.testJoystick.ButtonA().onTrue(new SetEachLED(leds, false, false, true));
     // oi.testJoystick.ButtonB().onTrue(new SetEachLED(leds, true, false, false));
     // oi.testJoystick.ButtonX().onTrue(new SetEachLED(leds, true, true, true));
@@ -195,17 +203,20 @@ public class RobotContainer {
     
     oi.operatorJoystick.ButtonA().toggleOnTrue(new DriveElevatorToPosition(elevator, 0));
 
+    oi.testJoystick.ButtonA().onTrue(new RetractLock(elevator));
+    oi.testJoystick.ButtonB().onTrue(new ExtendLock(elevator));
+    oi.testJoystick.ButtonX().onTrue(new OpenWrist(wrist));
+    oi.testJoystick.ButtonY().onTrue(new CloseWrist(wrist));
+  }
 
-    oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
-    oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
-    oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
-    oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+    //oi.operatorJoystick.ButtonRightStick().onTrue(new DriveArmWithJoystick(arm, oi::getRightOperatorJoystickY));
+    //oi.operatorJoystick.ButtonLeftStick().onTrue(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
+    //oi.operatorJoystick.ButtonRightTrigger().onTrue(new DriveTurret(turret, 0.1));
+    //oi.operatorJoystick.ButtonLeftTrigger().onTrue(new DriveTurret(turret, -0.1));
+   // oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
+   // oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
+   // oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
 
-    oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
-    oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
-    oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
-
-}
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.

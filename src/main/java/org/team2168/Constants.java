@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+
     public static final class ElevatorHeights {
       public static final double ZERO_POS_IN = 0.0;
       public static final double RESTING_POS_IN = 30.0;
@@ -45,11 +46,11 @@ public final class Constants {
     public static final double kMaxAccelerationMetersPerSecondSquared = 1.8;
 
 
-  public static final class ElevatorMotors{
-    public static final int ELEVATOR_MOTOR = 14; 
-    public static final double UPDATE_TIME = 0.02;
-    public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
-    public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
+    public static final class ElevatorMotors{
+      public static final int ELEVATOR_MOTOR = 14; 
+      public static final double UPDATE_TIME = 0.02;
+      public static final double ZERO_ELEVATOR_HEIGHT_IN = 0.0;
+      public static final double DEFAULT_RESTING_POSITION_IN = 30.0;
   }
 
   public static class OperatorConstants {
@@ -74,11 +75,25 @@ public final class Constants {
 
     public static PneumaticsModuleType MODULE_TYPE = PneumaticsModuleType.REVPH;
   }
+
+  public static final class FieldMetrics {
+    public static final double MARKER_SIZE_MM = 152.4;
+    public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
+    public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
+    public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
+    public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
+    public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
+    public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
+    public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
+    public static final double TOP_NODE_LENGTH_IN = 39.75;
+  }
+  
   public static final double LOOP_TIMESTEP_S = 0.02;
 
-  public static final class RobotMetrics{
-    public static final double ARM_LENGTH = 39.5; 
-  }
+    public static final class RobotMetrics{
+      public static final double ARM_LENGTH = 39.5; 
+    }
+
     public static class CANDevices {
         public static final int DRIVETRAIN_LEFT_MOTOR_1 = 18; // uses placeholder value
         public static final int DRIVETRAIN_LEFT_MOTOR_2 = 19; // uses placeholder value
@@ -114,18 +129,6 @@ public final class Constants {
 
     }
 
-    public static final class FieldMetrics {
-        public static final double MARKER_SIZE_MM = 152.4;
-        public static final double apriltagHeightFromGroundMeters = Units.feetToMeters(1.1875);
-        public static final double gamePieceStationApritagHeightFromGroundMeters = Units.feetToMeters(1.9479);
-        public static final double MIDDLE_CUBE_NODE_HEIGHT_IN = 23.5;
-        public static final double TOP_CUBE_NODE_HEIGHT_IN = 35.5;
-        public static final double MIDDLE_CONE_NODE_HEIGHT_IN = 34;
-        public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
-        public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
-        public static final double TOP_NODE_LENGTH_IN = 39.75;
-    }
-
     public static final class Joysticks {
         public static final int DRIVER_JOYSTICK = 0; // these constants are placeholders.
         public static final int OPERATOR_JOYSTICK = 1;// these constants are placeholders.
@@ -135,3 +138,4 @@ public final class Constants {
         public static final int PID_TEST_JOYSTICK = 5;// these constants are placeholders.
     }
 }
+
