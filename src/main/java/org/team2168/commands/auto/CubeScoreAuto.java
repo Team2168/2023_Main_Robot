@@ -40,7 +40,7 @@ public class CubeScoreAuto extends SequentialCommandGroup {
                 PathUtil.getPathCommand(path.cube_node_path, drive, PathUtil.InitialPathState.DISCARDHEADING),
                 new AutoAlignWithPoseEstimation(drive, lime, ScoringArea.MIDDLE_NODE),
                 new MidNode(elevator, arm, turret, lime)),
-            new OpenWrist(wrist),
+            new OpenWrist(wrist).withTimeout(0.5),
             new CloseWrist(wrist).withTimeout(0.5),
             raceWith(
                 PathUtil.getPathCommand(path.return_charge_station, drive, PathUtil.InitialPathState.PRESERVEODOMETRY),
