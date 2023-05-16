@@ -45,12 +45,14 @@ public class RotateArm extends CommandBase {
     // System.out.println(degrees);
     // System.out.println((arm.getControllerError() < errorTolerance));
     arm.setRotationDegrees(degrees - angleOffset);
+    System.out.println("running");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     arm.setPercentOutput(0.0);
+    System.out.println("ending");
   }
 
   // Returns true when the command should end.
