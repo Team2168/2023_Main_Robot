@@ -43,6 +43,7 @@ import org.team2168.subsystems.Turret;
     public void execute() {
       turret.setRotationDegrees(targetPositionDegrees + angleOffset);
       lime.pauseLimelight();
+      System.out.println("this work??");
     }
   
     // Called once the command ends or is interrupted.
@@ -58,7 +59,8 @@ import org.team2168.subsystems.Turret;
       // error = Util.runningAverage(currentError, error, 0.85);
   
       // return Math.abs(error) < acceptableErrorDegrees;
-      return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition()) - angleOffset) < 0.5 ;
+      // return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition()) - angleOffset) < 0.5;
+      return false;
   
     }
   }
