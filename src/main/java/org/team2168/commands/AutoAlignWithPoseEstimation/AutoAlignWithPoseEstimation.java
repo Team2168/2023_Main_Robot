@@ -5,7 +5,7 @@
 package org.team2168.commands.AutoAlignWithPoseEstimation;
 
 import org.team2168.Constants;
-import org.team2168.commands.PoseEstimation.PoseEstimationWeightedAverage;
+
 import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
