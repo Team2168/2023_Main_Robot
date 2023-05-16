@@ -12,6 +12,7 @@ import org.team2168.subsystems.Limelight;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
@@ -54,8 +55,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
   public TrapezoidProfile.Constraints xControllerConstraints;
   public TrapezoidProfile.Constraints yControllerConstraints;
   public TrapezoidProfile.Constraints turnControllerConstraints;
-  public PoseEstimationWeightedAverage poseEstimation;
-  public Pose3d robotPose;
+  public PoseEstimationWithLimelight poseEstimation;
+  public Pose2d robotPose;
   public Limelight lime;
   public Drivetrain drive;
   public TrapezoidProfile.Constraints constraints;
@@ -88,8 +89,8 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     turnController.enableContinuousInput(-Math.PI, Math.PI);
     this.drive = drive;
     this.lime = lime;
-    poseEstimation = new PoseEstimationWeightedAverage(lime, drive);
-    robotPose = poseEstimation.getWeightedPose();
+    poseEstimation = new PoseEstimationWithLimelight(lime, drive);
+    robotPose = poseEstimation.getPose();
 
     POSE_TO_TAG_LIMIT = scoringArea.nodePoses;
 
@@ -125,7 +126,7 @@ public class AutoAlignWithPoseEstimation extends CommandBase {
     if (yController.atGoal()) {
       ySpeed = 0.0;
     }
-    var rotSpeed = turnController.calculate(robotPose.getRotation().getZ());
+    var rotSpeed = turnController.calculate(robotPose.getRotation().getDegrees());
     if (turnController.atGoal()) {
       rotSpeed = 0.0;
     }
