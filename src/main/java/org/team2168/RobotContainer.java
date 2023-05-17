@@ -205,6 +205,7 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
     oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
     oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.testJoystick.ButtonY().onTrue(new ZeroTurret(turret, limelight));
 
 }
 

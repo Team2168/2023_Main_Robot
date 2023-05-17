@@ -12,8 +12,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DriveTurretWithJoystick extends CommandBase {
 
-  DoubleSupplier speed;
-  Turret turret;
+  private DoubleSupplier speed;
+  private Turret turret;
   /** Creates a new DriveTurretWithJoystick. */
   public DriveTurretWithJoystick(Turret t, DoubleSupplier s) {
     turret = t;
@@ -30,20 +30,17 @@ public class DriveTurretWithJoystick extends CommandBase {
   @Override
   public void execute() {
     
-    if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio())) < Turret.getForwardSoftLimit() || 
-    (Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio())) > Turret.getReverseSoftLimit()){
+    if ((Turret.ticksToDegrees(turret.getEncoderPosition())) < Turret.getForwardSoftLimit() || 
+    (Turret.ticksToDegrees(turret.getEncoderPosition())) > Turret.getReverseSoftLimit()){
       turret.setSpeed(speed.getAsDouble());
     }
-    else if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio()) > Turret.getForwardSoftLimit()) &&
+    else if ((Turret.ticksToDegrees(turret.getEncoderPosition()) > Turret.getForwardSoftLimit()) &&
     (speed.getAsDouble() < 0.0)) {
       turret.setSpeed(speed.getAsDouble()); // assures if our turret gets knocked out of its soft limits it can get back where to its supposed to be
     }
-    else if ((Turret.ticksToDegrees(turret.getEncoderPosition() * turret.getGearRatio()) < Turret.getReverseSoftLimit()) &&
+    else if ((Turret.ticksToDegrees(turret.getEncoderPosition()) < Turret.getReverseSoftLimit()) &&
     (speed.getAsDouble() > 0.0)) {
       turret.setSpeed(speed.getAsDouble());
-    }
-    else {
-      turret.setSpeed(0.0);
     }
   }
 

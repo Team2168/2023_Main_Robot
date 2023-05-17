@@ -34,7 +34,6 @@ public class DriveElevatorToPosition extends CommandBase {
   public void execute() {
     //elevator.setSpeedVelocity(speedInInches);
     elevator.setPosition(inches);
-    System.out.println("commanded pos: " + inches);
   }
 
   // Called once the command ends or is interrupted.

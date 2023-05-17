@@ -45,7 +45,6 @@ public class RotateArm extends CommandBase {
     // System.out.println(degrees);
     // System.out.println((arm.getControllerError() < errorTolerance));
     arm.setRotationDegrees(degrees - angleOffset);
-    System.out.println("running");
   }
 
   // Called once the command ends or is interrupted.

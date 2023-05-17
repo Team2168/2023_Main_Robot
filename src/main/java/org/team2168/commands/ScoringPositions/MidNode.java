@@ -25,10 +25,12 @@ public class MidNode extends SequentialCommandGroup {
   Elevator elevator;
   Arm arm;
   Turret turret;
+  Limelight limelight;
   public MidNode(Elevator elevator, Arm arm, Turret turret, Limelight limelight) {
     this.elevator = elevator;
     this.arm = arm;
     this.turret = turret;
+    this.limelight = limelight;
     addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(1.5),
     Commands.parallel(new RotateArm(arm, 95.0),
     Commands.sequence(
