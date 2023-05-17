@@ -4,13 +4,16 @@
 
 package org.team2168.commands;
 
+import org.team2168.Constants;
+
 import edu.wpi.first.math.controller.HolonomicDriveController;
+import edu.wpi.first.math.controller.RamseteController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class CorrectAndFollowTrajectory extends CommandBase {
-  private HolonomicDriveController controller;
+  private RamseteController controller;
   public CorrectAndFollowTrajectory() {
-    controller = new HolonomicDriveController(null, null, null);
+    controller = new RamseteController(Constants.Drivetrain.kRamseteB, Constants.Drivetrain.kRamseteZeta);
   //  change values
   }
 
