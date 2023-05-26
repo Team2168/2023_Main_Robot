@@ -13,10 +13,10 @@ import org.team2168.subsystems.Turret;
   
   public class ZeroTurret extends CommandBase {
   
-    Turret turret;
-    Limelight lime;
-    Double targetPositionDegrees;
-    Double acceptableErrorDegrees = 0.5;
+    private Turret turret;
+    private Limelight lime;
+    double targetPositionDegrees;
+    double acceptableErrorDegrees = 0.5;
     double angleOffset = 120.0;
   
     private double error;
@@ -29,7 +29,7 @@ import org.team2168.subsystems.Turret;
       targetPositionDegrees = 0.0;
       // Use addRequirements() here to declare subsystem dependencies.
   
-      addRequirements(t, lime);
+      addRequirements(t);
     }
   
     // Called when the command is initially scheduled.
@@ -49,6 +49,7 @@ import org.team2168.subsystems.Turret;
     @Override
     public void end(boolean interrupted) {
       turret.setSpeed(0.0);
+      System.out.println("ending");
     }
   
     // Returns true when the command should end.
@@ -58,7 +59,8 @@ import org.team2168.subsystems.Turret;
       // error = Util.runningAverage(currentError, error, 0.85);
   
       // return Math.abs(error) < acceptableErrorDegrees;
-      return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition()) - angleOffset) < 0.5 ;
+      // return Math.abs(Turret.ticksToDegrees(turret.getEncoderPosition()) - angleOffset) < 0.5;
+      return false;
   
     }
   }

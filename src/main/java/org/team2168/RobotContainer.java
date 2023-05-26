@@ -49,6 +49,7 @@ import org.team2168.OI;
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.subsystems.Wrist;
+import org.team2168.commands.Turret.ZeroTurret;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -204,6 +205,7 @@ public class RobotContainer {
     oi.testJoystick.ButtonA().onTrue(new ToggleWrist(wrist));
     oi.testJoystick.ButtonB().onTrue(new SetPipeline(limelight, Limelight.Pipeline.SCAN_FOR_CUBE.pipelineValue));
     oi.testJoystick.ButtonX().onTrue(new SetPipeline(limelight, Limelight.Pipeline.APRIL_TAGS.pipelineValue));
+    oi.testJoystick.ButtonY().onTrue(new ZeroTurret(turret, limelight));
 
 }
 

@@ -51,6 +51,7 @@ public class RotateArm extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     arm.setPercentOutput(0.0);
+    System.out.println("ending");
   }
 
   // Returns true when the command should end.
