@@ -93,12 +93,11 @@ public final class Constants {
     public static class Drivetrain {
         public final static int kPigeonUnitsPerRotation = 8192;
         public static final double MAX_VOLTAGE = 10.0;
-        public static final double ksVolts = 0.16855;
-        public static final double kvVoltSecondsPerMeter = 2.3191;
-        public static final double kaVoltSecondsSquaredPerMeter = 0.28327;
+        public static final double ksVolts = 0.1612;
+        public static final double kvVoltSecondsPerMeter = 2.3344;
+        public static final double kaVoltSecondsSquaredPerMeter = 0.63518;
 
-        public static final double kTrackwidthMeters = 0.5842; // uses physical trackwidth, need to average with sysid
-                                                               // results
+        public static final double kTrackwidthMeters = 0.617915; // (0.65163 (sysid) + 0.5842 (measured))/2
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
                 kTrackwidthMeters);
 
@@ -107,7 +106,7 @@ public final class Constants {
         public static final double kRamseteB = 2.0; // replace these for 2022
         public static final double kRamseteZeta = 0.7;
 
-        public static final double kPDriveVel = 2.9277;
+        public static final double kPDriveVel = 2.8868;
 
         public static final double kMaxSpeedMetersPerSecond = 3.0; // taken from sysID
         public static final double kMaxAccelerationMetersPerSecondSquared = 1.8;
