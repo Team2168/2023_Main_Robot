@@ -97,8 +97,7 @@ public final class Constants {
         public static final double kvVoltSecondsPerMeter = 2.3344;
         public static final double kaVoltSecondsSquaredPerMeter = 0.63518;
 
-        public static final double kTrackwidthMeters = 0.5842; // uses physical trackwidth, need to average with sysid
-                                                               // results
+        public static final double kTrackwidthMeters = 0.617915; // (0.65163 (sysid) + 0.5842 (measured))/2
         public static final DifferentialDriveKinematics kDriveKinematics = new DifferentialDriveKinematics(
                 kTrackwidthMeters);
 
