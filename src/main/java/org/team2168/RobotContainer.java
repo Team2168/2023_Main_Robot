@@ -161,8 +161,6 @@ public class RobotContainer {
     // } else {
     //   leds.setDefaultCommand(new LEDRainbow(leds, 0));
     // }
-    
-    leds.setDefaultCommand(new LEDRainbow(leds, limelight, 0));
 
     //elevator.setDefaultCommand(new DriveElevator(elevator, oi::getTestJoystickX)); //JOYSTICK USAGE
 

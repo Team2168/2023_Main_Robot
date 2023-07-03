@@ -92,12 +92,12 @@ public class LEDs extends SubsystemBase {
   }
 
   public void redWhiteBlue() {
-    if(timecount >= 0 && timecount <= 10)
+    if(timecount >= 0 && timecount <= 20)
       setLED(true, false, false);
-    if(timecount > 10 && timecount <= 20)
-      setLED(true, true, false);
-    if(timecount > 20 && timecount <= 30)
-      setLED(false, true, true);
+    if(timecount > 20 && timecount <= 40)
+      setLED(true, true, true);
+    if(timecount > 40 && timecount <= 60)
+      setLED(false, true, false);
   }
 
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
@@ -130,7 +130,7 @@ public class LEDs extends SubsystemBase {
   public void periodic() {
     ++timecount;
 
-    if (timecount > 30) {
+    if (timecount > 60) {
       timecount = 0;
     }
 
