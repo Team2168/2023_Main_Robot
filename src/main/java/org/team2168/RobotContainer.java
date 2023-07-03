@@ -151,6 +151,7 @@ public class RobotContainer {
     drivetrain.setDefaultCommand(new ArcadeDrive(drivetrain, oi::getGunStyleTrigger, oi::getGunStyleWheel));
     elevator.setDefaultCommand(new DriveElevator(elevator, oi::getLeftOperatorJoystickY));
     turret.setDefaultCommand(new DriveTurretWithJoystick(turret, oi::getRightOperatorJoystickX));
+    leds.setDefaultCommand(new RedWhiteBlueLEDs(leds));
 
 
     // if (limelight.getCurrentPipeline() == 3) {

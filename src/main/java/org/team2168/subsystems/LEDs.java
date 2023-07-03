@@ -91,6 +91,15 @@ public class LEDs extends SubsystemBase {
             } 
   }
 
+  public void redWhiteBlue() {
+    if(timecount >= 0 && timecount <= 10)
+      setLED(true, false, false);
+    if(timecount > 10 && timecount <= 20)
+      setLED(true, true, false);
+    if(timecount > 20 && timecount <= 30)
+      setLED(false, true, true);
+  }
+
   //these methods get the state of the LED and return it (i.e. it will tell you how it's doing)
 
   @Log()
