@@ -49,48 +49,31 @@ public class ResetTurretOdometry extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (lime.hasTarget()) {
-      apriltagPose = lime.getAprilTagPoseRelativeToLimelight();
-    } else {
-      apriltagPose = FindClosestPose.findClosest(Constants.AprilTagPoses.apriltagPoses, drive.getPose());
-    }
-    // make code that checks what apriltag I.D we are at based on pose with switch
-    // case, or if else since the limelight won't look at an I.D.
-    if (turnTurretToHighNode == false) {
-      diffX = Math.abs(drive.getPose().getX() - apriltagPose.getX());
-      diffY = Math.abs(drive.getPose().getY() - apriltagPose.getY());
 
-      // Pose2d relativePose =
-      // poseEstimator.relativeTo(lime.getApriltagDimensionsFromFidicualId().toPose2d());
+    apriltagPose = lime.hasTarget() ? lime.getAprilTagPoseRelativeToLimelight()
+        : FindClosestPose.findClosest(Constants.AprilTagPoses.apriltagPoses, drive.getPose());
 
-      // Pose2d poseRelativeToTag = lime.getPoseInTargetSpace().toPose2d();
+    Pose3d transform = turnTurretToHighNode ? apriltagPose.plus(
+        new Transform3d(new Translation3d(0.66, 0.3048, 0.0), new Rotation3d(0.0, 0.0, 0.0))) : apriltagPose;
 
-      finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
+    diffX = Math.abs(drive.getPose().getX() - transform.getX());
+    diffY = Math.abs(drive.getPose().getY() - transform.getY());
 
-      turret.setRotationDegrees(finalAngle);
+    finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
 
-    } else if (turnTurretToHighNode == true) {
-      Pose3d middleToHighNodeTransform = apriltagPose.plus(
-          new Transform3d(new Translation3d(0.66, 0.3048, 0.0), new Rotation3d(0.0, 0.0, 0.0)));
+    turret.setRotationDegrees(finalAngle);
 
-      diffX = Math.abs(drive.getPose().getX() - middleToHighNodeTransform.getX());
-      diffY = Math.abs(drive.getPose().getY() - middleToHighNodeTransform.getY());
-      finalAngle = turret.getTurretAngle() + Units.radiansToDegrees(Math.atan(diffY / diffX));
-
-      turret.setRotationDegrees(finalAngle);
-
-    }
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return turret.isInRange();
   }
 }
-
