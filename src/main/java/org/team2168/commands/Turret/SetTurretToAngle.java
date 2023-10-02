@@ -14,7 +14,7 @@ public class SetTurretToAngle extends CommandBase {
   Turret turret;
   Double targetPositionDegrees;
   Double acceptableErrorDegrees = 0.1;
-  double angleOffsetDeg = 115.0;
+  double angleOffsetDeg = 90.0;
 
   private double error;
 
