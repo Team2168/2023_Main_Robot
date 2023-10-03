@@ -27,6 +27,7 @@ import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.auto.LeftLeaveCommunity;
 import org.team2168.commands.auto.MidCS;
 import org.team2168.commands.auto.ScoreLowHardCode;
+import org.team2168.commands.auto.pathplanner.CrossOverChargingStationThenBalance;
 import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
 import org.team2168.commands.auto.pathplanner.ScoreLow;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
@@ -117,6 +118,7 @@ public class RobotContainer {
     autoChooser.addOption("Drive forward", new DriveForward(drivetrain));
     autoChooser.addOption("Score Low", new ScoreLow(drivetrain));
     autoChooser.addOption("SL Hard Code", new ScoreLowHardCode(drivetrain));
+    autoChooser.addOption("CrossOverChargeStationThenBalance", new CrossOverChargingStationThenBalance(drivetrain, wrist));
 
     SmartDashboard.putData(autoChooser);
   }
