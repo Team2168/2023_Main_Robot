@@ -66,7 +66,7 @@ public class Arm extends SubsystemBase {
   private static final double NEUTRAL_DEADBAND = 0.001;
 
   private static final double TICKS_PER_REV = 2048;
-  private static final double GEAR_RATIO = 18.32; //TODO: update value, teeth/diameter
+  private static final double GEAR_RATIO = 48.7; //TODO: update value, teeth/diameter
   private static final double TICKS_PER_ROTATION = TICKS_PER_REV * GEAR_RATIO;
 
   private static final double TICKS_PER_SECOND = TICKS_PER_REV;
