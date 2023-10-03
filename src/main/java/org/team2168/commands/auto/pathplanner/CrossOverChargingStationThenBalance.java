@@ -16,6 +16,7 @@ import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.utils.PathUtil;
 import org.team2168.utils.PathUtil.InitialPathState;
 
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
@@ -35,8 +36,11 @@ public class CrossOverChargingStationThenBalance extends SequentialCommandGroup 
     this.paths = Paths.getInstance();
     this.drivetrain = drivetrain;
     this.wrist = wrist;
-    addCommands(PathUtil.getPathCommand(paths.crossOverChargingStation, drivetrain, InitialPathState.DISCARDHEADING),
-        new MidNode(elevator, arm, turret, limelight), new OpenThenCloseWrist(null), new WaitCommand(0.4),
+    addCommands(
+        new ParallelCommandGroup(
+            PathUtil.getPathCommand(paths.crossOverChargingStation, drivetrain, InitialPathState.DISCARDHEADING),
+            new MidNode(elevator, arm, turret, limelight)),
+        new OpenThenCloseWrist(null), new WaitCommand(0.4),
         PathUtil.getPathCommand(paths.toChargingStation, drivetrain, InitialPathState.PRESERVEODOMETRY),
         new WaitCommand(0.3), new AdjustOnChargeStation(drivetrain));
   }

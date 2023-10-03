@@ -133,4 +133,8 @@ public final class Constants {
         public static final int DRIVER_OPERATOR_E_BACKUP = 2;// these constants are placeholders.
         public static final int PID_TEST_JOYSTICK = 5;// these constants are placeholders.
     }
+
+    public static final class ROBOT_METRICS {
+      public static final double ARM_LENGTH_TO_CLAW = Units.inchesToMeters(55.92);
+    }
 }
