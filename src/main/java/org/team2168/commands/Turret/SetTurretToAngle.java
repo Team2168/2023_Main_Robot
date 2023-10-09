@@ -38,7 +38,7 @@ public class SetTurretToAngle extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    error = Turret.ticksToDegrees(turret.getEncoderPosition()) - (targetPositionDegrees + 115.0);
+    error = Turret.ticksToDegrees(turret.getEncoderPosition()) - (targetPositionDegrees + 90.0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
