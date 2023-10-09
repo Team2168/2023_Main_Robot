@@ -39,7 +39,7 @@ public class Turret extends SubsystemBase implements Loggable {
   private static final double TICKS_PER_SECOND = TICKS_PER_TURRET_ROTATION;
   private static final double TICKS_PER_100_MS = TICKS_PER_SECOND / 10.0;
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 100.0 / 60000.0;
-  private static final double ZERO_OFFSET = 18297;
+  private static final double ZERO_OFFSET = 19200;
 
   // 2022 values
 
