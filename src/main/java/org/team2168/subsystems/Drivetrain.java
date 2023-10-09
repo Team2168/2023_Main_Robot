@@ -20,6 +20,7 @@ import com.ctre.phoenix.sensors.PigeonIMU_StatusFrame;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.kinematics.DifferentialDriveWheelSpeeds;
 import edu.wpi.first.math.util.Units;
@@ -632,4 +633,8 @@ public class Drivetrain extends SubsystemBase implements Loggable {
 		   the real-world value */
 		masterConfig.primaryPID.selectedFeedbackCoefficient = 0.5;
 	 }
+
+   public DifferentialDriveWheelSpeeds drive(ChassisSpeeds chassisSpeeds) {
+    return Constants.Drivetrain.kDriveKinematics.toWheelSpeeds(chassisSpeeds);
+  }
 }

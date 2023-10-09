@@ -4,7 +4,12 @@
 
 package org.team2168;
 
+import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation3d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
+
+import java.util.List;
 import java.util.function.DoubleSupplier;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
@@ -123,6 +128,9 @@ public final class Constants {
         public static final double TOP_CONE_NODE_HEIGHT_IN = 46;
         public static final double MIDDLE_NODE_LENGTH_IN = 22.75;
         public static final double TOP_NODE_LENGTH_IN = 39.75;
+        public static final double LOW_NODE_LENGTH_METERS = Units.inchesToMeters(5.6875);
+        public static final double MIDDLE_NODE_LENGTH_METERS = Units.inchesToMeters(22.75);
+        public static final double HIGH_NODE_LENGTH_METERS = Units.inchesToMeters(39.75);
     }
 
     public static final class Joysticks {
@@ -136,5 +144,19 @@ public final class Constants {
 
     public static final class ROBOT_METRICS {
       public static final double ARM_LENGTH_TO_CLAW = Units.inchesToMeters(55.92);
+    }
+
+    public static final class AprilTagPoses {
+      //inches to meters
+      public static List<Pose3d> apriltagPoses = List.of(
+        new Pose3d(new Translation3d(15.513, 1.071, 0.462), new Rotation3d(0.0,0.0, 180.0)),
+        new Pose3d(new Translation3d(15.513, 2.748, 0.462), new Rotation3d(0.0,0.0,180.0)),
+        new Pose3d(new Translation3d(15.513, 4.424, 0.462), new Rotation3d(0.0,0.0,180.0)),
+        new Pose3d(new Translation3d(16.178, 6.749, 0.695), new Rotation3d(0.0, 0.0, 180.0)),
+        new Pose3d(new Translation3d(0.361, 6.749, 0.695), new Rotation3d(0.0, 0.0, 0.0)),
+        new Pose3d(new Translation3d(1.027, 4.424, 0.462), new Rotation3d(0.0, 0.0, 0.0)),
+        new Pose3d(new Translation3d(1.027, 2.748, 0.462), new Rotation3d(0.0, 0.0, 0.0)),
+        new Pose3d(new Translation3d(1.027, 1.071, 0.462), new Rotation3d(0.0, 0.0, 0.0))
+      );
     }
 }

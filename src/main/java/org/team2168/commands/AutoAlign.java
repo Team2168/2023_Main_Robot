@@ -2,16 +2,13 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package org.team2168.commands.AutoAlignWithPoseEstimation;
+package org.team2168.commands;
 
 import org.team2168.Constants;
-
-import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Limelight;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
@@ -19,8 +16,6 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class AutoAlign extends CommandBase {
@@ -55,7 +50,6 @@ public class AutoAlign extends CommandBase {
   public TrapezoidProfile.Constraints xControllerConstraints;
   public TrapezoidProfile.Constraints yControllerConstraints;
   public TrapezoidProfile.Constraints turnControllerConstraints;
-  public PoseEstimationWithLimelight poseEstimation;
   public Pose2d robotPose;
   public Limelight lime;
   public Drivetrain drive;
@@ -106,10 +100,6 @@ public class AutoAlign extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    var tagToBotTransform = lime.getAprilTagPoseRelativeToLimelight().transformBy(
-        new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), lime.getPose3d()));
-
     var goalPose = lime.getAprilTagPoseRelativeToLimelight()
         .transformBy(new Transform3d(lime.getAprilTagPoseRelativeToLimelight(), POSE_TO_TAG_LIMIT)).toPose2d();
 
@@ -130,7 +120,7 @@ public class AutoAlign extends CommandBase {
       rotSpeed = 0.0;
     }
 
-    drive.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getRotation2d()));
+    drive.drive(ChassisSpeeds.fromFieldRelativeSpeeds(xSpeed, ySpeed, rotSpeed, drive.getPose().getRotation()));
     //convert chassis speeds to field relative speeds.
 
   }
