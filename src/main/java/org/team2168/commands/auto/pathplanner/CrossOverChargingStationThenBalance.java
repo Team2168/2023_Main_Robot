@@ -40,7 +40,7 @@ public class CrossOverChargingStationThenBalance extends SequentialCommandGroup 
         new ParallelCommandGroup(
             PathUtil.getPathCommand(paths.crossOverChargingStation, drivetrain, InitialPathState.DISCARDHEADING),
             new MidNode(elevator, arm, turret, limelight)),
-        new OpenThenCloseWrist(wrist), new WaitCommand(0.4),
+        new OpenThenCloseWrist(wrist),
         PathUtil.getPathCommand(paths.toChargingStation, drivetrain, InitialPathState.PRESERVEODOMETRY),
         new WaitCommand(0.3), new AdjustOnChargeStation(drivetrain));
   }

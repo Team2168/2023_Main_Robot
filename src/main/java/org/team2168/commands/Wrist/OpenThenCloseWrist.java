@@ -7,6 +7,7 @@ package org.team2168.commands.Wrist;
 import org.team2168.subsystems.WNE_Wrist;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -16,6 +17,7 @@ public class OpenThenCloseWrist extends SequentialCommandGroup {
   public OpenThenCloseWrist(WNE_Wrist wrist) {
     this.wrist = wrist;
     // addCommands(new FooCommand(), new BarCommand());
-    addCommands(new OpenWrist(wrist).andThen(new CloseWrist(wrist)));
+    addCommands(new OpenWrist(wrist), new WaitCommand(0.3),
+    new CloseWrist(wrist));
   }
 }
