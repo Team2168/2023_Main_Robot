@@ -40,8 +40,8 @@ import io.github.oblarg.oblog.annotations.Log;
 public class Elevator extends SubsystemBase implements Loggable {
 
   private static final double kI = 0.0; //intergral (placeholder) (used for super specific scenarios)
-  private static final double kD = 0.8; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
-  private static final double kF = 0.035; // 0.12 works - ted
+  private static final double kD = 0.0; //derivative (placeholder) (if it is oscilating too much you should add a small d gain but otherwise you should just use a p gain) (0.8 works - ted)
+  private static final double kF = 0.0; // 0.12 works - ted
   // private static final double kF = ((1023) / (0.75 * 21777.07)); //feedforward: constant output added on which counteracts forces (0.0626)
   private static final double kP = 0.5; //proportional: a proportion of the input (placeholder) (increase this until it reaches oscilation and then decrease this once it reaches that point) (0.5 works - ted)
   private static final double kArbitraryFeedForward = 0.04; //(placeholder)
@@ -65,7 +65,7 @@ public class Elevator extends SubsystemBase implements Loggable {
   private static final double ACCELERATION_LIMIT = inchesToTicks(3.2); //(TODO:placeholder)
   private static final double CRUISE_VELOCITY_LIMIT = inchesToTicks(1.8); //(TODO: placeholder)
 
-  private static TalonFXInvertType kInvertType = TalonFXInvertType.Clockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
+  private static TalonFXInvertType kInvertType = TalonFXInvertType.CounterClockwise; //this inverts the rotation of the motors so that the shaft goes up (clockwise)
 
   private TalonFXHelper elevatorMotor;
   
