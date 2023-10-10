@@ -86,8 +86,8 @@ public class Arm extends SubsystemBase {
   private static boolean kSensorPhase = false;
   private static TalonFXInvertType kMotorInvert = TalonFXInvertType.CounterClockwise;
 
-  private static final double ACCELERATION_LIMIT = 1800; // should start as a little bit more than the accel //TODO: update value after testing
-  private static final double CRUISE_VELOCITY_LIMIT = 1000; // should be a bit less than max possible velocity //TODO: update value after testing
+  private static final double ACCELERATION_LIMIT = 12500; // should start as a little bit more than the accel //TODO: update value after testing
+  private static final double CRUISE_VELOCITY_LIMIT = 25000; // should be a bit less than max possible velocity //TODO: update value after testing
   private static final double ALLOWABLE_ERROR = 15.0;
   public static Arm getInstance() {
     if (instance == null)
@@ -103,11 +103,11 @@ public class Arm extends SubsystemBase {
   private static final double kArbitraryFeedForward;
 
   static{
-    kP = 0.7;
+    kP = 0.4;
     kI = 0.0;
-    kD = 1.12; // when P is oscillating, lower P and make D gain 1.6 times P.
-    kF = 0.052; // 1023 / (((estimated speed_rpm based on the fact our gear ratio won't allow our motor to go at max velocity / 60) / 10) * 2048)
-    kArbitraryFeedForward = 0;
+    kD = 0.7; // when P is oscillating, lower P and make D gain 1.6 times P.
+    kF = 0.0; // 1023 / (((estimated speed_rpm based on the fact our gear ratio won't allow our motor to go at max velocity / 60) / 10) * 2048)
+    kArbitraryFeedForward = 0.035;
   }
 
   private static final double kV = 0.05;
