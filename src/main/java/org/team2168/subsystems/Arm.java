@@ -107,7 +107,7 @@ public class Arm extends SubsystemBase {
     kI = 0.0;
     kD = 0.7; // when P is oscillating, lower P and make D gain 1.6 times P.
     kF = 0.0; // 1023 / (((estimated speed_rpm based on the fact our gear ratio won't allow our motor to go at max velocity / 60) / 10) * 2048)
-    kArbitraryFeedForward = 0.035;
+    kArbitraryFeedForward = 0.0;
   }
 
   private static final double kV = 0.05;
