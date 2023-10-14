@@ -14,7 +14,7 @@ public class RotateArm extends CommandBase {
   private Arm arm;
   private double degrees;
   private double errorTolerance = 1.0;
-  private double angleOffset = 28.0;
+  private double angleOffset = 0.0;
 
   /**
    * Rotates the arm to a position
