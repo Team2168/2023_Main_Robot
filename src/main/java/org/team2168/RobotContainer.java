@@ -27,9 +27,9 @@ import org.team2168.commands.auto.DriveForward;
 import org.team2168.commands.auto.LeftLeaveCommunity;
 import org.team2168.commands.auto.MidCS;
 import org.team2168.commands.auto.ScoreLowHardCode;
-import org.team2168.commands.auto.pathplanner.CrossOverChargingStationThenBalance;
 import org.team2168.commands.auto.pathplanner.FourMetersPathplanner;
 import org.team2168.commands.auto.pathplanner.ScoreLow;
+import org.team2168.commands.auto.pathplanner.ScoreMidNodeThenBalance;
 import org.team2168.commands.drivetrain.AdjustOnChargeStation;
 import org.team2168.commands.drivetrain.ArcadeDrive;
 import org.team2168.commands.drivetrain.ToggleBrakes;
@@ -44,7 +44,6 @@ import org.team2168.commands.elevator.RetractLock;
 import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
 import org.team2168.commands.Turret.*;
-import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.Turret;
 import org.team2168.OI;
 import org.team2168.subsystems.Limelight;
@@ -118,7 +117,7 @@ public class RobotContainer {
     autoChooser.addOption("Drive forward", new DriveForward(drivetrain));
     autoChooser.addOption("Score Low", new ScoreLow(drivetrain));
     autoChooser.addOption("SL Hard Code", new ScoreLowHardCode(drivetrain));
-    autoChooser.addOption("CrossOverChargeStationThenBalance", new CrossOverChargingStationThenBalance(drivetrain, wrist));
+    autoChooser.addOption("CrossOverChargeStationThenBalance", new ScoreMidNodeThenBalance(drivetrain, wrist));
 
     SmartDashboard.putData(autoChooser);
   }

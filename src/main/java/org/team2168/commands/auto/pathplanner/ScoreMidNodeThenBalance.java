@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class CrossOverChargingStationThenBalance extends SequentialCommandGroup {
+public class ScoreMidNodeThenBalance extends SequentialCommandGroup {
   Paths paths;
   Drivetrain drivetrain;
   Elevator elevator;
@@ -32,13 +32,13 @@ public class CrossOverChargingStationThenBalance extends SequentialCommandGroup 
   Limelight limelight;
   WNE_Wrist wrist;
 
-  public CrossOverChargingStationThenBalance(Drivetrain drivetrain, WNE_Wrist wrist) {
+  public ScoreMidNodeThenBalance(Drivetrain drivetrain, WNE_Wrist wrist) {
     this.paths = Paths.getInstance();
     this.drivetrain = drivetrain;
     this.wrist = wrist;
     addCommands(
         new ParallelCommandGroup(
-            PathUtil.getPathCommand(paths.crossOverChargingStation, drivetrain, InitialPathState.DISCARDHEADING),
+            PathUtil.getPathCommand(paths.toMidNode, drivetrain, InitialPathState.DISCARDHEADING),
             new MidNode(elevator, arm, turret, limelight)),
         new OpenThenCloseWrist(wrist),
         PathUtil.getPathCommand(paths.toChargingStation, drivetrain, InitialPathState.PRESERVEODOMETRY),
