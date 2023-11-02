@@ -24,9 +24,9 @@ public class StowGamePieces extends SequentialCommandGroup {
     this.elevator = elevator;
     this.arm = arm;
 
-    addCommands(new DriveElevatorToPosition(elevator, 0.5).withTimeout(0.5),
-    new RotateArm(arm, 90.0).withTimeout(0.5),
-    new DriveElevatorToPosition(elevator, -22.5).withTimeout(0.6), //added timeout to prevent us from lifting our arm too early
+    addCommands(new DriveElevatorToPosition(elevator, 1.5).withTimeout(1.0),
+    new RotateArm(arm, 90.0).withTimeout(1.0),
+    new DriveElevatorToPosition(elevator, -22.5).withTimeout(1.5), //added timeout to prevent us from lifting our arm too early
     new RotateArm(arm, 155.0));
   }
 }

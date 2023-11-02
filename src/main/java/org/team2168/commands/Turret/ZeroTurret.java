@@ -17,7 +17,7 @@ import org.team2168.subsystems.Turret;
     private Limelight lime;
     double targetPositionDegrees;
     double acceptableErrorDegrees = 0.5;
-    double angleOffset = 105.0;
+    double angleOffset = 90.0;
   
     private double error;
   
