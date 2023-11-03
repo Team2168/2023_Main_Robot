@@ -186,7 +186,8 @@ public class RobotContainer {
     oi.operatorJoystick.ButtonLeftBumper().onTrue(new ReturnToFramePerimeter(elevator, arm, turret, limelight));
     oi.operatorJoystick.ButtonRightBumper().onTrue(new ToggleWrist(wrist));
 
-    oi.operatorJoystick.ButtonA().onTrue(new GroundIntake(elevator, arm));
+    // oi.operatorJoystick.ButtonA().onTrue(new GroundIntake(elevator, arm));
+    oi.operatorJoystick.ButtonA().onTrue(new RotateArm(arm, 140));
     oi.operatorJoystick.ButtonY().onTrue(new StowGamePieces(elevator, arm));
     oi.operatorJoystick.ButtonX().onTrue(new HPStationIntake(elevator, arm));
     oi.operatorJoystick.ButtonB().onTrue(new MidNode(elevator, arm, turret, limelight));

@@ -74,7 +74,7 @@ public class Arm extends SubsystemBase {
   private static final double ONE_HUNDRED_MS_PER_MINUTE = 1000.0/600000.0;
 
   private static final double MIN_ROTATION_TICKS = degreesToTicks(0); //-120
-  private static final double MAX_ROTATION_TICKS = degreesToTicks(160); //0 //TODO: update number  
+  private static final double MAX_ROTATION_TICKS = degreesToTicks(140); //0 //TODO: update number  
 
   private static final double MIN_ROTATION_DEGREES = ticksToDegrees(MIN_ROTATION_TICKS);
   private static final double MAX_ROTATION_DEGREES = ticksToDegrees(MAX_ROTATION_TICKS);
@@ -87,7 +87,7 @@ public class Arm extends SubsystemBase {
   private static TalonFXInvertType kMotorInvert = TalonFXInvertType.CounterClockwise;
 
   private static final double ACCELERATION_LIMIT = 12500; // should start as a little bit more than the accel //TODO: update value after testing
-  private static final double CRUISE_VELOCITY_LIMIT = 25000; // should be a bit less than max possible velocity //TODO: update value after testing
+  private static final double CRUISE_VELOCITY_LIMIT = 12500; // should be a bit less than max possible velocity //TODO: update value after testing
   private static final double ALLOWABLE_ERROR = 15.0;
   public static Arm getInstance() {
     if (instance == null)
