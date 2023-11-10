@@ -6,6 +6,7 @@ package org.team2168.commands.Turret;
 
 import org.team2168.subsystems.Limelight;
 import org.team2168.subsystems.Turret;
+import org.team2168.subsystems.Arm;
 import org.team2168.utils.Util;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -15,6 +16,7 @@ public class DriveTurretWithLimelight extends CommandBase {
 
   private Turret turret;
   private Limelight limelight;
+  private Arm arm;
   
   private double errorToleranceAngle = 0.1;
   private double limeXPos;
@@ -26,12 +28,18 @@ public class DriveTurretWithLimelight extends CommandBase {
   private double forwardSoftLimit;
   private double reverseSoftLimit;
 
+  private double lowerArmAllowed = 60;
+  private double upperArmAllowed = 140;
+
+
   private static final double LIME_KP = 0.65;
+
+  private double armAngle;
 
   @Log(name = "Turn Speed")
   private double driveLimeTurn;
   /** Creates a new DriveTurretWithLimelight. */
-  public DriveTurretWithLimelight(Turret turret, Limelight limelight) {
+  public DriveTurretWithLimelight(Turret turret, Limelight limelight, Arm arm) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.turret = turret;
     this.limelight = limelight;
@@ -67,7 +75,11 @@ public class DriveTurretWithLimelight extends CommandBase {
     avg_limeXPos = Util.runningAverage(limeXPos, avg_limeXPos, 0.15);
     currentPos = Turret.ticksToDegrees(turret.getEncoderPosition());
     targetPos = currentPos + (avg_limeXPos * LIME_KP);
-    if (targetPos > reverseSoftLimit && targetPos < forwardSoftLimit) {
+    
+    armAngle = arm.getPositionDegrees();
+
+    // arm angle is in the if statement to make sure if the arm is in positions where it would break the robot if it would turn, it won't turn    
+    if (targetPos > reverseSoftLimit && targetPos < forwardSoftLimit && lowerArmAllowed <= armAngle && armAngle <= upperArmAllowed) {
       driveLimeTurn = targetPos;
     }
     else if (targetPos < reverseSoftLimit) {

@@ -31,7 +31,7 @@ public class SetPipeline extends CommandBase {
   @Override
   public void execute() {
     limelight.setPipeline(pipeline);
-    isPipelineSet = true;
+    isPipelineSet = true;       
   }
 
   // Called once the command ends or is interrupted.
