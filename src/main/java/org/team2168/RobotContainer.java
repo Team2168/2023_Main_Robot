@@ -3,6 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package org.team2168;
+
+import org.team2168.Constants.Joysticks;
 import org.team2168.Constants.OperatorConstants;
 import org.team2168.commands.ArmAndElevator;
 import org.team2168.commands.Autos;
@@ -13,6 +15,15 @@ import org.team2168.subsystems.ExampleSubsystem;
 import org.team2168.subsystems.LEDs;
 
 
+import org.team2168.commands.Limelight.SetPipeline;
+import org.team2168.commands.PoseEstimation.PoseEstimationWithLimelight;
+import org.team2168.commands.Turret.DriveTurretWithJoystick;
+import org.team2168.commands.Turret.SetTurretToAngle;
+import org.team2168.commands.Turret.ZeroTurret;
+import org.team2168.commands.auto.DoNothing;
+import org.team2168.commands.drivetrain.AdjustOnChargeStation;
+import org.team2168.commands.drivetrain.ArcadeDrive;
+import org.team2168.subsystems.Drivetrain;
 import org.team2168.commands.Arm.BumpArm;
 import org.team2168.commands.Arm.DriveArmWithJoystick;
 import org.team2168.commands.Arm.RotateArm;
@@ -44,9 +55,11 @@ import org.team2168.subsystems.Drivetrain;
 import org.team2168.subsystems.Elevator;
 import org.team2168.commands.Turret.*;
 import org.team2168.subsystems.ExampleSubsystem;
-import org.team2168.subsystems.Turret;
-import org.team2168.OI;
 import org.team2168.subsystems.Limelight;
+import org.team2168.subsystems.Turret;
+import org.team2168.utils.F310;
+
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import org.team2168.subsystems.WNE_Wrist;
 import org.team2168.subsystems.Wrist;
 import org.team2168.commands.Turret.ZeroTurret;
@@ -120,6 +133,8 @@ public class RobotContainer {
 
     SmartDashboard.putData(autoChooser);
   }
+
+
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -210,7 +225,7 @@ public class RobotContainer {
 }
 
   /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
+   * Use this to pass the autonomous command to  the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
