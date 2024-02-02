@@ -20,6 +20,9 @@ public class Paths {
     public final Trajectory path_4_m_forward;
     public final Trajectory path_score_low_1;
     public final Trajectory path_score_low_2;
+    public final Trajectory engage_station;
+    public final Trajectory path_score_two_nodes_part1;
+    public final Trajectory path_score_two_nodes_part2;
 
     private static Paths instance = null;
 
@@ -32,6 +35,9 @@ public class Paths {
         path_4_m_forward = getTrajectory("FWD_1_M", false);
         path_score_low_1 = getTrajectory("score_low_wne_1", false);
         path_score_low_2 = getTrajectory("score_low_wne_2", false);
+        engage_station = getTrajectory("engage_station", false);
+        path_score_two_nodes_part1 = getTrajectory("score_two_part1", false);
+        path_score_two_nodes_part2 = getTrajectory("score_two_part2", false);
 
         System.out.println("******* Finish generating autos *******");
     }
